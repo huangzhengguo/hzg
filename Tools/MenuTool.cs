@@ -1,40 +1,38 @@
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Hzg.Dto;
 using Hzg.Models;
+using Hzg.Data;
 
 namespace Hzg.Tool;
 
 public class MenuTool
 {
-    // public static async Task<List<Menu>> GetUserPermissionMenus(LedinproIotContext context, string userName)
-    // {
-    //     // 获取菜单权限数据
-    //     // 需要所有用户数据和菜单权限数据做对比，放到前端做对比
-    //     // 这里只获取菜单权限数据
-    //     // var menuPermissions = await context.MenuPermissions.AsNoTracking().Where(m => m.UserName == userName).ToListAsync();
+    public static async Task<List<Menu>> GetUserPermissionMenus(AccountDbContext context, string userName)
+    {
+        // 获取菜单权限数据
+        // 需要所有用户数据和菜单权限数据做对比，放到前端做对比
+        // 这里只获取菜单权限数据
+        var menuPermissions = await context.MenuPermissions.AsNoTracking().Where(m => m.UserName == userName).ToListAsync();
 
-    //     // 根据权限数据获取 Menu 列表
-    //     var menusToReturn = new List<Menu>();
-    //     // var menus = await context.Menus.AsNoTracking().ToListAsync();
-    //     // foreach(var p in menuPermissions)
-    //     // {
-    //     //     foreach(var m in menus)
-    //     //     {
-    //     //         if ((m.Id == p.RootMenuId || m.Id == p.SubMenuId) && p.Usable == true)
-    //     //         {
-    //     //             if (menusToReturn.Contains(m) == false)
-    //     //             {
-    //     //                 menusToReturn.Add(m);
-    //     //             }
-    //     //         }
-    //     //     }
-    //     // }
+        // 根据权限数据获取 Menu 列表
+        var menusToReturn = new List<Menu>();
+        var menus = await context.Menus.AsNoTracking().ToListAsync();
+        foreach(var p in menuPermissions)
+        {
+            foreach(var m in menus)
+            {
+                if ((m.Id == p.RootMenuId || m.Id == p.SubMenuId) && p.Usable == true)
+                {
+                    if (menusToReturn.Contains(m) == false)
+                    {
+                        menusToReturn.Add(m);
+                    }
+                }
+            }
+        }
 
-    //     return menusToReturn;
-    // }
+        return menusToReturn;
+    }
 
     /// <summary>
     /// 生成前端目录树数据

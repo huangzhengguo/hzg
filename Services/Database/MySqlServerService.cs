@@ -19,7 +19,7 @@ public static class MySqlServerServiceExtesion
     {
         services.AddDbContext<T>(options =>
         {
-            options.UseMySql(configuration.GetConnectionString("connectStr"), serverVersion);
+            options.UseMySql(configuration.GetConnectionString(connectStr), serverVersion);
         });
     }
 }

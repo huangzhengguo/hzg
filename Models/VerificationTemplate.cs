@@ -1,6 +1,7 @@
 namespace Hzg.Models;
 
-public class VerificationTemplate {
+public class VerificationTemplate
+{
     /**
      * 验证码邮件模板主题
      */
