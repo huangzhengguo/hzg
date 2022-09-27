@@ -10,7 +10,12 @@ public static class RedisTool
         get {
             if (_redis == null)
             {
-                _redis = ConnectionMultiplexer.Connect("localhost");
+                var options = new ConfigurationOptions
+                {
+                    EndPoints = { "192.168.0.64:6379" }
+                };
+
+                _redis = ConnectionMultiplexer.Connect(options);
             }
 
             return _redis;
