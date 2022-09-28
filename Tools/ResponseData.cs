@@ -9,7 +9,7 @@ public class ResponseData
 {
     private string message = null;
 
-    public bool ShowMsg { get; set; } = false;
+    public bool ShowMsg { get; set; } = true;
     public ErrorCode Code { get; set; }
     public object Data { get; set; }
     public string Message {

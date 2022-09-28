@@ -17,10 +17,14 @@ public static class DatabaseSeedTool
     {
         // 管理员账号
         var user = await context.Users.SingleOrDefaultAsync(u => u.Name == "Admin");
+        Guid userId;
         if (user == null)
         {
+            userId = Guid.NewGuid();
+
             var admin = new User();
 
+            admin.Id = userId;
             admin.Name = "Admin";
             admin.Nickname = "Nickname";
             admin.Salt = "Admin";
@@ -31,9 +35,13 @@ public static class DatabaseSeedTool
 
             context.Users.Add(admin);
         }
+        else
+        {
+            userId = user.Id;
+        }
 
         // 后台管理
-        var menu = await context.Menus.SingleOrDefaultAsync(m => m.Name == "后台管理");
+        var menu = await context.Menus.SingleOrDefaultAsync(m => m.Title == "后台管理");
         var adminMenuId = Guid.NewGuid();
         if (menu == null)
         {
@@ -56,44 +64,77 @@ public static class DatabaseSeedTool
         }
 
         // 菜单管理
-        var menuAdmin = await context.Menus.SingleOrDefaultAsync(m => m.ParentMenuId == adminMenuId && m.Name == "菜单管理");
-        var subMenuAdminId = Guid.NewGuid();
-        if (menuAdmin == null)
+        var menuManager = new Menu();
+
+        menuManager.Id = Guid.NewGuid();
+        menuManager.ParentMenuId = adminMenuId;
+        menuManager.Title = "菜单管理";
+        menuManager.IsRoot = false;
+        menuManager.IsFinal = true;
+        menuManager.Url = "#";
+        menuManager.ComponentPath = "adminmanager/menu/index";
+        menuManager.Name = "MenuManager";
+        menuManager.Path = "menumanager";
+
+        // 分组管理
+        var groupManager = new Menu();
+
+        groupManager.Id = Guid.NewGuid();
+        groupManager.ParentMenuId = adminMenuId;
+        groupManager.Title = "分组管理";
+        groupManager.IsRoot = false;
+        groupManager.IsFinal = true;
+        groupManager.Url = "#";
+        groupManager.ComponentPath = "adminmanager/group/index";
+        groupManager.Name = "GroupManager";
+        groupManager.Path = "groupmanager";
+
+        // 分组管理
+        var roleManager = new Menu();
+
+        roleManager.Id = Guid.NewGuid();
+        roleManager.ParentMenuId = adminMenuId;
+        roleManager.Title = "角色管理";
+        roleManager.IsRoot = false;
+        roleManager.IsFinal = true;
+        roleManager.Url = "#";
+        roleManager.ComponentPath = "adminmanager/role/index";
+        roleManager.Name = "RoleManager";
+        roleManager.Path = "rolemanager";
+
+        Menu[] allMenus = { menuManager, groupManager, roleManager };
+        Menu menuAdmin = null;
+        foreach(var am in allMenus)
         {
-            var adminMenu = new Menu();
+            menuAdmin = await context.Menus.SingleOrDefaultAsync(m => m.ParentMenuId == adminMenuId && m.Title == am.Title);
+            Guid subMenuAdminId;
+            if (menuAdmin == null)
+            {
+                subMenuAdminId = am.Id;
+                context.Menus.Add(am);
+            }
+            else
+            {
+                subMenuAdminId = menuAdmin.Id;
+            }
 
-            adminMenu.Id = subMenuAdminId;
-            adminMenu.ParentMenuId = adminMenuId;
-            adminMenu.Title = "菜单管理";
-            adminMenu.IsRoot = false;
-            adminMenu.IsFinal = true;
-            adminMenu.Url = "#";
-            adminMenu.ComponentPath = "adminmanager/menu/index";
-            adminMenu.Name = "MenuManager";
-            adminMenu.Path = "menumanager";
+            // 添加权限
+            var permission = await context.MenuPermissions.SingleOrDefaultAsync(mp => mp.RootMenuId == adminMenuId 
+                                                                                && mp.SubMenuId == subMenuAdminId
+                                                                                && mp.UserId == userId);
+            if (permission == null)
+            {
+                var adminMenuPersmission = new MenuPermission();
 
-            context.Menus.Add(adminMenu);
-        }
-        else
-        {
-            subMenuAdminId = menuAdmin.Id;
-        }
+                // adminMenuPersmission.Id = Guid.NewGuid();
+                adminMenuPersmission.RootMenuId = adminMenuId;
+                adminMenuPersmission.SubMenuId = subMenuAdminId;
+                adminMenuPersmission.Usable = true;
+                adminMenuPersmission.UserId = userId;
+                adminMenuPersmission.CreateTime = DateTime.Now;
 
-        // 管理员添加后台管理权限
-        var permission = await context.MenuPermissions.SingleOrDefaultAsync(mp => mp.RootMenuId == adminMenuId 
-                                                                            && mp.SubMenuId == subMenuAdminId
-                                                                            && mp.UserName == "admin");
-        if (permission == null)
-        {
-            var adminMenuPersmission = new MenuPermission();
-
-            // adminMenuPersmission.Id = Guid.NewGuid();
-            adminMenuPersmission.UserName = "admin";
-            adminMenuPersmission.RootMenuId = adminMenuId;
-            adminMenuPersmission.SubMenuId = subMenuAdminId;
-            adminMenuPersmission.Usable = true;
-
-            context.MenuPermissions.Add(adminMenuPersmission);
+                context.MenuPermissions.Add(adminMenuPersmission);
+            }
         }
 
         await context.SaveChangesAsync();

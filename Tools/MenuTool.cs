@@ -35,6 +35,39 @@ public class MenuTool
     }
 
     /// <summary>
+    /// 根据用户标识获取权限数据
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public static async Task<List<Menu>> GetUserPermissionMenus(AccountDbContext context, Guid? id)
+    {
+        // 获取菜单权限数据
+        // 需要所有用户数据和菜单权限数据做对比，放到前端做对比
+        // 这里只获取菜单权限数据
+        var menuPermissions = await context.MenuPermissions.AsNoTracking().Where(m => m.UserId == id).ToListAsync();
+
+        // 根据权限数据获取 Menu 列表
+        var menusToReturn = new List<Menu>();
+        var menus = await context.Menus.AsNoTracking().ToListAsync();
+        foreach(var p in menuPermissions)
+        {
+            foreach(var m in menus)
+            {
+                if ((m.Id == p.RootMenuId || m.Id == p.SubMenuId) && p.Usable == true)
+                {
+                    if (menusToReturn.Contains(m) == false)
+                    {
+                        menusToReturn.Add(m);
+                    }
+                }
+            }
+        }
+
+        return menusToReturn;
+    }
+
+    /// <summary>
     /// 生成前端目录树数据
     /// </summary>
     /// <param name="data"></param>

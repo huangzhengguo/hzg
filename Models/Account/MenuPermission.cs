@@ -32,6 +32,13 @@ public class MenuPermission : BaseEntity
     public string UserName { get; set; }
 
     /// <summary>
+    /// 用户名
+    /// </summary>
+    /// <value></value>
+    [Column("user_id")]
+    public Guid? UserId { get; set; }
+
+    /// <summary>
     /// 分组
     /// </summary>
     /// <value></value>
