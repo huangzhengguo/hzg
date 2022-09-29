@@ -317,35 +317,13 @@ public class AccountController : ControllerBase
                     continue;
                 }
 
-                var userNodeModel = new UserTreeNode();
-                
-                userNodeModel.NodeKey = m.Id.ToString() + user.Id.ToString();
-                userNodeModel.Id = user.Id;
-                userNodeModel.ParentMenuId = m.Id;
-                userNodeModel.LabelValue = user.Name;
-                userNodeModel.IsLeaf = true;
-                userNodeModel.Disabled = false;
-
-                // 获取角色信息
-                string formatRoles = "";
-                foreach(var ur in userRoles.Where(ur => ur.UserId == user.Id))
-                {
-                    var currentRole = roles.SingleOrDefault(r => r.Id == ur.RoleId);
-                    if (currentRole == null)
-                    {
-                        continue;
-                    }
-
-                    formatRoles = formatRoles + currentRole.Name + ",";
-                }
-                
-                userNodeModel.Label = user.Name + " (" + formatRoles.TrimEnd(',') + ")";
+                var userNodeModel = GenerateUserTreeNode(user, m.Id.ToString(), userRoles, roles);
 
                 childrenUserTreeData.Add(userNodeModel);
             }
 
             nodeModel.Children = childrenUserTreeData.ToArray();
-            nodeModel.Label = m.Name + " (" + nodeModel.Children.Length.ToString() + ")";
+            nodeModel.Label = m.Name + " (" + nodeModel.Children.Length.ToString() + "人)";
             nodeModel.LabelValue = m.Name;
 
             userTreeData.Add(nodeModel);
@@ -354,34 +332,12 @@ public class AccountController : ControllerBase
         // 添加无分组用户
         foreach(var u in users)
         {
-            if (groupsUsers.SingleOrDefault(gu => gu.UserId == u.Id) != null)
+            if (groupsUsers.Where(gu => gu.UserId == u.Id).ToArray().Length > 0)
             {
                 continue;
             }
 
-            var userNodeModel = new UserTreeNode();
-            
-            userNodeModel.NodeKey = u.Id.ToString();
-            userNodeModel.Id = u.Id;
-            userNodeModel.ParentMenuId = null;
-            userNodeModel.LabelValue = u.Name;
-            userNodeModel.IsLeaf = true;
-            userNodeModel.Disabled = false;
-
-            // 添加角色
-            string formatRoles = "";
-            foreach(var ur in userRoles.Where(ur => ur.UserId == u.Id))
-            {
-                var currentRole = roles.SingleOrDefault(r => r.Id == ur.RoleId);
-                if (currentRole == null)
-                {
-                    continue;
-                }
-
-                formatRoles = formatRoles + currentRole.Name + ",";
-            }
-
-            userNodeModel.Label = u.Name + " (" + formatRoles.TrimEnd(',') + ")";
+            var userNodeModel = GenerateUserTreeNode(u, "", userRoles, roles);
 
             userTreeData.Add(userNodeModel);
         }
@@ -389,11 +345,44 @@ public class AccountController : ControllerBase
         var responseData = new ResponseData()
         {
             Code = ErrorCode.ErrorCode_Success,
-            Message = "获取成功",
+            Message = ErrorMessage.Messages["getSuccess"],
             Data = userTreeData
         };
 
         return JsonSerializerTool.SerializeDefault(responseData);
+    }
+
+    /// <summary>
+    /// 生成用户节点
+    /// </summary>
+    /// <returns></returns>
+    private UserTreeNode GenerateUserTreeNode(User u, string groupId, List<UserRole> userRoles, List<Role> roles)
+    {
+        var userNodeModel = new UserTreeNode();
+        
+        userNodeModel.NodeKey = groupId + "-" + u.Id.ToString();
+        userNodeModel.Id = u.Id;
+        userNodeModel.ParentMenuId = null;
+        userNodeModel.LabelValue = u.Name;
+        userNodeModel.IsLeaf = true;
+        userNodeModel.Disabled = false;
+
+        // 添加角色
+        string formatRoles = "";
+        foreach(var ur in userRoles.Where(ur => ur.UserId == u.Id))
+        {
+            var currentRole = roles.SingleOrDefault(r => r.Id == ur.RoleId);
+            if (currentRole == null)
+            {
+                continue;
+            }
+
+            formatRoles = formatRoles + currentRole.Name + ",";
+        }
+
+        userNodeModel.Label = u.Name +  (formatRoles == "" ? "" : " (" + formatRoles.TrimEnd(',') + ")");
+
+        return userNodeModel;
     }
 
     public class UserTreeNode

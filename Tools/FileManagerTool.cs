@@ -1,9 +1,4 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 
 namespace Hzg.Tool;
 
@@ -32,7 +27,7 @@ public static class FileManagerTool
             if (fileName.Length > 64)
             {
                 // 文件名不能太长
-                fileName = fileName.Substring(fileName.Length - 64);
+                fileName = fileName.Substring(0, 36) + fileName.Substring(fileName.Length - 20);
             }
             var fullFilePathName = Path.Combine(fullFilePath, fileName);
             using(var stream = System.IO.File.Create(fullFilePathName))

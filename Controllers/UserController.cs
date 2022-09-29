@@ -1,8 +1,4 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,6 +8,7 @@ using Hzg.Const;
 using Hzg.Models;
 using Hzg.Services;
 using Hzg.Tool;
+using Hzg.Dto;
 
 namespace Hzg.Controllers;
 
@@ -44,14 +41,54 @@ public class UserController : ControllerBase
             users = await _accountContext.Users.AsNoTracking().OrderBy(m => m.Name).ToListAsync();
         }
 
+        var userGroups = await _accountContext.UserGroups.AsNoTracking().ToListAsync();
+        var userRoles = await _accountContext.UserRoles.AsNoTracking().ToListAsync();
+
+        List<UserInfoDto> data = new List<UserInfoDto>();
+        foreach(var u in users)
+        {
+            var userInfo = new UserInfoDto();
+
+            userInfo.Id = u.Id;
+            userInfo.Name = u.Name;
+            userInfo.Gender = u.Gender;
+            userInfo.Email = u.Email;
+
+            // 分组 Id
+            var groupIds = new List<Guid>();
+            foreach(var ug in userGroups)
+            {
+                if (ug.UserId == u.Id)
+                {
+                    groupIds.Add(ug.GroupId);
+                }
+            }
+
+            userInfo.GroupIds = groupIds.ToArray();
+
+            // 角色 Id
+            var roleIds = new List<Guid>();
+            foreach(var ur in userRoles)
+            {
+                if (ur.UserId == u.Id)
+                {
+                    roleIds.Add(ur.RoleId);
+                }
+            }
+
+            userInfo.RoleIds = roleIds.ToArray();
+
+            data.Add(userInfo);
+        }
+
         var response = new ResponseData()
         {
             Code = ErrorCode.ErrorCode_Success,
             Message = "获取用户列表成功!",
-            Data = users
+            Data = data
         };
 
-        return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
+        return JsonSerializerTool.SerializeDefault(response);
     }
 
     /// <summary>
@@ -61,10 +98,11 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("create")]
-    public async Task<string> Create([FromBody] User user)
+    public async Task<string> Create([FromBody] UserEditDto user)
     {
         var model = new User();
 
+        model.Id = Guid.NewGuid();
         model.Name = user.Name;
         model.Gender = user.Gender;
         model.Salt = RandomTool.GenerateDigitalAlphabetCode(6);
@@ -79,17 +117,41 @@ public class UserController : ControllerBase
         var u = await _accountContext.Users.SingleOrDefaultAsync(m => m.Name == user.Name);
         if (u != null)
         {
-            return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
+            return JsonSerializerTool.SerializeDefault(response);
         }
 
         _accountContext.Users.Add(model);
 
+        // 添加分组关联
+        foreach(var gId in user.GroupIds)
+        {
+            var userGroup = new UserGroup()
+            {
+                UserId = model.Id,
+                GroupId = new Guid(gId)
+            };
+
+            _accountContext.UserGroups.Add(userGroup);
+        }
+
+        // 添加角色关联
+        foreach(var rId in user.RoleIds)
+        {
+            var userRole = new UserRole()
+            {
+                UserId = model.Id,
+                RoleId = new Guid(rId)
+            };
+
+            _accountContext.UserRoles.Add(userRole);
+        }
+
         await _accountContext.SaveChangesAsync();
 
         response.Code = ErrorCode.ErrorCode_Success;
-        response.Message = "创建成功!";
+        response.Message = ErrorMessage.Messages["createSuccess"];
 
-        return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
+        return JsonSerializerTool.SerializeDefault(response);
     }
 
     /// <summary>
@@ -99,7 +161,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("update")]
-    public async Task<string> update([FromBody] User user)
+    public async Task<string> update([FromBody] UserEditDto user)
     {
         var response = new ResponseData()
         {
@@ -107,7 +169,7 @@ public class UserController : ControllerBase
             Message = "用户不存在!"
         };
 
-        var model = await _accountContext.Users.SingleOrDefaultAsync(u => u.Id == user.Id);
+        var model = await _accountContext.Users.SingleOrDefaultAsync(u => u.Id.ToString() == user.Id);
         if (model == null)
         {
             // 用户不存在
@@ -119,6 +181,42 @@ public class UserController : ControllerBase
         model.Gender = user.Gender;
 
         _accountContext.Users.Update(model);
+
+        // 关联分组
+        var userGroups = await _accountContext.UserGroups.Where(ug => ug.UserId == model.Id).ToArrayAsync();
+        var userGroupIds = userGroups.Where(ug => ug.UserId == model.Id).Select(ug => ug.GroupId.ToString());
+        var ids = GetIdsToAddAndRemove(user.GroupIds, userGroupIds, id =>
+        {                
+            return new UserGroup
+            {
+                UserId = model.Id,
+                GroupId = new Guid(id)
+            };
+        });
+
+        _accountContext.UserGroups.AddRange(ids.toAdd);
+
+        var guToDelete = userGroups.Where(ug => ids.idsToRmove.Contains(ug.GroupId.ToString()));
+
+        _accountContext.UserGroups.RemoveRange(guToDelete);
+
+        // 关联角色
+        var userRoles = await _accountContext.UserRoles.AsNoTracking().Where(ug => ug.UserId == model.Id).ToArrayAsync();
+        var userRoleIds = userRoles.Where(ug => ug.UserId == model.Id).Select(ug => ug.RoleId.ToString());
+        var roleIds = GetIdsToAddAndRemove(user.RoleIds, userRoleIds, id =>
+        {                
+            return new UserRole
+            {
+                UserId = model.Id,
+                RoleId = new Guid(id)
+            };
+        });
+
+        _accountContext.UserRoles.AddRange(roleIds.toAdd);
+
+        var urToDelete = userRoles.Where(ur => roleIds.idsToRmove.Contains(ur.RoleId.ToString()));
+
+        _accountContext.UserRoles.RemoveRange(urToDelete);
 
         await _accountContext.SaveChangesAsync();
 
@@ -181,5 +279,23 @@ public class UserController : ControllerBase
         };
 
         return JsonSerializer.Serialize(responseData, JsonSerializerTool.DefaultOptions());
+    }
+
+    private (IEnumerable<T> toAdd, IEnumerable<string> idsToRmove) GetIdsToAddAndRemove<T>(IEnumerable<string> ids, IEnumerable<string> currentIds, Func<string, T> addFunc)
+    {
+        // 要添加的
+        var toAdd = new List<T>();
+        foreach(var id in ids)
+        {
+            if (currentIds.Contains(id) == false)
+            {
+                toAdd.Add(addFunc(id));
+            }
+        }
+
+        // 要移除的
+        var idsToRamove = currentIds.Where(ug => ids.Contains(ug) == false);
+
+        return (toAdd, idsToRamove);
     }
 }    

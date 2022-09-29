@@ -1,16 +1,13 @@
-using System;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Hzg.Data;
 using Hzg.Const;
 using Hzg.Models;
 using Hzg.Services;
 using Hzg.Tool;
+using Hzg.Dto;
 
 namespace Hzg.Controllers;
 
@@ -161,9 +158,27 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("get-group-roles")]
-    public async Task<string> getGroupRoles(Guid groupId)
+    public async Task<string> getGroupRoles([FromQuery] string[] groupIds)
     {
-        var roles = await _accountContext.Roles.AsNoTracking().Where(m => m.Id == groupId).OrderBy(m => m.Name).ToListAsync();
+        // 分组角色关联信息
+        var roleGroupsIds = await _accountContext.RoleGroups.AsNoTracking().Where(rg => groupIds.Contains(rg.GroupId.ToString())).Select(rg => rg.RoleId).ToListAsync();
+        // 所有角色
+        var roles = await _accountContext.Roles.AsNoTracking().OrderBy(m => m.Name).ToListAsync();
+        var roleInfos = new List<RoleInfoDto>();
+        foreach(var r in roles)
+        {
+            if (roleGroupsIds.Contains(r.Id) == true)
+            {
+                continue;
+            }
+
+            var dto = new RoleInfoDto();
+
+            dto.Id = r.Id;
+            dto.Name = r.Name;
+
+            roleInfos.Add(dto);
+        }
 
         var response = new ResponseData()
         {

@@ -11,6 +11,8 @@ public static class ErrorMessage
     /// <value></value>
     public static Dictionary<string, string> Messages = new Dictionary<string, string>
     {
+        { "createSuccess", "创建成功" }, // 创建成功
+        { "getSuccess", "获取成功" }, // 获取成功
         { "thisUserAlreadyExists", "This user already exists!" }, // 用户已存在
         { "thisUserNotExists", "This User Not Exists!" },
         { "corpidDoesNotExist", "corpid does not exist!" }, // 公司 Id 不存在
