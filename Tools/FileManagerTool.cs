@@ -12,6 +12,11 @@ public static class FileManagerTool
     /// <returns></returns>
     public static async Task<string> UploadFile(IFormFile formFile, string filePath)
     {
+        if (formFile == null)
+        {
+            return null;
+        }
+
         if (formFile.Length > 0)
         {
             var fullFilePath = Path.Combine(filePath);
