@@ -52,9 +52,9 @@ public static class DatabaseSeedTool
             adminMenu.IsRoot = true;
             adminMenu.IsFinal = false;
             adminMenu.Url = "#";
-            adminMenu.ComponentPath = "adminmanager/user/index";
-            adminMenu.Name = "adminManager";
-            adminMenu.Path = "/adminmanager/";
+            adminMenu.ComponentPath = "adminmanagement/user/index";
+            adminMenu.Name = "adminManagement";
+            adminMenu.Path = "/adminManagement/";
 
             context.Menus.Add(adminMenu);
         }
@@ -64,49 +64,88 @@ public static class DatabaseSeedTool
         }
 
         // 菜单管理
-        var menuManager = new Menu();
+        var menuManagement = new Menu();
 
-        menuManager.Id = Guid.NewGuid();
-        menuManager.ParentMenuId = adminMenuId;
-        menuManager.Title = "菜单管理";
-        menuManager.IsRoot = false;
-        menuManager.IsFinal = true;
-        menuManager.Url = "#";
-        menuManager.ComponentPath = "adminmanager/menu/index";
-        menuManager.Name = "MenuManager";
-        menuManager.Path = "menumanager";
-
-        // 分组管理
-        var groupManager = new Menu();
-
-        groupManager.Id = Guid.NewGuid();
-        groupManager.ParentMenuId = adminMenuId;
-        groupManager.Title = "分组管理";
-        groupManager.IsRoot = false;
-        groupManager.IsFinal = true;
-        groupManager.Url = "#";
-        groupManager.ComponentPath = "adminmanager/group/index";
-        groupManager.Name = "GroupManager";
-        groupManager.Path = "groupmanager";
+        menuManagement.Id = Guid.NewGuid();
+        menuManagement.ParentMenuId = adminMenuId;
+        menuManagement.Title = "菜单管理";
+        menuManagement.IsRoot = false;
+        menuManagement.IsFinal = true;
+        menuManagement.Url = "#";
+        menuManagement.ComponentPath = "adminmanagement/menu/index";
+        menuManagement.Name = "MenuManagement";
+        menuManagement.Path = "menuManagement";
 
         // 分组管理
-        var roleManager = new Menu();
+        var groupManagement = new Menu();
 
-        roleManager.Id = Guid.NewGuid();
-        roleManager.ParentMenuId = adminMenuId;
-        roleManager.Title = "角色管理";
-        roleManager.IsRoot = false;
-        roleManager.IsFinal = true;
-        roleManager.Url = "#";
-        roleManager.ComponentPath = "adminmanager/role/index";
-        roleManager.Name = "RoleManager";
-        roleManager.Path = "rolemanager";
+        groupManagement.Id = Guid.NewGuid();
+        groupManagement.ParentMenuId = adminMenuId;
+        groupManagement.Title = "分组管理";
+        groupManagement.IsRoot = false;
+        groupManagement.IsFinal = true;
+        groupManagement.Url = "#";
+        groupManagement.ComponentPath = "adminmanagement/group/index";
+        groupManagement.Name = "GroupManagement";
+        groupManagement.Path = "groupManagement";
 
-        Menu[] allMenus = { menuManager, groupManager, roleManager };
+        // 分组管理
+        var roleManagement = new Menu();
+
+        roleManagement.Id = Guid.NewGuid();
+        roleManagement.ParentMenuId = adminMenuId;
+        roleManagement.Title = "角色管理";
+        roleManagement.IsRoot = false;
+        roleManagement.IsFinal = true;
+        roleManagement.Url = "#";
+        roleManagement.ComponentPath = "adminmanagement/role/index";
+        roleManagement.Name = "RoleManagement";
+        roleManagement.Path = "roleManagement";
+
+        #region 产品管理
+        var productManagement = new Menu();
+
+        productManagement.Id = Guid.NewGuid();
+        productManagement.Title = "产品管理";
+        productManagement.IsRoot = true;
+        productManagement.IsFinal = false;
+        productManagement.Url = "#";
+        productManagement.ComponentPath = "";
+        productManagement.Name = "ProductManagement";
+        productManagement.Path = "/productmanagement/";
+
+        // 产品分类管理
+        var productClassifyManagement = new Menu();
+
+        productClassifyManagement.Id = Guid.NewGuid();
+        productClassifyManagement.ParentMenuId = productManagement.Id;
+        productClassifyManagement.Title = "产品分类";
+        productClassifyManagement.IsRoot = false;
+        productClassifyManagement.IsFinal = true;
+        productClassifyManagement.Url = "#";
+        productClassifyManagement.ComponentPath = "productmanagement/amazonproduct/productclassify";
+        productClassifyManagement.Name = "ProductClassifyManagement";
+        productClassifyManagement.Path = "productclassifymanagement";
+
+        // 产品管理
+        var productManagement1 = new Menu();
+
+        productManagement1.Id = Guid.NewGuid();
+        productManagement1.ParentMenuId = productManagement.Id;
+        productManagement1.Title = "产品";
+        productManagement1.IsRoot = false;
+        productManagement1.IsFinal = true;
+        productManagement1.Url = "#";
+        productManagement1.ComponentPath = "productmanagement/amazonproduct/product";
+        productManagement1.Name = "ProductClassifyProductManagement";
+        productManagement1.Path = "productclassifyproductmanagement";
+
+        #endregion
+        Menu[] allMenus = { menuManagement, groupManagement, roleManagement, productManagement, productClassifyManagement, productManagement1 };
         Menu menuAdmin = null;
         foreach(var am in allMenus)
         {
-            menuAdmin = await context.Menus.SingleOrDefaultAsync(m => m.ParentMenuId == adminMenuId && m.Title == am.Title);
+            menuAdmin = await context.Menus.SingleOrDefaultAsync(m => m.ParentMenuId == am.ParentMenuId && m.Title == am.Title);
             Guid subMenuAdminId;
             if (menuAdmin == null)
             {
