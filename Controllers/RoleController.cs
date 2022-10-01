@@ -42,8 +42,7 @@ public class RoleController : ControllerBase
 
         var response = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = "获取角色列表成功!",
+            Code = ErrorCode.Success,
             Data = roles
         };
 
@@ -65,8 +64,7 @@ public class RoleController : ControllerBase
 
         var response = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_HasExisted,
-            Message = "角色已存在!"
+            Code = ErrorCode.Role_Has_Exist
         };
 
         var u = await _accountContext.Roles.SingleOrDefaultAsync(m => m.Id == model.Id);
@@ -79,8 +77,7 @@ public class RoleController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.ErrorCode_Success;
-        response.Message = "创建成功!";
+        response.Code = ErrorCode.Create_Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
@@ -96,8 +93,7 @@ public class RoleController : ControllerBase
     {
         var response = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_NotExist,
-            Message = "分组不存在!"
+            Code = ErrorCode.Group_Not_Exist
         };
 
         var model = await _accountContext.Roles.SingleOrDefaultAsync(u => u.Id == role.Id);
@@ -114,8 +110,7 @@ public class RoleController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.ErrorCode_Success;
-        response.Message = "修改成功!";
+        response.Code = ErrorCode.Update_Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
@@ -131,8 +126,7 @@ public class RoleController : ControllerBase
     {
         var response = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_NotExist,
-            Message = "角色不存在!"
+            Code = ErrorCode.Role_Not_Exist
         };
 
         var role = await _accountContext.Roles.SingleOrDefaultAsync(u => u.Id == id);
@@ -146,8 +140,7 @@ public class RoleController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.ErrorCode_Success;
-        response.Message = "删除成功!";
+        response.Code = ErrorCode.Delete_Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
@@ -182,8 +175,7 @@ public class RoleController : ControllerBase
 
         var response = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = "获取角色列表成功!",
+            Code = ErrorCode.Success,
             Data = roles
         };
 

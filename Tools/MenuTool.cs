@@ -159,6 +159,7 @@ public class MenuTool
         rootJson.Name = menu.Name;
         rootJson.Path = menu.Path;
         rootJson.ComponentPath = menu.ComponentPath;
+        rootJson.Meta = menu.Meta;
 
         var childrenList = new List<MenuTreeNode>();
         foreach(var item in childrenData)

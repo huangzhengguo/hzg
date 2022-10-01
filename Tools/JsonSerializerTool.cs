@@ -1,5 +1,5 @@
-using System;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Hzg.Tool;
 
@@ -26,6 +26,8 @@ public static class JsonSerializerTool
     public static JsonSerializerOptions DefaultOptions(bool isDate = true)
     {
         var options = new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
+        options.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 
         if (isDate == true)
         {

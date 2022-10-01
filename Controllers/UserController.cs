@@ -83,8 +83,7 @@ public class UserController : ControllerBase
 
         var response = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = "获取用户列表成功!",
+            Code = ErrorCode.Success,
             Data = data
         };
 
@@ -110,8 +109,7 @@ public class UserController : ControllerBase
 
         var response = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_HasExisted,
-            Message = "用户已存在!"
+            Code = ErrorCode.User_Has_Exist
         };
 
         var u = await _accountContext.Users.SingleOrDefaultAsync(m => m.Name == user.Name);
@@ -148,8 +146,7 @@ public class UserController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.ErrorCode_Success;
-        response.Message = ErrorMessage.Messages["createSuccess"];
+        response.Code = ErrorCode.Create_Success;
 
         return JsonSerializerTool.SerializeDefault(response);
     }
@@ -165,8 +162,7 @@ public class UserController : ControllerBase
     {
         var response = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_NotExist,
-            Message = "用户不存在!"
+            Code = ErrorCode.User_Not_Exist
         };
 
         var model = await _accountContext.Users.SingleOrDefaultAsync(u => u.Id.ToString() == user.Id);
@@ -220,8 +216,7 @@ public class UserController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.ErrorCode_Success;
-        response.Message = "修改成功!";
+        response.Code = ErrorCode.Update_Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
@@ -237,8 +232,7 @@ public class UserController : ControllerBase
     {
         var response = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_NotExist,
-            Message = "用户不存在!"
+            Code = ErrorCode.User_Not_Exist
         };
 
         var user = await _accountContext.Users.SingleOrDefaultAsync(u => u.Id == id);
@@ -252,8 +246,7 @@ public class UserController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.ErrorCode_Success;
-        response.Message = "删除成功!";
+        response.Code = ErrorCode.Delete_Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
@@ -273,8 +266,7 @@ public class UserController : ControllerBase
         var menus = await MenuTool.GetUserPermissionMenus(_accountContext, id);
         var responseData = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = "获取成功",
+            Code = ErrorCode.Success,
             Data = menus
         };
 

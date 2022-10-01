@@ -103,9 +103,13 @@ public static class DatabaseSeedTool
         roleManagement.Path = "roleManagement";
 
         #region 产品管理
-        var productManagement = new Menu();
+        var productManagement = await context.Menus.SingleOrDefaultAsync(m => m.Title == "产品管理");
+        if (productManagement == null)
+        {
+            productManagement = new Menu();
+            productManagement.Id = Guid.NewGuid();
+        }
 
-        productManagement.Id = Guid.NewGuid();
         productManagement.Title = "产品管理";
         productManagement.IsRoot = true;
         productManagement.IsFinal = false;
@@ -140,8 +144,21 @@ public static class DatabaseSeedTool
         productManagement1.Name = "ProductClassifyProductManagement";
         productManagement1.Path = "productclassifyproductmanagement";
 
+        // 产品轮播图管理
+        var productCarouselManagement = new Menu();
+
+        productCarouselManagement.Id = Guid.NewGuid();
+        productCarouselManagement.ParentMenuId = productManagement.Id;
+        productCarouselManagement.Title = "产品轮播图";
+        productCarouselManagement.IsRoot = false;
+        productCarouselManagement.IsFinal = true;
+        productCarouselManagement.Url = "#";
+        productCarouselManagement.ComponentPath = "productmanagement/amazonproduct/productcarousel";
+        productCarouselManagement.Name = "ProductCarouselProductManagement";
+        productCarouselManagement.Path = "productcarouselproductmanagement";
+
         #endregion
-        Menu[] allMenus = { menuManagement, groupManagement, roleManagement, productManagement, productClassifyManagement, productManagement1 };
+        Menu[] allMenus = { menuManagement, groupManagement, roleManagement, productManagement, productClassifyManagement, productManagement1, productCarouselManagement };
         Menu menuAdmin = null;
         foreach(var am in allMenus)
         {

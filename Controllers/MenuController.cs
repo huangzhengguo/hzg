@@ -40,8 +40,7 @@ public class MenuController : ControllerBase
         }
         var result = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = "创建成功!",
+            Code = ErrorCode.Create_Success,
             Data = null,
             ShowMsg = true
         };
@@ -50,8 +49,7 @@ public class MenuController : ControllerBase
         var m = await _accountContext.Menus.AsNoTracking().Where(m => m.ParentMenuId == menu.ParentMenuId && m.Title == menu.Title).ToListAsync();
         if (m != null && m.Count > 0)
         {
-            result.Code = ErrorCode.ErrorCode_HasExisted;
-            result.Message = "菜单已存在!";
+            result.Code = ErrorCode.Menu_Has_Exist;
 
             return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
         }
@@ -60,8 +58,7 @@ public class MenuController : ControllerBase
         var n = await _accountContext.SaveChangesAsync();
         if (n != 1)
         {
-            result.Code = ErrorCode.ErrorCode_Failed;
-            result.Message = "创建失败!";
+            result.Code = ErrorCode.Create_Failed;
         }
 
         return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
@@ -81,8 +78,7 @@ public class MenuController : ControllerBase
         }
         var result = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = "修改成功!",
+            Code = ErrorCode.Update_Success,
             Data = null
         };
 
@@ -99,8 +95,7 @@ public class MenuController : ControllerBase
             return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
         }
 
-        result.Code = ErrorCode.ErrorCode_Failed;
-        result.Message = "修改失败!";
+        result.Code = ErrorCode.Update_Failed;
 
         return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
     }
@@ -116,9 +111,8 @@ public class MenuController : ControllerBase
     {
         var result = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Data = null,
-            Message = "删除成功!"
+            Code = ErrorCode.Delete_Success,
+            Data = null
         };
 
         var m = await _accountContext.Menus.SingleOrDefaultAsync(m => m.Id == id);
@@ -131,8 +125,7 @@ public class MenuController : ControllerBase
         if (n != 1)
         {
             // 删除失败
-            result.Code = ErrorCode.ErrorCode_Failed;
-            result.Message = "删除失败!";
+            result.Code = ErrorCode.Delete_Failed;
         }
 
         // 需要删除菜单关联的权限数据
@@ -160,9 +153,8 @@ public class MenuController : ControllerBase
         var jsonData = MenuTool.GenerateTreeData(data, null, null);
         var result = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
+            Code = ErrorCode.Success,
             Data = jsonData,
-            Message = "获取成功!"
         };
 
         return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
@@ -199,8 +191,7 @@ public class MenuController : ControllerBase
 
         var responseData = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = "获取成功",
+            Code = ErrorCode.Success,
             Data = routers
         };
 

@@ -65,15 +65,14 @@ public class AccountController : ControllerBase
     {
         var result = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = ErrorCodeMessage.Message(ErrorCode.ErrorCode_Success)
+            Code = ErrorCode.Success
         };
 
         // 检测邮箱是否已存在
         var user = await _accountContext.Users.SingleOrDefaultAsync(u => u.Email == email);
         if (user != null)
         {
-            result.Message = "用户已存在!";
+            result.Code = ErrorCode.User_Has_Exist;
             return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());;
         }
 
@@ -100,15 +99,14 @@ public class AccountController : ControllerBase
     {
         var result = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Failed,
-            Message = ErrorCodeMessage.Message(ErrorCode.ErrorCode_Failed)
+            Code = ErrorCode.Failed
         };
 
         // 检测用户是否已经注册
         var exitUser = await _accountContext.Users.SingleOrDefaultAsync(u => u.Email == model.Email);
         if (exitUser != null)
         {
-            result.Message = "用户已存在!";
+            result.Code = ErrorCode.User_Has_Exist;
 
             return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
         }
@@ -118,7 +116,7 @@ public class AccountController : ControllerBase
         if (localVerifyCode == null || localVerifyCode.Equals(model.VerifyCode) == false)
         {
             // 验证码不一致
-            result.Message = "验证码过期或者不正确!";
+            result.Code = ErrorCode.VerifyCode_Incorrect;
 
             return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
         }
@@ -137,8 +135,7 @@ public class AccountController : ControllerBase
 
         }
 
-        result.Code = ErrorCode.ErrorCode_Success;
-        result.Message = "注册成功!";
+        result.Code = ErrorCode.Registered_Successfully;
 
         return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
     }
@@ -154,23 +151,20 @@ public class AccountController : ControllerBase
     public async Task<string> Login([FromBody] LoginViewModel model)
     {
         var result = new ResponseData() {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = ErrorCodeMessage.Message(ErrorCode.ErrorCode_Success)
+            Code = ErrorCode.Success
         };
 
         var user = await _accountContext.Users.SingleOrDefaultAsync(u => u.Name == model.UserName);
         if (user == null)
         {
-            result.Code = ErrorCode.ErrorCode_Failed;
-            result.Message = "User not exist!";
+            result.Code = ErrorCode.User_Not_Exist;
 
             return JsonSerializerTool.SerializeDefault(result);
         }
         var password = MD5Tool.Encrypt(model.Password, user.Salt);
         if (password != user.Password)
         {
-            result.Code = ErrorCode.ErrorCode_Failed;
-            result.Message = "Password not correct!";
+            result.Code = ErrorCode.Password_Not_Correct;
 
             return JsonSerializerTool.SerializeDefault(result);
         }
@@ -197,8 +191,7 @@ public class AccountController : ControllerBase
             return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
         }
 
-        result.Code = ErrorCode.ErrorCode_Failed;
-        result.Message = "账号或密码错误!";
+        result.Code = ErrorCode.Account_Or_Password_Not_Correct;
 
         return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
     }
@@ -257,7 +250,7 @@ public class AccountController : ControllerBase
             users = await _accountContext.Users.AsNoTracking().ToListAsync();
         }
 
-        var response = new { code = ErrorCode.ErrorCode_Success, data = users };
+        var response = new { code = ErrorCode.Success, data = users };
 
         return JsonSerializer.Serialize(response, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.IgnoreCycles });
     }
@@ -272,7 +265,7 @@ public class AccountController : ControllerBase
     {
         var allGroups = await _accountContext.Groups.AsNoTracking().OrderBy(g => g.Name).ToListAsync();
 
-        var response = new { code = ErrorCode.ErrorCode_Success, data = allGroups };
+        var response = new { code = ErrorCode.Success, data = allGroups };
 
         return JsonSerializer.Serialize(response);
     }
@@ -344,8 +337,7 @@ public class AccountController : ControllerBase
 
         var responseData = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = ErrorMessage.Messages["getSuccess"],
+            Code = ErrorCode.Success,
             Data = userTreeData
         };
 

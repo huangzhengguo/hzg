@@ -46,8 +46,7 @@ public class GroupController : ControllerBase
 
         var response = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = "Get Success!",
+            Code = ErrorCode.Success,
             Data = groups
         };
 
@@ -70,8 +69,7 @@ public class GroupController : ControllerBase
         var response = new ResponseData()
         {
             ShowMsg = true,
-            Code = ErrorCode.ErrorCode_HasExisted,
-            Message = "分组已存在!"
+            Code = ErrorCode.Group_Has_Exist
         };
 
         var g = await _accountContext.Groups.SingleOrDefaultAsync(g => g.Name == group.Name);
@@ -84,8 +82,7 @@ public class GroupController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.ErrorCode_Success;
-        response.Message = "创建成功!";
+        response.Code = ErrorCode.Create_Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
@@ -101,8 +98,7 @@ public class GroupController : ControllerBase
     {
         var response = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_NotExist,
-            Message = "分组不存在!"
+            Code = ErrorCode.Group_Not_Exist
         };
 
         var model = await _accountContext.Groups.SingleOrDefaultAsync(u => u.Id == group.Id);
@@ -117,8 +113,7 @@ public class GroupController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.ErrorCode_Success;
-        response.Message = "修改成功!";
+        response.Code = ErrorCode.Update_Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
@@ -134,8 +129,7 @@ public class GroupController : ControllerBase
     {
         var response = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_NotExist,
-            Message = "分组不存在!"
+            Code = ErrorCode.Group_Not_Exist
         };
 
         var group = await _accountContext.Groups.SingleOrDefaultAsync(u => u.Id == id);
@@ -150,8 +144,7 @@ public class GroupController : ControllerBase
         if (users.Count > 0)
         {
             // 存在用户引用,无法删除
-            response.Code = ErrorCode.ErrorCode_HasReferenced;
-            response.Message = "存在用户引用,无法删除!";
+            response.Code = ErrorCode.Group_Has_User;
 
             return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
         }
@@ -163,8 +156,7 @@ public class GroupController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.ErrorCode_Success;
-        response.Message = "删除分组成功!";
+        response.Code = ErrorCode.Delete_Group_Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
@@ -213,7 +205,7 @@ public class GroupController : ControllerBase
 
     //         var responseData = new ResponseData()
     //         {
-    //             Code = ErrorCode.ErrorCode_Success,
+    //             Code = ErrorCode.Success,
     //             Message = "获取成功",
     //             Data = userTreeData
     //         };

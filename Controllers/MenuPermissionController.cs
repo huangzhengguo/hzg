@@ -41,8 +41,7 @@ public class MenuPermissionController : ControllerBase
     {
         var responseData = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = "获取成功!"
+            Code = ErrorCode.Success
         };
 
         var permissions = await _accountContext.MenuPermissions.AsNoTracking().Where(m => m.SubMenuId == menuId).ToListAsync();
@@ -63,8 +62,7 @@ public class MenuPermissionController : ControllerBase
     {
         var responseData = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = "添加菜单权限成功!",
+            Code = ErrorCode.Success,
             Data = null
         };
 
@@ -83,8 +81,7 @@ public class MenuPermissionController : ControllerBase
             }
         }
 
-        responseData.Code = ErrorCode.ErrorCode_Failed;
-        responseData.Message = "增加菜单权限失败!";
+        responseData.Code = ErrorCode.Failed;
 
         return JsonSerializer.Serialize(responseData, JsonSerializerTool.DefaultOptions());
     }
@@ -100,8 +97,7 @@ public class MenuPermissionController : ControllerBase
     {
         var responseData = new ResponseData()
         {
-            Code = ErrorCode.ErrorCode_Success,
-            Message = "删除菜单权限成功",
+            Code = ErrorCode.Success,
             Data = null
         };
 
@@ -121,8 +117,7 @@ public class MenuPermissionController : ControllerBase
             return JsonSerializer.Serialize(responseData, JsonSerializerTool.DefaultOptions());
         } 
 
-        responseData.Code = ErrorCode.ErrorCode_Failed;
-        responseData.Message = "删除菜单权限失败!";
+        responseData.Code = ErrorCode.Failed;
 
         return JsonSerializer.Serialize(responseData, JsonSerializerTool.DefaultOptions());
     }

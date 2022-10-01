@@ -92,6 +92,10 @@ public class Menu : BaseEntity
     [Column("component_path")]
     public string ComponentPath { get; set; }
 
+    /// <summary>
+    /// 元数据
+    /// </summary>
+    /// <value></value>
     [Column("meta")]
     public string Meta { get; set; }
 }

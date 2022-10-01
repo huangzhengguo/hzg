@@ -6,42 +6,71 @@ namespace Hzg.Const;
 /// <summary>
 /// 错误码常量：前三个数字错误分类，后三个数字标识具体错误
 /// </summary>
-public enum ErrorCode
+public enum ErrorCode : int
 {
-    // 成功
-    ErrorCode_Success = 20000,
-    ErrorCode_Query_Success = 20001,
-    ErrorCode_Create_Success = 20002,
-    ErrorCode_Update_Success = 20003,
-    ErrorCode_Confirm_Success = 20004,
-    ErrorCode_Close_Success = 20005,
+    // 成功错误码 20000 - 20099
+    Success = 20000,
+    Query_Success = 20001,
+    Create_Success = 20002,
+    Update_Success = 20003,
+    Confirm_Success = 20004,
+    Close_Success = 20005,
+    // 注册成功
+    Registered_Successfully = 20006,
+    // 删除分组成功
+    Delete_Group_Success = 20007,
+    // 删除成功
+    Delete_Success = 20008,
 
-    // 失败
-    ErrorCode_Failed = 20020,
-    ErrorCode_Query_Failed = 20021,
-    ErrorCode_Create_Failed = 20022,
-    ErrorCode_Update_Failed = 20023,
-    ErrorCode_Confirm_Failed = 20024,
-    ErrorCode_Close_Failed = 20025,
-    
+    // 失败错误码 20100 - 20099
+    Failed = 21000,
+    // 查询失败
+    Query_Failed = 21001,
+    // 创建失败
+    Create_Failed = 21002,
+    // 更新失败
+    Update_Failed = 21003,
+    // 确认失败
+    Confirm_Failed = 21004,
+    // 关闭失败
+    Close_Failed = 21005,
+    // 设备不存在
+    Device_Not_Exist = 21006,
+    // 无效 token
+    Illegal_Token = 21007,
+    // 设备已存在
+    Device_Has_Exist = 21008,
+    // 用户已存在
+    User_Has_Exist = 21009,
+    // 验证码过期
+    VerifyCode_Expire = 21010,
+    // 不正确
+    VerifyCode_Incorrect = 21011,
+    // 用户不存在
+    User_Not_Exist = 21012,
+    // 密码不正确
+    Password_Not_Correct = 21013,
+    // 账号或密码不正确
+    Account_Or_Password_Not_Correct = 21014,
+    // 分组已存在
+    Group_Has_Exist = 21015,
+    // 分组不存在
+    Group_Not_Exist = 21016,
+    // 分组存在用户，无法删除
+    Group_Has_User = 21017,
+    // 菜单已存在
+    Menu_Has_Exist = 21018,
+    // 删除失败
+    Delete_Failed = 21019,
+    // 角色已存在
+    Role_Has_Exist = 21020,
+    // 角色不存在
+    Role_Not_Exist = 21021,
+    // 修改密码失败
+    Modify_Password_Failed = 21022,
+    // 重置密码失败
+    Reset_Password_Failed = 21023,
+
     // 不存在
-    ErrorCode_NotExist = 20040,
-
-    #region 账号相关错误码
-    [Display(Name = "登录出错")]
-    ErrorCode_Login = 100000,
-    [Display(Name = "用户不存在")]
-    ErrorCode_UserNotExist = 100001,
-    [Display(Name = "密码错误")]
-    ErrorCode_Password = 100002,
-    [Display(Name = "用户或密码错误")]
-    ErrorCode_UserOrPassword = 100003,
-    [Display(Name = "已存在")]
-    ErrorCode_HasExisted = 100004,
-    [Display(Name = "已引用")]
-    ErrorCode_HasReferenced = 100005,
-    ErrorCode_NoPermission = 100007,
-    [Display(Name = "失败")]
-    ErrorCode_HasClosed = 100008
-    #endregion
+    NotExist = 20040
 }
