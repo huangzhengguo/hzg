@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Hzg.Const;
 
 namespace Hzg.Tool;
 
@@ -9,8 +10,9 @@ public static class FileManagerTool
     /// </summary>
     /// <param name="formFile"></param>
     /// <param name="filePath"></param>
+    /// <param name="fileName"></param>
     /// <returns></returns>
-    public static async Task<string> UploadFile(IFormFile formFile, string filePath)
+    public static async Task<string> UploadFile(IFormFile formFile, string filePath, string fileName = null)
     {
         if (formFile == null)
         {
@@ -28,21 +30,52 @@ public static class FileManagerTool
             }
 
             // 自动生成文件名
-            var fileName = Guid.NewGuid().ToString() + DateTime.Now.ToString("yyyyMMddHHmmss") + formFile.FileName;
-            if (fileName.Length > 64)
+            var newFileName = Guid.NewGuid().ToString() + DateTime.Now.ToString("yyyyMMddHHmmss") + formFile.FileName;
+            if (newFileName.Length > 64)
             {
                 // 文件名不能太长
-                fileName = fileName.Substring(0, 36) + fileName.Substring(fileName.Length - 20);
+                newFileName = newFileName.Substring(0, 36) + newFileName.Substring(newFileName.Length - 20);
             }
-            var fullFilePathName = Path.Combine(fullFilePath, fileName);
+            var fullFilePathName = Path.Combine(fullFilePath, newFileName);
             using(var stream = System.IO.File.Create(fullFilePathName))
             {
                 await formFile.CopyToAsync(stream);
             }
 
-            return fileName;
+            return newFileName;
         }
 
         return null;
     }
+
+    /// <summary>
+    /// 更新文件
+    /// </summary>
+    /// <param name="formFile"></param>
+    /// <param name="filePath"></param>
+    /// <param name="newFileName"></param>
+    /// <param name="oldFileName"></param>
+    /// <returns>文件名称</returns>
+    public static async Task<string> UpdateFile(IFormFile formFile, string filePath, string newFileName, string oldFileName)
+    {
+        var fileName = "";
+        if (string.IsNullOrWhiteSpace(newFileName) == true)
+        {
+            // 删除图片
+            fileName = null;
+        }
+        else if (string.IsNullOrWhiteSpace(newFileName) == false && formFile == null)
+        {
+            // 保持不变
+            fileName = oldFileName;
+        }
+        else
+        {
+            // 更新图片
+            fileName = await FileManagerTool.UploadFile(formFile, filePath);
+        }
+
+        return fileName;
+    }
+
 }

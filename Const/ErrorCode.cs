@@ -70,6 +70,26 @@ public enum ErrorCode : int
     Modify_Password_Failed = 21022,
     // 重置密码失败
     Reset_Password_Failed = 21023,
+    // 只有管理员才能修改分组信息
+    Not_Administrator_Edit_Group_Info = 21024,
+    // 不能删除默认分组
+    Can_Not_Delete_Default_Group = 21025,
+    // 删除分组出错
+    Delete_Group_Failed = 21026,
+    // 用户还未创建分组
+    User_Has_Not_Create_A_Group = 21027,
+    // 非管理员不能添加设备到分组
+    Not_Administrator_Add_Device_To_Group = 21028,
+    // 非管理员不能添加设备到分组
+    No_Device_In_Group = 21029,
+    // 用户不在分组中
+    User_Not_In_Group = 21030,
+    // 用户退出分组失败
+    User_Quit_From_Group_Failed = 21031,
+    // 产品已存在
+    Product_Has_Exist = 21032,
+    // 产品不存在
+    Product_Not_Exist = 21033,
 
     // 不存在
     NotExist = 20040

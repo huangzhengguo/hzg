@@ -5,7 +5,7 @@ namespace Hzg.Tool;
 /// <summary>
 /// 返回数据工具
 /// </summary>
-public static class ReponseTool
+public static class ResponseTool
 {
     /// <summary>
     /// 获取成功返回数据

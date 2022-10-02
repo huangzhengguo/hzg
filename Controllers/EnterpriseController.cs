@@ -36,7 +36,7 @@
 //     {
 //         var responseData = new ResponseData()
 //         {
-//             Code = Const.ErrorCode.ErrorCode_Success,
+//             Code = Const.ErrorCode.Success,
 //             Message = "成功"
 //         };
 
@@ -63,7 +63,7 @@
 //     {
 //         var responseData = new ResponseData()
 //         {
-//             Code = Const.ErrorCode.ErrorCode_Success,
+//             Code = Const.ErrorCode.Success,
 //             Message = "success"
 //         };
 
@@ -74,7 +74,7 @@
 //         }
 //         else
 //         {
-//             responseData.Code = Const.ErrorCode.ErrorCode_Failed;
+//             responseData.Code = Const.ErrorCode.Failed;
 //             responseData.Message = "Corp Not Exist!";
 
 //             return JsonSerializerTool.SerializeDefault(responseData);
@@ -94,7 +94,7 @@
 //     {
 //         var responseData = new ResponseData()
 //         {
-//             Code = Const.ErrorCode.ErrorCode_Success,
+//             Code = Const.ErrorCode.Success,
 //             Message = LocalizerTool.Value("success")
 //         };
 
@@ -117,7 +117,7 @@
 //                                   @MailResetContent)", enterpriseDto);
 //         if (count != 1)
 //         {
-//             responseData.Code = Const.ErrorCode.ErrorCode_Failed;
+//             responseData.Code = Const.ErrorCode.Failed;
 //             responseData.Message = LocalizerTool.Value("failed");
 
 //             return JsonSerializerTool.SerializeDefault(responseData);
@@ -142,7 +142,7 @@
 //     {
 //         var responseData = new ResponseData()
 //         {
-//             Code = Const.ErrorCode.ErrorCode_Success,
+//             Code = Const.ErrorCode.Success,
 //             Message = LocalizerTool.Value("success")
 //         };
 
@@ -157,7 +157,7 @@
 //                                                mail_reset_content = @MailResetContent where id = @Id", enterpriseDto);
 //         if (count != 1)
 //         {
-//             responseData.Code = Const.ErrorCode.ErrorCode_Failed;
+//             responseData.Code = Const.ErrorCode.Failed;
 //             responseData.Message = LocalizerTool.Value("failed");
 
 //             return JsonSerializerTool.SerializeDefault(responseData);
@@ -182,7 +182,7 @@
 //     {
 //         var responseData = new ResponseData()
 //         {
-//             Code = Const.ErrorCode.ErrorCode_Success,
+//             Code = Const.ErrorCode.Success,
 //             Message = LocalizerTool.Value("success")
 //         };
 
@@ -191,7 +191,7 @@
 //         var count = await connect.ExecuteAsync(@"delete from Enterprise where id = '" + id + "'");
 //         if (count != 1)
 //         {
-//             responseData.Code = Const.ErrorCode.ErrorCode_Failed;
+//             responseData.Code = Const.ErrorCode.Failed;
 //             responseData.Message = LocalizerTool.Value("notExist");
 
 //             return JsonSerializerTool.SerializeDefault(responseData);

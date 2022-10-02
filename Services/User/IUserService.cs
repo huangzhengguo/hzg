@@ -57,4 +57,11 @@ public interface IUserService
     /// <param name="userEditDto"></param>
     /// <returns></returns>
     Task<bool> ModifyUser(Guid userid, UserEditDto userEditDto);
+
+    /// <summary>
+    /// 用户注销账号
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    Task<string> DeleteAccount(string userId);
 }

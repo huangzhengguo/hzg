@@ -110,7 +110,37 @@ public static class ErrorCodeTool
                 break;  
             case ErrorCode.Reset_Password_Failed:
                 message = "Modify Password Failed!";
-                break;             
+                break;   
+            case ErrorCode.Not_Administrator_Edit_Group_Info:
+                message = "Only the group administrator can modify the group information!";
+                break;  
+            case ErrorCode.Can_Not_Delete_Default_Group:
+                message = "Could not delete default group!";
+                break;    
+            case ErrorCode.Delete_Group_Failed:
+                message = "Failed to delete the group!";
+                break;   
+            case ErrorCode.User_Has_Not_Create_A_Group:
+                message = "The user has not created a group!";
+                break;    
+            case ErrorCode.Not_Administrator_Add_Device_To_Group:
+                message = "Only administrator is allowed to add devices to the group!";
+                break;
+            case ErrorCode.No_Device_In_Group:
+                message = "There are no devices in this group!";
+                break; 
+            case ErrorCode.User_Not_In_Group:
+                message = "The user is not in the group!";
+                break; 
+            case ErrorCode.User_Quit_From_Group_Failed:
+                message = "Failed to quit from the group!";
+                break;
+            case ErrorCode.Product_Has_Exist:
+                message = "Product has exist!";
+                break; 
+            case ErrorCode.Product_Not_Exist:
+                message = "Product not exist!";
+                break; 
             default:
                 message = null;
                 break;

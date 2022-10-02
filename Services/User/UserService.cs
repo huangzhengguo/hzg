@@ -185,4 +185,39 @@ public class UserService : IUserService
 
         return true;
     }
+
+    /// <summary>
+    /// 用户注销账号
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    public async Task<string> DeleteAccount(string userId)
+    {
+        var responseData = ResponseTool.FailedResponseData();
+        var currentUserId = GetCurrentUserId();
+        if (currentUserId.ToString() != userId)
+        {
+            responseData.Code = ErrorCode.Illegal_Token;
+
+            return JsonSerializerTool.SerializeDefault(responseData);
+        }
+
+        var user = await _accountDbContext.Users.SingleOrDefaultAsync(u => u.Id.ToString() == userId);
+        if (user == null)
+        {
+            responseData.Code = ErrorCode.User_Not_Exist;
+
+            return JsonSerializerTool.SerializeDefault(responseData); 
+        }
+
+        _accountDbContext.Users.Remove(user);
+        if (await _accountDbContext.SaveChangesAsync() != 1)
+        {
+            return JsonSerializerTool.SerializeDefault(responseData); 
+        }
+
+        responseData.Code = ErrorCode.Success;
+
+        return JsonSerializerTool.SerializeDefault(responseData); 
+    }
 }
