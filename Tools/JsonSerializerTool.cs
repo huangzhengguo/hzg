@@ -13,9 +13,9 @@ public static class JsonSerializerTool
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static string SerializeDefault<TValue>(TValue value)
+    public static string SerializeDefault<TValue>(TValue value, bool isDate = true)
     {
-        return JsonSerializer.Serialize(value, JsonSerializerTool.DefaultOptions());
+        return JsonSerializer.Serialize(value, JsonSerializerTool.DefaultOptions(isDate));
     }
 
     /// <summary>

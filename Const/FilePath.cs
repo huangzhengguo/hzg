@@ -18,6 +18,8 @@ public static class FilePath
     // 物联网产品
     public static readonly string IOT_PRODUCT_PICTURE_PATH = "iotproduct/product/picture";
     public static readonly string IOT_PRODUCT_ICON_PATH = "iotproduct/product/icon";
+    // 产品说明书
+    public static readonly string RADIANS_INSTRUCTION_PRODUCT_PATH = "instruction/product/";
 
     /// <summary>
     /// 文件绝对路径
@@ -27,7 +29,7 @@ public static class FilePath
     /// <returns></returns>
     public static string FullFilePath(string fileName, string filePath)
     {
-        return string.IsNullOrWhiteSpace(fileName) == false ? (Path.Combine(FILE_SERVER, FILE_ROOT_PATH, filePath, fileName)) : null;
+        return string.IsNullOrWhiteSpace(fileName) == false ? (Path.Combine(FILE_SERVER, filePath, fileName)) : null;
     }
 
     /// <summary>

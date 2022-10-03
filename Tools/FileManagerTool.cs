@@ -11,8 +11,9 @@ public static class FileManagerTool
     /// <param name="formFile"></param>
     /// <param name="filePath"></param>
     /// <param name="fileName"></param>
+    /// <param name="fileRaname">是否自动重命名文件名</param>
     /// <returns></returns>
-    public static async Task<string> UploadFile(IFormFile formFile, string filePath, string fileName = null)
+    public static async Task<string> UploadFile(IFormFile formFile, string filePath, string fileName = null, bool fileRaname = true)
     {
         if (formFile == null)
         {
@@ -29,8 +30,17 @@ public static class FileManagerTool
                 Directory.CreateDirectory(fullFilePath);
             }
 
-            // 自动生成文件名
-            var newFileName = Guid.NewGuid().ToString() + DateTime.Now.ToString("yyyyMMddHHmmss") + formFile.FileName;
+            var newFileName = "";
+            if (fileRaname == true)
+            {
+                // 自动生成文件名
+                newFileName = Guid.NewGuid().ToString() + DateTime.Now.ToString("yyyyMMddHHmmss") + formFile.FileName;
+            }
+            else
+            {
+                newFileName = formFile.FileName;
+            }
+            
             if (newFileName.Length > 64)
             {
                 // 文件名不能太长

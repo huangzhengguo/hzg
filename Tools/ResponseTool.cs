@@ -27,11 +27,12 @@ public static class ResponseTool
     /// <param name="errorCode"></param>
     /// <param name="message"></param>
     /// <returns></returns>
-    public static ResponseData FailedResponseData(ErrorCode errorCode = ErrorCode.Failed, object data = null)
+    public static ResponseData FailedResponseData(ErrorCode errorCode = ErrorCode.Failed, object data = null, bool showMsg = false)
     {
         return new ResponseData()
         {
-            Code = errorCode
+            Code = errorCode,
+            ShowMsg = showMsg
         };
     }
 }
