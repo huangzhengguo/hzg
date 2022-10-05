@@ -16,4 +16,9 @@ public static class CommonConstant
     /// 验证码过期时间，单位秒
     /// </summary>
     static public long CODE_TIME = 3600;
+
+    /// <summary>
+    /// Redis 服务器
+    /// </summary>
+    public static string RedisServer = "localhost";
 }

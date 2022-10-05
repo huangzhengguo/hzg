@@ -28,7 +28,17 @@ public static class CommonTool
             object value = sp.GetValue(s, null);
             if (value != null)
             {
-                propertyInfo.SetValue(t, value, null);
+                // string 赋值给 Guid
+                if (sp.PropertyType == typeof(string) && (propertyInfo.PropertyType == typeof(Guid) || propertyInfo.PropertyType == typeof(Guid?)))
+                {
+                    propertyInfo.SetValue(t, new Guid(value.ToString()), null);
+                } else if ((sp.PropertyType == typeof(Guid) || sp.PropertyType == typeof(Guid?)) && propertyInfo.PropertyType == typeof(string))
+                {
+                    propertyInfo.SetValue(t, value?.ToString(), null);
+                }
+                else {
+                    propertyInfo.SetValue(t, value, null);
+                }
             }
         }
     }

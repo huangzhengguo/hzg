@@ -90,6 +90,14 @@ public enum ErrorCode : int
     Product_Has_Exist = 21032,
     // 产品不存在
     Product_Not_Exist = 21033,
+    // 公司不存在
+    Corp_Not_Exist = 21034,
+    // 管理禁止退出分组
+    Admin_Not_Allow_Leave_Group = 21035,
+    // 禁止普通用户添加
+    Admin_Only_Allow_Add_User_To_Group = 21036,
+    // 只能管理员删除用户
+    Admin_Only_Allow_Delete_User_From_Group = 21037,
 
     // 不存在
     NotExist = 20040

@@ -9,7 +9,7 @@ public static class FileManagerTool
     /// 上传单个文件
     /// </summary>
     /// <param name="formFile"></param>
-    /// <param name="filePath"></param>
+    /// <param name="filePath">文件的相对位置</param>
     /// <param name="fileName"></param>
     /// <param name="fileRaname">是否自动重命名文件名</param>
     /// <returns></returns>

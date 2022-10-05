@@ -1,4 +1,5 @@
 using StackExchange.Redis;
+using Hzg.Const;
 
 namespace Hzg.Tool;
 
@@ -12,7 +13,7 @@ public static class RedisTool
             {
                 var options = new ConfigurationOptions
                 {
-                    EndPoints = { "192.168.0.64:6379" }
+                    EndPoints = { CommonConstant.RedisServer }
                 };
 
                 _redis = ConnectionMultiplexer.Connect(options);

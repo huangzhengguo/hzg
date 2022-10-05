@@ -15,7 +15,7 @@ public static class ErrorCodeTool
         switch (errorCode)
         {
             case ErrorCode.Success:
-                message ="成功";
+                message ="Success!";
                 break;
             case ErrorCode.Create_Success:
                 message = "创建成功";
@@ -52,7 +52,7 @@ public static class ErrorCodeTool
                 message = "关闭失败";
                 break;
             case ErrorCode.NotExist:
-                message = "不存在";
+                message = "Not exist!";
                 break;
             case ErrorCode.Device_Not_Exist:
                 message = "The device not exist!";
@@ -141,6 +141,18 @@ public static class ErrorCodeTool
             case ErrorCode.Product_Not_Exist:
                 message = "Product not exist!";
                 break; 
+            case ErrorCode.Corp_Not_Exist:
+                message = "Corp not exist!";
+                break;
+            case ErrorCode.Admin_Not_Allow_Leave_Group:
+                message = "The administrator is not allowed to leave the group!";
+                break;
+            case ErrorCode.Admin_Only_Allow_Add_User_To_Group:
+                message = "The administrator is not allowed add user to the group!";
+                break;
+            case ErrorCode.Admin_Only_Allow_Delete_User_From_Group:
+                message = "Only administrator allowed to delete user from group!";
+                break;
             default:
                 message = null;
                 break;

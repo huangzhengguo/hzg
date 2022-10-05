@@ -6,7 +6,6 @@ using Hzg.Tool;
 using Hzg.Const;
 using Hzg.Data;
 using Hzg.Dto;
-using Hzg.Services;
 
 namespace Hzg.Services;
 
@@ -49,6 +48,7 @@ public class UserService : IUserService
         else
         {
             userInfo.UserName = "用户";
+            userInfo.UserId = null;
         }
 
         return userInfo;
@@ -66,14 +66,25 @@ public class UserService : IUserService
     }
 
     /// <summary>
-    /// 获取当前登录用户的名称
+    /// 获取登录用户的 Id
     /// </summary>
     /// <returns></returns>
-    public async Task<Guid> GetCurrentUserId()
+    public async Task<Guid?> GetCurrentUserId()
     {
         var userInfo = await GetLoginUserInfo();
 
         return userInfo.UserId;
+    }
+
+    /// <summary>
+    /// 获取登录用户的 Id
+    /// </summary>
+    /// <returns></returns>
+    public async Task<string> GetStringUserId()
+    {
+        var userInfo = await GetLoginUserInfo();
+
+        return userInfo.UserId?.ToString();
     }
 
     /// <summary>
@@ -174,6 +185,10 @@ public class UserService : IUserService
     public async Task<bool> ModifyUser(Guid userId, UserEditDto userEditDto)
     {
         var user = await _accountDbContext.Users.SingleOrDefaultAsync(u => u.Id == userId);
+        if (user == null)
+        {
+            return false;
+        }
 
         CommonTool.CopyProperties(userEditDto, user);
 

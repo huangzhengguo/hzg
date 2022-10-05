@@ -8,18 +8,22 @@ public static class FilePath
     private static readonly string FILE_SERVER = "http://localhost:9003/";
     private static readonly string FILE_ROOT_PATH = "wwwroot/";
     // 用户头像路径
-    public static readonly string USER_AVATAR_PATH = "userfile/avatar/";
+    public static readonly string USER_AVATAR_PATH = "file/userfile/avatar/";
     // 用户反馈图片路径
-    public static readonly string USER_FEEDBACK_PICTURE_PATH = "user/feedback/";
+    public static readonly string USER_FEEDBACK_PICTURE_PATH = "file/user/feedback/";
     // Radians产品
-    public static readonly string RADIANS_PRODUCT_PATH = "product/product";
-    public static readonly string RADIANS_PRODUCT_CLASSIFY_PATH = "product/productclassify";
-    public static readonly string RADIANS_PRODUCT_CAROUSEL_PATH = "product/productcarousel";
+    public static readonly string RADIANS_PRODUCT_PATH = "file/product/product";
+    public static readonly string RADIANS_PRODUCT_CLASSIFY_PATH = "file/product/productclassify";
+    public static readonly string RADIANS_PRODUCT_CAROUSEL_PATH = "file/product/productcarousel";
     // 物联网产品
-    public static readonly string IOT_PRODUCT_PICTURE_PATH = "iotproduct/product/picture";
-    public static readonly string IOT_PRODUCT_ICON_PATH = "iotproduct/product/icon";
+    public static readonly string IOT_PRODUCT_PICTURE_PATH = "file/iotproduct/product/picture";
+    public static readonly string IOT_PRODUCT_ICON_PATH = "file/iotproduct/product/icon";
     // 产品说明书
-    public static readonly string RADIANS_INSTRUCTION_PRODUCT_PATH = "instruction/product/";
+    public static readonly string RADIANS_PRODUCT_INSTRUCTION_PATH = "file/instruction/product/";
+    // FAQ
+    public static readonly string RADIANS_PRODUCT_FAQ_PATH = "file/instruction/product/";
+    // 固件
+    public static readonly string RADIANS_PRODUCT_FIRMWARE_PATH = "file/instruction/product/firmware/";
 
     /// <summary>
     /// 文件绝对路径

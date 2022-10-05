@@ -26,7 +26,13 @@ public interface IUserService
     /// 获取当前用户 Id
     /// </summary>
     /// <returns></returns>
-    Task<Guid> GetCurrentUserId();
+    Task<Guid?> GetCurrentUserId();
+
+    /// <summary>
+    /// 获取当前用户 Id
+    /// </summary>
+    /// <returns></returns>
+    Task<string> GetStringUserId();
 
     /// <summary>
     /// 用户是否存在

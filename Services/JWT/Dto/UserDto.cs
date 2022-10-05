@@ -41,6 +41,11 @@ public class UserDto
     /// <value></value>
     public string Phone { get; set; }
 
+    /// <summary>
+    /// 昵称
+    /// </summary>
+    /// <value></value>
     public string Nickname { get; set; }
+    
     public string Avatar { get; set; }
 }

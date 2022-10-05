@@ -11,7 +11,7 @@ public class LoginUserInfo
     /// 用户id
     /// </summary>
     /// <value></value>
-    public Guid UserId { get; set; }
+    public Guid? UserId { get; set; }
 
     /// <summary>
     /// 用户名

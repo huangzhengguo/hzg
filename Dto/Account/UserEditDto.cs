@@ -12,4 +12,5 @@ public class UserEditDto
     public string[] GroupIds { get; set; }
     public string[] RoleIds { get; set; }
     public string Password { get; set; }
+    public string Nickname { get; set; }
 }
