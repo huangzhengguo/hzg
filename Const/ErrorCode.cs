@@ -98,6 +98,8 @@ public enum ErrorCode : int
     Admin_Only_Allow_Add_User_To_Group = 21036,
     // 只能管理员删除用户
     Admin_Only_Allow_Delete_User_From_Group = 21037,
+    // 子产品不存在
+    Sub_Product_Not_Exist = 21038,
 
     // 不存在
     NotExist = 20040

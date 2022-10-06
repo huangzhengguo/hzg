@@ -121,13 +121,13 @@ public class UserService : IUserService
     /// <returns></returns>
     public async Task<bool> ModifyPassword(ModifyDto modifyDto)
     {
-        var loginUserInfo = await GetLoginUserInfo();
-        if (loginUserInfo == null)
+        var userId = await GetCurrentUserId();
+        if (userId == null)
         {
             return false;
         }
 
-        var user = await _accountDbContext.Users.SingleOrDefaultAsync(u => u.Id == loginUserInfo.UserId);
+        var user = await _accountDbContext.Users.SingleOrDefaultAsync(u => u.Id == userId);
         if (user.Password != MD5Tool.Encrypt(modifyDto.old_password, user.Salt))
         {
             return false;

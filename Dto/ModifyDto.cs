@@ -7,18 +7,17 @@ namespace Hzg.Dto;
 /// </summary>
 public class ModifyDto
 {
-
-    public static long serialVersionUID = 1L;
-
-    /**
-     * 旧密码
-     */
+    /// <summary>
+    /// 旧密码
+    /// </summary>
+    /// <value></value>
     [Required]
     public String old_password { get; set; }
 
-    /**
-     * 新密码
-     */
+    /// <summary>
+    /// 新密码
+    /// </summary>
+    /// <value></value>
     [Required]
     public String new_password { get; set; }
 }

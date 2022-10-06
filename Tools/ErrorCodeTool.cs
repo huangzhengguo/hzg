@@ -153,6 +153,9 @@ public static class ErrorCodeTool
             case ErrorCode.Admin_Only_Allow_Delete_User_From_Group:
                 message = "Only administrator allowed to delete user from group!";
                 break;
+            case ErrorCode.Sub_Product_Not_Exist:
+                message = "Sub Product not exist!";
+                break;
             default:
                 message = null;
                 break;
