@@ -78,7 +78,7 @@ public class MenuController : ControllerBase
         }
         var result = new ResponseData()
         {
-            Code = ErrorCode.Update_Success,
+            Code = ErrorCode.Success,
             Data = null
         };
 
@@ -91,11 +91,10 @@ public class MenuController : ControllerBase
             await _accountContext.SaveChangesAsync();
 
             // 是否更新菜单对应的权限
-
             return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
         }
 
-        result.Code = ErrorCode.Update_Failed;
+        result.Code = ErrorCode.Failed;
 
         return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
     }

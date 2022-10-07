@@ -156,6 +156,9 @@ public static class ErrorCodeTool
             case ErrorCode.Sub_Product_Not_Exist:
                 message = "Sub Product not exist!";
                 break;
+            case ErrorCode.Please_Select_Product:
+                message = "Please select product!";
+                break;
             default:
                 message = null;
                 break;

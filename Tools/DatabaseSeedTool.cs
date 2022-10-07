@@ -158,7 +158,45 @@ public static class DatabaseSeedTool
         productCarouselManagement.Path = "productcarouselproductmanagement";
 
         #endregion
-        Menu[] allMenus = { menuManagement, groupManagement, roleManagement, productManagement, productClassifyManagement, productManagement1, productCarouselManagement };
+
+        #region 物联网产品管理
+        var iotProductManagement = await GenerateMenu(context, "物联网产品", true, false, "IotProductManagement", "", "/iotproductmanagement/");
+
+        // 产品管理
+        var iotMainProductManagement = await GenerateMenu(context, "物联网主产品", false, true, "IotMainProductManagement", "productmanagement/iotproduct/iotmainproduct", "/iotproduct/iotmainproduct/", true, iotProductManagement.Id);
+        var iotSubProductManagement = await GenerateMenu(context, "物联网子产品", false, true, "IotSubProductManagement", "productmanagement/iotproduct/iotsubproduct", "/iotproduct/iotsubproduct/", true, iotProductManagement.Id);
+
+        #endregion
+
+        // 说明书
+        var instructionManagement = await GenerateMenu(context, "说明书", true, false, "InstructionManagement", "", "/instruction/");
+        var subInstructionManagement = await GenerateMenu(context, "产品说明书", false, true, "SubInstructionManagement", "instruction/instruction", "instruction", true, instructionManagement.Id);
+
+        // FAQ
+        var faqManagement = await GenerateMenu(context, "FAQ", true, false, "FaqManagement", "", "/faq/");
+        var subFaqnManagement = await GenerateMenu(context, "APP FAQ", false, true, "SubFaqManagement", "faq/faq", "faq", true, faqManagement.Id);
+
+        // 固件
+        var firmwareManagement = await GenerateMenu(context, "固件", true, false, "FirmwareManagement", "", "/firmware/");
+        var subFirmwareManagement = await GenerateMenu(context, "产品固件", false, true, "SubFirmwareManagement", "firmware/firmware", "firmware", true, firmwareManagement.Id);
+
+        Menu[] allMenus = { menuManagement,
+                            groupManagement, 
+                            roleManagement, 
+                            productManagement, 
+                            productClassifyManagement, 
+                            productManagement1, 
+                            productCarouselManagement,
+                            iotProductManagement,
+                            iotMainProductManagement,
+                            iotSubProductManagement,
+                            instructionManagement,
+                            subInstructionManagement,
+                            faqManagement,
+                            subFaqnManagement,
+                            firmwareManagement,
+                            subFirmwareManagement
+                            };
         Menu menuAdmin = null;
         foreach(var am in allMenus)
         {
@@ -194,5 +232,45 @@ public static class DatabaseSeedTool
         }
 
         await context.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// 生成菜单项
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="title"></param>
+    /// <param name="isRoot"></param>
+    /// <param name="isFinal"></param>
+    /// <param name="name"></param>
+    /// <param name="componentPath"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    private static async Task<Menu> GenerateMenu(AccountDbContext context, string title, bool isRoot, bool isFinal, string name, string componentPath, string path, bool keepAlive = false, Guid? parentMenuId = null)
+    {
+        var menu = await context.Menus.SingleOrDefaultAsync(m => m.Title == title);
+        if (menu == null)
+        {
+            menu = new Menu();
+            menu.Id = Guid.NewGuid();
+
+            if (isRoot == false)
+            {
+                menu.ParentMenuId = parentMenuId;
+            }
+        }
+
+        menu.Title = title;
+        menu.IsRoot = isRoot;
+        menu.IsFinal = false;
+        menu.Url = "#";
+        menu.Name = name;
+        menu.ComponentPath = componentPath;
+        menu.Path = path;
+        if (keepAlive == true)
+        {
+            menu.Meta = "{\"keepAlive\": false}";
+        }
+
+        return menu;
     }
 }

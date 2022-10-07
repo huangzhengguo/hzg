@@ -100,6 +100,8 @@ public enum ErrorCode : int
     Admin_Only_Allow_Delete_User_From_Group = 21037,
     // 子产品不存在
     Sub_Product_Not_Exist = 21038,
+    // 请选择产品
+    Please_Select_Product = 21039,
 
     // 不存在
     NotExist = 20040
