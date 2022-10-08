@@ -14,6 +14,12 @@ public class LoginUserInfo
     public Guid? UserId { get; set; }
 
     /// <summary>
+    /// 公司
+    /// </summary>
+    /// <value></value>
+    public string CorpId { get; set; }
+
+    /// <summary>
     /// 用户名
     /// </summary>
     /// <value></value>

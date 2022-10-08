@@ -26,7 +26,13 @@ public interface IUserService
     /// 获取当前用户 Id
     /// </summary>
     /// <returns></returns>
-    Task<Guid?> GetCurrentUserId();
+    Task<Guid?> GetLoginUserId();
+
+    /// <summary>
+    /// 获取登录用户所属公司
+    /// </summary>
+    /// <returns></returns>
+    Task<string> GetLoginUserCorpId();
 
     /// <summary>
     /// 获取当前用户 Id

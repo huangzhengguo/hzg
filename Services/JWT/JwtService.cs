@@ -37,10 +37,11 @@ public class JwtService : IJwtService
         var claims = new Claim[]
         {
             new Claim(ClaimTypes.Email, userDto.Email),
-            // new Claim(ClaimTypes.Role, userDto.Roles),
+            
             new Claim(ClaimTypes.NameIdentifier, userDto.UserId.ToString()),
             // 用户所在的分组
             // new Claim("groups", userDto.Groups)
+            // new Claim(ClaimTypes.Role, userDto.Roles),
         };
 
         var issuer = _configuration[JwtOptionsConst.IssuerSettingPath];

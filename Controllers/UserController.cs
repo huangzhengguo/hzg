@@ -261,7 +261,7 @@ public class UserController : ControllerBase
     {
         // 需要所有用户数据和菜单权限数据做对比，放到前端做对比
         // 这里只获取菜单权限数据
-        var id = await _userService.GetCurrentUserId();
+        var id = await _userService.GetLoginUserId();
 
         var menus = await MenuTool.GetUserPermissionMenus(_accountContext, id);
         var responseData = new ResponseData()

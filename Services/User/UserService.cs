@@ -36,22 +36,18 @@ public class UserService : IUserService
         var user = _httpContextAccessor.HttpContext.User;
         var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        var currentUser = await _accountDbContext.Users.SingleOrDefaultAsync(u => u.Id.ToString() == userId);
-        var userInfo = new LoginUserInfo();
-        if (currentUser != null)
+        var loginUser = await _accountDbContext.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id.ToString() == userId);
+        if (loginUser != null)
         {
-            // userInfo.UserName = currentUser.Name;
-            userInfo.UserId = currentUser.Id;
-            // userInfo.Groups = currentUser.Group;
-            // userInfo.Roles = currentUser.Role;
-        }
-        else
-        {
-            userInfo.UserName = "用户";
-            userInfo.UserId = null;
+            var userInfo = new LoginUserInfo();
+
+            userInfo.UserId = loginUser.Id;
+            userInfo.CorpId = loginUser.CorpId;
+
+            return userInfo;
         }
 
-        return userInfo;
+        return null;
     }
 
     /// <summary>
@@ -61,19 +57,30 @@ public class UserService : IUserService
     public async Task<string> GetCurrentUserName()
     {
         var userInfo = await GetLoginUserInfo();
-
-        return userInfo.UserName;
+        
+        return userInfo != null ? userInfo.UserName : null;
     }
 
     /// <summary>
     /// 获取登录用户的 Id
     /// </summary>
     /// <returns></returns>
-    public async Task<Guid?> GetCurrentUserId()
+    public async Task<Guid?> GetLoginUserId()
     {
         var userInfo = await GetLoginUserInfo();
 
-        return userInfo.UserId;
+        return userInfo != null ? userInfo.UserId : null;
+    }
+
+    /// <summary>
+    /// 获取登录用户所属公司
+    /// </summary>
+    /// <returns></returns>
+    public async Task<string> GetLoginUserCorpId()
+    {
+        var userInfo = await GetLoginUserInfo();
+
+        return userInfo != null ? userInfo.CorpId : null;
     }
 
     /// <summary>
@@ -83,8 +90,12 @@ public class UserService : IUserService
     public async Task<string> GetStringUserId()
     {
         var userInfo = await GetLoginUserInfo();
+        if (userInfo != null)
+        {
+            return userInfo.UserId.ToString();
+        }
 
-        return userInfo.UserId?.ToString();
+        return null;
     }
 
     /// <summary>
@@ -121,7 +132,7 @@ public class UserService : IUserService
     /// <returns></returns>
     public async Task<bool> ModifyPassword(ModifyDto modifyDto)
     {
-        var userId = await GetCurrentUserId();
+        var userId = await GetLoginUserId();
         if (userId == null)
         {
             return false;
@@ -209,7 +220,7 @@ public class UserService : IUserService
     public async Task<string> DeleteAccount(string userId)
     {
         var responseData = ResponseTool.FailedResponseData();
-        var currentUserId = GetCurrentUserId();
+        var currentUserId = GetLoginUserId();
         if (currentUserId.ToString() != userId)
         {
             responseData.Code = ErrorCode.Illegal_Token;
