@@ -132,6 +132,10 @@ public class User : BaseAccount
     [Column("modify_time")]
     public DateTime? ModifyTime { get; set; }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <value></value>
     [Column("status")]
     public UserStatus Status { get; set; }
 

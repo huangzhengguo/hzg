@@ -100,7 +100,7 @@
 
 //         var connect = new MySqlConnector.MySqlConnection(_configuration.GetConnectionString("IotDbConnection"));
 
-//         var creator = await _userService.GetCurrentUserId();
+//         var creator = await _userService.GetLoginUserId();
 //         var enterpriseId = Guid.NewGuid().ToString();
 //         var corpId = enterpriseId;
 //         if (String.IsNullOrWhiteSpace(enterpriseDto.CorpId) == false)
