@@ -5,8 +5,8 @@ namespace Hzg.Models;
 
 public enum UserStatus
 {
-    Online = 0,
-    Offline = 1
+    Offline = 0,
+    Online = 1
 }
 
 /// <summary>

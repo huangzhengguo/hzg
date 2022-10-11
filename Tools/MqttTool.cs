@@ -1,5 +1,9 @@
 using System.Text;
+using System.Diagnostics;
 using System.Security.Cryptography;
+using MQTTnet;
+using MQTTnet.Client;
+using MQTTnet.Formatter;
 
 namespace Hzg.Tool;
 
@@ -59,5 +63,68 @@ public static class MqttTool
     public static bool VerifyMqtt(string clientId, string username, string password)
     {
         return GeneratePassword(clientId, username) == password;
+    }
+
+    /// <summary>
+    /// 创建 MQTT 客户端并连接服务器
+    /// </summary>
+    /// <param name="server"></param>
+    /// <param name="port"></param>
+    /// <param name="clientId"></param>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
+    /// <returns></returns>
+    public static async Task<IMqttClient> ConnectMqttServer(string server, int? port, string clientId, string username, string password)
+    {
+        var mqttFactory = new MqttFactory();
+        var mqttClient = mqttFactory.CreateMqttClient();
+        var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer(server, port).Build();
+
+        mqttClientOptions.ProtocolVersion = MqttProtocolVersion.V311;
+        mqttClientOptions.ClientId = clientId;
+        mqttClientOptions.Credentials = new MqttClientCredentials(username, Encoding.UTF8.GetBytes(password));
+        mqttClientOptions.KeepAlivePeriod = TimeSpan.FromSeconds(60);
+
+        await Reconnect(mqttClient, mqttClientOptions);
+
+        return mqttClient;
+    }
+
+    /// <summary>
+    /// 重连服务器
+    /// </summary>
+    /// <param name="mqttClient"></param>
+    /// <param name="mqttClientOptions"></param>
+    /// <returns></returns>
+    public static async Task Reconnect(IMqttClient mqttClient, MqttClientOptions mqttClientOptions)
+    {
+        await Task.Run(
+            async () =>
+            {
+                while(mqttClient.IsConnected == false)
+                {
+                    try
+                    {
+                        if (!await mqttClient.TryPingAsync())
+                        {
+                            await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
+                            Debug.WriteLine("连接成功!");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                    finally
+                    {
+                        if (mqttClient.IsConnected == false)
+                        {
+                            Debug.WriteLine("重新连接!");
+                            await Task.Delay(TimeSpan.FromSeconds(5));
+                        }
+                    }
+                }
+            }
+        );
     }
 }

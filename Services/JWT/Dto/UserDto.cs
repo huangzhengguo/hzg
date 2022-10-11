@@ -48,4 +48,9 @@ public class UserDto
     public string Nickname { get; set; }
     
     public string Avatar { get; set; }
+
+    public string Topic { get; set; }
+    public string MqttClientId { get; set; }
+    public string MqttUsername { get; set; }
+    public string MqttPassword { get; set; }
 }

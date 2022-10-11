@@ -16,6 +16,8 @@ public static class RedisTool
                     EndPoints = { CommonConstant.RedisServer }
                 };
 
+                options.Password = "Cyd@2020";
+
                 _redis = ConnectionMultiplexer.Connect(options);
             }
 
