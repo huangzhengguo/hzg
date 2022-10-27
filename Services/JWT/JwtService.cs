@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 using System.Text;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
@@ -38,7 +39,7 @@ public class JwtService : IJwtService
         {
             new Claim(ClaimTypes.Email, userDto.Email),
             
-            new Claim(ClaimTypes.NameIdentifier, userDto.UserId.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, userDto.Id),
             // 用户所在的分组
             // new Claim("groups", userDto.Groups)
             // new Claim(ClaimTypes.Role, userDto.Roles),

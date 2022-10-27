@@ -1,3 +1,5 @@
+using Hzg.Const;
+
 namespace Hzg.Services;
 
 /// <summary>
@@ -9,7 +11,7 @@ public class UserDto
     /// 用户id
     /// </summary>
     /// <value></value>
-    public Guid UserId { get; set; }
+    public string Id { get; set; }
 
     /// <summary>
     /// 用户名
@@ -48,6 +50,18 @@ public class UserDto
     public string Nickname { get; set; }
     
     public string Avatar { get; set; }
+
+    public string USER_AVATAR_PATH
+    {
+        get
+        {
+            if (Id == null)
+            {
+                return null;
+            }
+            return FilePath.FullFilePath(Avatar, Path.Combine(FilePath.USER_AVATAR_PATH, Id));
+        }
+    }
 
     public string Topic { get; set; }
     public string MqttClientId { get; set; }

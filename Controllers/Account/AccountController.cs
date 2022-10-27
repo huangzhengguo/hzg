@@ -174,7 +174,7 @@ public class AccountController : ControllerBase
             var userDto = new UserDto();
 
             userDto.UserName = user.Name;
-            userDto.UserId = user.Id;
+            userDto.Id = user.Id.ToString();
             userDto.Email = user.Email;
 
             var jwtToken = _jwtService.GetnerateJWTToken(userDto);

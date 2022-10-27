@@ -109,7 +109,7 @@ public static class ErrorCodeTool
                 message = "Modify Password Failed!";
                 break;  
             case ErrorCode.Reset_Password_Failed:
-                message = "Modify Password Failed!";
+                message = "Reset Password Failed!";
                 break;   
             case ErrorCode.Not_Administrator_Edit_Group_Info:
                 message = "Only the group administrator can modify the group information!";

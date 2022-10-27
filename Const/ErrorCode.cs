@@ -9,7 +9,7 @@ namespace Hzg.Const;
 public enum ErrorCode : int
 {
     // 成功错误码 20000 - 20099
-    Success = 20000,
+    Success = 0,
     Query_Success = 20001,
     Create_Success = 20002,
     Update_Success = 20003,
