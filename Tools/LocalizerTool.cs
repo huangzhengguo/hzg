@@ -7,7 +7,7 @@ namespace Hzg.Tool;
 /// </summary>
 public static class LocalizerTool
 {
-    private static string currentLanguage = "en";
+    // private static string currentLanguage = "en";
     /// <summary>
     /// 
     /// </summary>

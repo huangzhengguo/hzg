@@ -40,7 +40,7 @@ public static class ResponseTool
 /// <summary>
 /// 返回数据
 /// </summary>
-public class ResponseData
+public class ResponseData<T>
 {
     /// <summary>
     /// 错误码
@@ -58,7 +58,7 @@ public class ResponseData
     /// 数据
     /// </summary>
     /// <value></value>
-    public object Data { get; set; }
+    public T Data { get; set; }
 
     /// <summary>
     /// 根据当前错误码获取错误信息
@@ -78,4 +78,11 @@ public class ResponseData
     /// </summary>
     /// <value></value>
     public int AllDataCount { get; set; }
+}
+
+/// <summary>
+/// 返回数据，默认 objcet
+/// </summary>
+public class ResponseData : ResponseData<object>
+{
 }

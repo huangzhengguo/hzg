@@ -91,7 +91,6 @@ public class APNsService : IAPNsService
         key.KeyId = kid;
 
         var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.EcdsaSha256);
-
         var jwtHeader = new JwtHeader(signingCredentials);
         var jwtPayload = new JwtPayload(claims);
 
