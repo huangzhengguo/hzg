@@ -17,9 +17,9 @@ public class FcmService : IFcmService
     /// <param name="subtitle">子标题</param>
     /// <param name="body">通知内容</param>
     /// <returns></returns>
-    public async Task<string> PushNotification(string deviceToken, NotificationType type, string title, string subtitle, string body)
+    public async Task<ResponseData<string>> PushNotification(string deviceToken, NotificationType type, string title, string subtitle, string body)
     {
-        var responseData = ResponseTool.FailedResponseData();
+        var responseData = ResponseTool.FailedResponseData<string>();
         var message = new Message()
         {
             Data = new Dictionary<string, string>()
@@ -35,6 +35,6 @@ public class FcmService : IFcmService
 
         responseData.Code = ErrorCode.Success;
 
-        return JsonSerializerTool.SerializeDefault(responseData);
+        return responseData;
     }
 }

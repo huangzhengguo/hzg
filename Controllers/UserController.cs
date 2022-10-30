@@ -18,6 +18,7 @@ namespace Hzg.Controllers;
 [ApiController]
 [Authorize]
 [Route("api/[controller]/")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class UserController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;

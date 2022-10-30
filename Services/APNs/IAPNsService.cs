@@ -1,3 +1,5 @@
+using Hzg.Tool;
+
 namespace Hzg.Services;
 
 public interface IAPNsService
@@ -18,5 +20,5 @@ public interface IAPNsService
     /// <param name="subtitle">子标题</param>
     /// <param name="body">通知内容</param>
     /// <returns></returns>
-    Task<string> PushNotification(string apnsTopic, string deviceToken, NotificationType type, string title, string subtitle, string body);
+    Task<ResponseData<string>> PushNotification(string apnsTopic, string deviceToken, NotificationType type, string title, string subtitle, string body);
 }

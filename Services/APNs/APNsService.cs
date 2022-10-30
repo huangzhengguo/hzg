@@ -111,9 +111,9 @@ public class APNsService : IAPNsService
     /// <param name="subtitle">子标题</param>
     /// <param name="body">通知内容</param>
     /// <returns></returns>
-    public async Task<string> PushNotification(string apnsTopic, string deviceToken, NotificationType type, string title, string subtitle, string body)
+    public async Task<ResponseData<string>> PushNotification(string apnsTopic, string deviceToken, NotificationType type, string title, string subtitle, string body)
     {
-        var responseData = ResponseTool.FailedResponseData();
+        var responseData = ResponseTool.FailedResponseData<string>();
         var token = this.GetnerateAPNsJWTToken();
         var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, APNsService.baseUrl + deviceToken)
         {
@@ -150,18 +150,18 @@ public class APNsService : IAPNsService
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 responseData.Code = ErrorCode.Success;
-                return JsonSerializerTool.SerializeDefault(responseData);
+                return responseData;
             }
             else
             {
-                responseData.Data = httpResponseMessage.StatusCode;
-                return JsonSerializerTool.SerializeDefault(responseData);
+                responseData.Data = httpResponseMessage.StatusCode.ToString();
+                return responseData;
             }
         }
         catch (Exception e)
         {
             responseData.Data = e.Message;
-            return JsonSerializerTool.SerializeDefault(responseData);
+            return responseData;
         }
     }
 }

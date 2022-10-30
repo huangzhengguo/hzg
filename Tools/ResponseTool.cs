@@ -22,6 +22,19 @@ public static class ResponseTool
     }
 
     /// <summary>
+    /// 获取成功返回数据
+    /// </summary>
+    /// <param name="errorCode">错误码</param>
+    /// <returns></returns>
+    public static ResponseData<T> SuccessResponse<T>(ErrorCode errorCode = ErrorCode.Success, bool showMsg = false)
+    {
+        return new ResponseData<T>()
+        {
+            Code = ErrorCode.Success
+        };
+    }
+
+    /// <summary>
     /// 获取失败返回数据
     /// </summary>
     /// <param name="errorCode"></param>
@@ -30,6 +43,22 @@ public static class ResponseTool
     public static ResponseData FailedResponseData(ErrorCode errorCode = ErrorCode.Failed, object data = null, bool showMsg = false)
     {
         return new ResponseData()
+        {
+            Code = errorCode,
+            ShowMsg = showMsg
+        };
+    }
+
+    /// <summary>
+    /// 获取失败返回数据
+    /// </summary>
+    /// <param name="errorCode">错误码</param>
+    /// <param name="showMsg">是否显示错误</param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public static ResponseData<T> FailedResponseData<T>(ErrorCode errorCode = ErrorCode.Failed, bool showMsg = false)
+    {
+        return new ResponseData<T>()
         {
             Code = errorCode,
             ShowMsg = showMsg
