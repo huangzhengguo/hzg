@@ -20,6 +20,7 @@ namespace Radians.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/[controller]/")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class AccountController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
@@ -179,13 +180,13 @@ public class AccountController : ControllerBase
 
             var jwtToken = _jwtService.GetnerateJWTToken(userDto);
 
-
-            var menusToReturn = await MenuTool.GetUserPermissionMenus(_accountContext, user.Name);
+            var menusToReturn = await MenuTool.GetUserPermissionMenus(_accountContext, user.Id);
 
             result.Data = new
             {
                 token = jwtToken,
-                menuData = menusToReturn
+                menuData = menusToReturn,
+                corpId = user.CorpId
             };
 
             return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
@@ -202,9 +203,9 @@ public class AccountController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("[action]")]
-    public IActionResult LogOut()
+    public async Task<ResponseData<string>> LogOut()
     {
-        return new OkObjectResult(new { code = 20000 });
+        return await this._userService.Logout();
     }
 
     /// <summary>

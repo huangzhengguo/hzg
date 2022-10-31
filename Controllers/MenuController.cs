@@ -16,6 +16,7 @@ namespace Hzg.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/[controller]/")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class MenuController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;

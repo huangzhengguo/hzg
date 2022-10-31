@@ -20,6 +20,7 @@ namespace Ledinpro.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/[controller]/")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class MenuPermissionController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;

@@ -1,7 +1,6 @@
-using System;
-using System.Threading.Tasks;
 using Hzg.Models;
 using Hzg.Dto;
+using Hzg.Tool;
 
 namespace Hzg.Services;
 
@@ -76,4 +75,10 @@ public interface IUserService
     /// <param name="userId"></param>
     /// <returns></returns>
     Task<string> DeleteAccount(string userId);
+
+    /// <summary>
+    /// 退出登录
+    /// </summary>
+    /// <returns></returns>
+    Task<ResponseData<string>> Logout();
 }

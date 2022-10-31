@@ -5,7 +5,7 @@ namespace Hzg.Const;
 /// </summary>
 public static class FilePath
 {
-    private static readonly string FILE_SERVER = "http://www.ik62307818.goho.co:9004/";
+    private static readonly string FILE_SERVER = "http://ik62307818.goho.co:9004/";
     private static readonly string FILE_ROOT_PATH = "wwwroot/";
     // 用户头像路径
     public static readonly string USER_AVATAR_PATH = "file/userfile/avatar/";

@@ -246,4 +246,23 @@ public class UserService : IUserService
 
         return JsonSerializerTool.SerializeDefault(responseData); 
     }
+
+    /// <summary>
+    /// 退出登录
+    /// </summary>
+    /// <returns></returns>
+    public async Task<ResponseData<string>> Logout()
+    {
+        var responseData = ResponseTool.FailedResponseData<string>();
+        var currentUserId = await GetLoginUserId();
+        if (currentUserId == null) {
+            responseData.Code = ErrorCode.Illegal_Token;
+
+            return responseData;
+        }
+
+        responseData.Code = ErrorCode.Success;
+
+        return responseData;
+    }
 }
