@@ -126,14 +126,15 @@ public class User : BaseAccount
     [Column("settings")]
     public string Settings { get; set; }
 
+    /// <summary>
+    /// 注册时间
+    /// </summary>
+    /// <value></value>
     [Column("user_regtime")]
     public DateTime? UserRegtime { get; set; }
 
-    [Column("modify_time")]
-    public DateTime? ModifyTime { get; set; }
-
     /// <summary>
-    /// 
+    /// 用户状态
     /// </summary>
     /// <value></value>
     [Column("status")]
