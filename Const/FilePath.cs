@@ -1,3 +1,6 @@
+using System.Text;
+using System.Diagnostics;
+
 namespace Hzg.Const;
 
 /// <summary>
@@ -5,7 +8,7 @@ namespace Hzg.Const;
 /// </summary>
 public static class FilePath
 {
-    private static readonly string FILE_SERVER = "http://ik62307818.goho.co:9004/";
+    private static readonly string FILE_SERVER = "http://192.168.0.108:9004";
     private static readonly string FILE_ROOT_PATH = "wwwroot/";
     // 用户头像路径
     public static readonly string USER_AVATAR_PATH = "file/userfile/avatar/";
@@ -33,7 +36,16 @@ public static class FilePath
     /// <returns></returns>
     public static string FullFilePath(string fileName, string filePath)
     {
-        return string.IsNullOrWhiteSpace(fileName) == false ? (Path.Combine(FILE_SERVER, filePath, fileName)) : null;
+        // var absFilePath = string.IsNullOrWhiteSpace(fileName) == false ? (Path.Combine(FILE_SERVER, filePath, Uri.EscapeDataString(fileName))) : null;
+        var absFilePath = string.IsNullOrWhiteSpace(fileName) == false ? (Path.Combine(FILE_SERVER, filePath, Uri.EscapeDataString(fileName))) : null;
+        if (absFilePath == null)
+        {
+            return null;
+        }
+
+        Debug.WriteLine(absFilePath);
+
+        return absFilePath;
     }
 
     /// <summary>

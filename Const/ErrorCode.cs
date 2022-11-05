@@ -102,6 +102,8 @@ public enum ErrorCode : int
     Sub_Product_Not_Exist = 21038,
     // 请选择产品
     Please_Select_Product = 21039,
+    // 一次最多绑定的设备
+    Max_Bind_Count = 21040,
 
     // 不存在
     NotExist = 20040

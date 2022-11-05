@@ -51,18 +51,6 @@ public class UserDto
     
     public string Avatar { get; set; }
 
-    public string USER_AVATAR_PATH
-    {
-        get
-        {
-            if (Id == null)
-            {
-                return null;
-            }
-            return FilePath.FullFilePath(Avatar, Path.Combine(FilePath.USER_AVATAR_PATH, Id));
-        }
-    }
-
     public string Topic { get; set; }
     public string MqttClientId { get; set; }
     public string MqttUsername { get; set; }

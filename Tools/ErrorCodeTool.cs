@@ -159,6 +159,9 @@ public static class ErrorCodeTool
             case ErrorCode.Please_Select_Product:
                 message = "Please select product!";
                 break;
+            case ErrorCode.Max_Bind_Count:
+                message = "Once bind max to 10!";
+                break;
             default:
                 message = null;
                 break;
