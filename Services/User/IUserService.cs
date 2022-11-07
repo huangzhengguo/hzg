@@ -28,6 +28,12 @@ public interface IUserService
     Task<Guid?> GetLoginUserId();
 
     /// <summary>
+    /// 检测当前用户是否有效
+    /// </summary>
+    /// <returns></returns>
+    Task<bool> CheckToken();
+
+    /// <summary>
     /// 获取登录用户所属公司
     /// </summary>
     /// <returns></returns>

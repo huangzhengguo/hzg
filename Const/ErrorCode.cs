@@ -104,6 +104,8 @@ public enum ErrorCode : int
     Please_Select_Product = 21039,
     // 一次最多绑定的设备
     Max_Bind_Count = 21040,
+    // 没有权限
+    Has_No_Permission = 21041,
 
     // 不存在
     NotExist = 20040

@@ -59,15 +59,5 @@ public class UserInfoDto
     /// 头像路径
     /// </summary>
     /// <value></value>
-    public string AvatarPath
-    {
-        get
-        {
-            if (Id == null)
-            {
-                return null;
-            }
-            return FilePath.FullFilePath(Avatar, Path.Combine(FilePath.USER_AVATAR_PATH, Id.ToString()));
-        }
-    } 
+    public string AvatarPath { get; set; }
 }

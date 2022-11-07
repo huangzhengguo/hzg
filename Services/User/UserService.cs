@@ -73,6 +73,21 @@ public class UserService : IUserService
     }
 
     /// <summary>
+    /// 检测当前用户是否有效
+    /// </summary>
+    /// <returns></returns>
+    public async Task<bool> CheckToken()
+    {
+        var currentUserId = await GetLoginUserId();
+        if (currentUserId == null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
     /// 获取登录用户所属公司
     /// </summary>
     /// <returns></returns>

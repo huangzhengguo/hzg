@@ -162,6 +162,9 @@ public static class ErrorCodeTool
             case ErrorCode.Max_Bind_Count:
                 message = "Once bind max to 10!";
                 break;
+            case ErrorCode.Has_No_Permission:
+                message = "Has No Permission!";
+                break;
             default:
                 message = null;
                 break;
