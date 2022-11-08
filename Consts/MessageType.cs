@@ -1,4 +1,4 @@
-namespace Hzg.Const;
+namespace Hzg.Consts;
 
 public enum MessageType : int
 {

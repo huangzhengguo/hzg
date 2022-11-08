@@ -1,6 +1,6 @@
 using StackExchange.Redis;
 using Microsoft.Extensions.Configuration;
-using Hzg.Const;
+using Hzg.Consts;
 using Hzg.Tool;
 
 using System.Diagnostics;

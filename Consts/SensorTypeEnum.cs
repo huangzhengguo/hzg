@@ -1,4 +1,4 @@
-namespace Hzg.Const;
+namespace Hzg.Consts;
 
 /// <summary>
 /// 传感器类型

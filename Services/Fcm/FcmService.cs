@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using FirebaseAdmin.Messaging;
 using Hzg.Tool;
-using Hzg.Const;
+using Hzg.Consts;
 
 namespace Hzg.Services;
 

@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Hzg.Const;
+namespace Hzg.Consts;
 
 /// <summary>
 /// 错误码常量：前三个数字错误分类，后三个数字标识具体错误

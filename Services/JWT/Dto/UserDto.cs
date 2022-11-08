@@ -1,4 +1,4 @@
-using Hzg.Const;
+using Hzg.Consts;
 
 namespace Hzg.Services;
 

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Hzg.Data;
 using Hzg.Models;
-using Hzg.Const;
+using Hzg.Consts;
 using Hzg.Tool;
 using Hzg.Services;
 

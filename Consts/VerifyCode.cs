@@ -1,4 +1,4 @@
-namespace Hzg.Const;
+namespace Hzg.Consts;
 
 /// <summary>
 /// 验证码类型

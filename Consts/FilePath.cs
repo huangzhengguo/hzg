@@ -1,7 +1,7 @@
 using System.Text;
 using System.Diagnostics;
 
-namespace Hzg.Const;
+namespace Hzg.Consts;
 
 /// <summary>
 /// 文件路径

@@ -6,7 +6,7 @@ using static System.Net.Mime.MediaTypeNames;
 using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
 using Hzg.Tool;
-using Hzg.Const;
+using Hzg.Consts;
 
 namespace Hzg.Services;
 

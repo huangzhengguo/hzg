@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Hzg.Data;
-using Hzg.Const;
+using Hzg.Consts;
 using Hzg.Models;
 using Hzg.Services;
 using Hzg.Tool;

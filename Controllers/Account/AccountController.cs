@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Hzg.Data;
 using Hzg.Services;
 using Hzg.Models;
-using Hzg.Const;
+using Hzg.Consts;
 using Hzg.Tool;
 
 namespace Radians.Controllers;

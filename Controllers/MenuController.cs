@@ -6,7 +6,7 @@ using Hzg.Services;
 using Hzg.Data;
 using Hzg.Models;
 using Hzg.Tool;
-using Hzg.Const;
+using Hzg.Consts;
 
 namespace Hzg.Controllers;
 

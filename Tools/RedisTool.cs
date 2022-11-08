@@ -1,5 +1,5 @@
 using StackExchange.Redis;
-using Hzg.Const;
+using Hzg.Consts;
 
 namespace Hzg.Tool;
 
