@@ -91,7 +91,7 @@ public enum ErrorCode : int
     // 产品不存在
     Product_Not_Exist = 21033,
     // 公司不存在
-    Corp_Not_Exist = 21034,
+    Brand_Not_Exist = 21034,
     // 管理禁止退出分组
     Admin_Not_Allow_Leave_Group = 21035,
     // 禁止普通用户添加
@@ -106,6 +106,8 @@ public enum ErrorCode : int
     Max_Bind_Count = 21040,
     // 没有权限
     Has_No_Permission = 21041,
+    // 产品已存在
+    Has_Exist = 21042,
 
     // 不存在
     NotExist = 20040

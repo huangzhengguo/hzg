@@ -12,7 +12,7 @@ public class ResetDto
     /// </summary>
     /// <value></value>
     [Required]
-    public String CorpId { get; set; }
+    public String Brand { get; set; }
 
     /// <summary>
     /// 邮箱

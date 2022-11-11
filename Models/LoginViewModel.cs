@@ -36,5 +36,5 @@ public class LoginViewModel
     /// 公司标识
     /// </summary>
     /// <value></value>
-    public string CorpId { get; set; }
+    public String Brand { get; set; }
 }

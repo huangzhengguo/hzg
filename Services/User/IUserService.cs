@@ -48,10 +48,10 @@ public interface IUserService
     /// <summary>
     /// 用户是否存在
     /// </summary>
-    /// <param name="corpid">公司ID</param>
+    /// <param name="brand">公司ID</param>
     /// <param name="email">邮箱</param>
     /// <returns></returns>
-    Task<(bool isExist, string errorMessage)> IsUserExist(String corpid, String email);
+    Task<(bool isExist, string errorMessage)> IsUserExist(String brand, String email);
 
     /// <summary>
     /// 重置密码

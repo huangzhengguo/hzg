@@ -78,7 +78,7 @@ public class User : BaseAccount
     /// </summary>
     [Column("corp_id")]
     [MaxLength(16)]
-    public string CorpId { get; set; }
+    public String Brand { get; set; }
 
     /// <summary>
     /// 头像

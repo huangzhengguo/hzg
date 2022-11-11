@@ -28,7 +28,7 @@ public static class DatabaseSeedTool
             admin.Name = "Admin";
             admin.Nickname = "Nickname";
             admin.Salt = "Admin";
-            admin.CorpId = "RADIANS";
+            admin.Brand = "RADIANS";
             admin.Password = MD5Tool.Encrypt("Admin", "Admin");
             admin.Email = "";
             admin.CreateTime = DateTime.Now;

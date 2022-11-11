@@ -42,7 +42,7 @@ public class UserService : IUserService
             var userInfo = new LoginUserInfo();
 
             userInfo.UserId = loginUser.Id;
-            userInfo.CorpId = loginUser.CorpId;
+            userInfo.Brand = loginUser.Brand;
 
             return userInfo;
         }
@@ -95,7 +95,7 @@ public class UserService : IUserService
     {
         var userInfo = await GetLoginUserInfo();
 
-        return userInfo != null ? userInfo.CorpId : null;
+        return userInfo != null ? userInfo.Brand : null;
     }
 
     /// <summary>
@@ -116,12 +116,12 @@ public class UserService : IUserService
     /// <summary>
     /// 用户是否存在
     /// </summary>
-    /// <param name="corpid">公司ID</param>
+    /// <param name="brand">公司ID</param>
     /// <param name="email">邮箱</param>
     /// <returns></returns>
-    public async Task<(bool, string)> IsUserExist(String corpid, String email)
+    public async Task<(bool, string)> IsUserExist(String brand, String email)
     {
-        if (corpid == null)
+        if (brand == null)
         {
             return (false, _localizerService.Localizer("corpidCannotEmpty"));
         }
@@ -131,7 +131,7 @@ public class UserService : IUserService
             return (false, _localizerService.Localizer("emailCannotEmpty"));
         }
 
-        var user = await _accountDbContext.Users.SingleOrDefaultAsync(u => u.CorpId == corpid && u.Email == email);
+        var user = await _accountDbContext.Users.SingleOrDefaultAsync(u => u.Brand == brand && u.Email == email);
         if (user != null)
         {
             return (true, _localizerService.Localizer("thisUserAlreadyExists"));
@@ -185,7 +185,7 @@ public class UserService : IUserService
             // 删除 Redis 中的验证码
             RedisTool.DeleteStringValue(verifyCodeKey);
 
-            var user = await _accountDbContext.Users.SingleOrDefaultAsync(u => u.Email == resetDto.Email && u.CorpId == resetDto.CorpId);
+            var user = await _accountDbContext.Users.SingleOrDefaultAsync(u => u.Email == resetDto.Email && u.Brand == resetDto.Brand);
             
             user.Salt = RandomTool.GenerateDigitalAlphabetCode(6);
             user.Password = MD5Tool.Encrypt(resetDto.NewPassword, user.Salt);

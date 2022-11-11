@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Linq;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -186,7 +185,7 @@ public class AccountController : ControllerBase
             {
                 token = jwtToken,
                 menuData = menusToReturn,
-                corpId = user.CorpId
+                Brand = user.Brand
             };
 
             return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());

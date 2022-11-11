@@ -16,7 +16,7 @@ public static class ErrorMessage
         { "thisUserAlreadyExists", "This user already exists!" }, // 用户已存在
         { "thisUserNotExists", "This User Not Exists!" },
         { "corpidDoesNotExist", "corpid does not exist!" }, // 公司 Id 不存在
-        { "corpidCannotEmpty", "CorpId Can not Empty!" },   // 公司 Id 不能为空
+        { "corpidCannotEmpty", "Brand Can not Empty!" },   // 公司 Id 不能为空
         { "emailCannotEmpty", "Email Can not Empty!" }   // 邮箱不能为空
     };
 }

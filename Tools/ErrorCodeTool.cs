@@ -141,8 +141,8 @@ public static class ErrorCodeTool
             case ErrorCode.Product_Not_Exist:
                 message = "Product not exist!";
                 break; 
-            case ErrorCode.Corp_Not_Exist:
-                message = "Corp not exist!";
+            case ErrorCode.Brand_Not_Exist:
+                message = "Brand not exist!";
                 break;
             case ErrorCode.Admin_Not_Allow_Leave_Group:
                 message = "The administrator is not allowed to leave the group!";
@@ -164,6 +164,9 @@ public static class ErrorCodeTool
                 break;
             case ErrorCode.Has_No_Permission:
                 message = "Has No Permission!";
+                break;
+            case ErrorCode.Has_Exist:
+                message = "Item has exist!";
                 break;
             default:
                 message = null;

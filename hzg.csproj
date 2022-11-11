@@ -19,11 +19,9 @@
     <PackageReference Include="MQTTnet" Version="4.1.1.318" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
     <PackageReference Include="StackExchange.Redis" Version="2.6.48" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.14.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
     <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
-    <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
   </ItemGroup>
 

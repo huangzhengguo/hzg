@@ -17,7 +17,7 @@ public class LoginUserInfo
     /// 公司
     /// </summary>
     /// <value></value>
-    public string CorpId { get; set; }
+    public String Brand { get; set; }
 
     /// <summary>
     /// 用户名

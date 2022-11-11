@@ -17,26 +17,26 @@ public static class MqttTool
     /// <summary>
     /// 生成 ClientId
     /// </summary>
-    /// <param name="corpId"></param>
+    /// <param name="brand"></param>
     /// <param name="productKey"></param>
     /// <param name="deviceId"></param>
     /// <param name="accessKey"></param>
     /// <returns></returns>
-    public static string GenerateClientId(string corpId, string productKey, string deviceId)
+    public static string GenerateClientId(String brand, string productKey, string deviceId)
     {
-        return corpId + "." + productKey + "." + deviceId + "|" + MqttTool.accessKey;
+        return brand + "." + productKey + "." + deviceId + "|" + MqttTool.accessKey;
     }
 
     /// <summary>
     /// 生成 UserName
     /// </summary>
-    /// <param name="corpId"></param>
+    /// <param name="brand"></param>
     /// <param name="productKey"></param>
     /// <param name="deviceId"></param>
     /// <returns></returns>
-    public static string GenerateUsername(string corpId, string productKey, string deviceId)
+    public static string GenerateUsername(String brand, string productKey, string deviceId)
     {
-        return corpId + "&" + productKey + "&" + deviceId;
+        return brand + "&" + productKey + "&" + deviceId;
     }
 
     /// <summary>
@@ -51,6 +51,22 @@ public static class MqttTool
         var hmacsha1 = new HMACSHA1(Encoding.UTF8.GetBytes(MqttTool.accessSecret));
 
         return Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.UTF8.GetBytes(username)));
+    }
+
+    /// <summary>
+    /// 生成 username
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="username"></param>
+    /// <param name="deviceId"></param>
+    /// <returns></returns>
+    public static (string clientid, string username, string password) GenerateMqttParam(String brand, string productKey, string deviceId)
+    {
+        var clientid = MqttTool.GenerateClientId(brand, productKey, deviceId);
+        var username = MqttTool.GenerateUsername(brand, productKey, deviceId);
+        var password = MqttTool.GeneratePassword(clientid, username);
+
+        return (clientid, username, password);
     }
 
     /// <summary>
