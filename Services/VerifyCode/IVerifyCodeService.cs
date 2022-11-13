@@ -1,3 +1,6 @@
+using Hzg.Tool;
+using Hzg.Consts;
+
 namespace Hzg.Services;
 
 public interface IVerifyCodeService
@@ -7,12 +10,12 @@ public interface IVerifyCodeService
     /// </summary>
     /// <param name="email"></param>
     /// <returns></returns>
-    (bool valid, String result) GenerateEmailRegisterVerifycode(String email);
+    ResponseData<string> GenerateEmailRegisterVerifycode(String email);
 
     /// <summary>
     /// 生成验证码并保存到 Redis
     /// </summary>
     /// <param name="email"></param>
     /// <returns></returns>
-    public (bool valid, String result) GenerateEmailResetPasswordVerifycode(String email);
+    ResponseData<string> GenerateEmailResetPasswordVerifycode(String email);
 }

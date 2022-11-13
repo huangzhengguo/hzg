@@ -151,6 +151,8 @@ public class MinioService : IMinioService
         {
             // 更新图片
             var result = await this.UploadFile(bucketName, filePath, formFile, autoName);
+
+            fileName = result.fileName;
         }
 
         return fileName;

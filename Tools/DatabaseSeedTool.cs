@@ -144,7 +144,7 @@ public static class DatabaseSeedTool
         productManagement1.ComponentPath = "productmanagement/amazonproduct/product";
         productManagement1.Name = "ProductClassifyProductManagement";
         productManagement1.Path = "productclassifyproductmanagement";
-        productManagement1.Meta = $"{"keepAlive": false}";
+        productManagement1.Meta = "{\"keepAlive\": false}";
 
         // 产品轮播图管理
         var productCarouselManagement = new Menu();
@@ -158,7 +158,7 @@ public static class DatabaseSeedTool
         productCarouselManagement.ComponentPath = "productmanagement/amazonproduct/productcarousel";
         productCarouselManagement.Name = "ProductCarouselProductManagement";
         productCarouselManagement.Path = "productcarouselproductmanagement";
-        productManagement1.Meta = $"{"keepAlive": false}";
+        productCarouselManagement.Meta = "{\"keepAlive\": false}";
 
         #endregion
 

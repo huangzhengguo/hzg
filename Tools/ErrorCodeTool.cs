@@ -168,6 +168,12 @@ public static class ErrorCodeTool
             case ErrorCode.Has_Exist:
                 message = "Item has exist!";
                 break;
+            case ErrorCode.Email_Format_Error:
+                message = "The EMail format is invalid!";
+                break;
+            case ErrorCode.Verify_Code_Too_Frequency_Tepmlete:
+                message = "Verification codes are sent too frequency! Please wait for {0}" + " Seconds.";
+                break;
             default:
                 message = null;
                 break;

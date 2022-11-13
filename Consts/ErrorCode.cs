@@ -108,6 +108,10 @@ public enum ErrorCode : int
     Has_No_Permission = 21041,
     // 产品已存在
     Has_Exist = 21042,
+    // 邮箱格式不正确
+    Email_Format_Error = 21043,
+    // 验证码发送频繁模板
+    Verify_Code_Too_Frequency_Tepmlete = 21044,
 
     // 不存在
     NotExist = 20040

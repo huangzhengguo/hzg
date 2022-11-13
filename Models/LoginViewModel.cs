@@ -33,7 +33,7 @@ public class LoginViewModel
     public bool RememberMe { get; set; }
 
     /// <summary>
-    /// 公司标识
+    /// 品牌
     /// </summary>
     /// <value></value>
     public String Brand { get; set; }

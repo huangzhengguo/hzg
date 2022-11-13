@@ -1,9 +1,6 @@
-using StackExchange.Redis;
 using Microsoft.Extensions.Configuration;
 using Hzg.Consts;
 using Hzg.Tool;
-
-using System.Diagnostics;
 
 namespace Hzg.Services;
 
@@ -25,7 +22,7 @@ public class VerifyCodeService : IVerifyCodeService
     /// </summary>
     /// <param name="email"></param>
     /// <returns></returns>
-    public (bool valid, String result) GenerateEmailRegisterVerifycode(String email)
+    public ResponseData<string> GenerateEmailRegisterVerifycode(String email)
     {
         return GenerateEmailVerifycode(CommonConstant.EMAIL_REGISTER_CODE_KEY, email);
     }
@@ -35,7 +32,7 @@ public class VerifyCodeService : IVerifyCodeService
     /// </summary>
     /// <param name="email"></param>
     /// <returns></returns>
-    public (bool valid, String result) GenerateEmailResetPasswordVerifycode(String email)
+    public ResponseData<string> GenerateEmailResetPasswordVerifycode(String email)
     {
         return GenerateEmailVerifycode(CommonConstant.EMAIL_RESETPSW_CODE_KEY, email);
     }
@@ -46,12 +43,13 @@ public class VerifyCodeService : IVerifyCodeService
     /// <param name="typePrefix"></param>
     /// <param name="email"></param>
     /// <returns></returns>
-    private (bool valid, String result) GenerateEmailVerifycode(string typePrefix, string email)
+    private ResponseData<string> GenerateEmailVerifycode(string typePrefix, string email)
     {
+        var responseData = ResponseTool.FailedResponseData<string>();
         // 验证邮箱格式
         if (EmailTool.ValidateEmail(email) == false)
         {
-            return (false, "The mailbox format is invalid");
+            responseData.Code = ErrorCode.Email_Format_Error;
         }
 
         // 存储到 Redis
@@ -64,7 +62,9 @@ public class VerifyCodeService : IVerifyCodeService
 
             if (usedSeconds < EMAIL_CODE_INTERVAL)
             {
-                return (false, "Verification codes are sent too frequency! Please wait for " + (EMAIL_CODE_INTERVAL - usedSeconds) + " Seconds.");
+                responseData.Message = string.Format(ErrorCodeTool.GetErrorMessage(ErrorCode.Verify_Code_Too_Frequency_Tepmlete), EMAIL_CODE_INTERVAL - usedSeconds);
+
+                return responseData;
             }
         }
 
@@ -72,7 +72,10 @@ public class VerifyCodeService : IVerifyCodeService
 
         RedisTool.SetStringValue(key, code, CommonConstant.CODE_TIME);
 
-        return (true, code);
+        responseData.Data = code;
+        responseData.Code = ErrorCode.Success;
+
+        return responseData;
     }
 
 }

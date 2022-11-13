@@ -89,6 +89,8 @@ public class ResponseData<T>
     /// <value></value>
     public T Data { get; set; }
 
+    private string _messsage { get; set; }
+
     /// <summary>
     /// 根据当前错误码获取错误信息
     /// </summary>
@@ -96,9 +98,17 @@ public class ResponseData<T>
     public string Message {
         get 
         {
-            var msg = ErrorCodeTool.GetErrorMessage(Code);
+            if (_messsage == null)
+            {
+                return ErrorCodeTool.GetErrorMessage(Code);
+            }
 
-            return msg;
+            return _messsage;
+        }
+
+        set
+        {
+            _messsage = value;
         }
     }
 
