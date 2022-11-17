@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Hzg.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -21,7 +21,6 @@
     <PackageReference Include="StackExchange.Redis" Version="2.6.48" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.14.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
-    <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
     <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
   </ItemGroup>
 

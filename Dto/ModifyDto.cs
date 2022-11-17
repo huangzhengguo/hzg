@@ -12,12 +12,12 @@ public class ModifyDto
     /// </summary>
     /// <value></value>
     [Required]
-    public String old_password { get; set; }
+    public String OldPassword { get; set; }
 
     /// <summary>
     /// 新密码
     /// </summary>
     /// <value></value>
     [Required]
-    public String new_password { get; set; }
+    public String NewPassword { get; set; }
 }

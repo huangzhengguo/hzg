@@ -22,10 +22,10 @@ public class FcmService : IFcmService
         var responseData = ResponseTool.FailedResponseData<string>();
         var message = new Message()
         {
-            Data = new Dictionary<string, string>()
+            Notification = new Notification()
             {
-                { "score", "900" },
-                { "time", "03:00" }
+                Title = title,
+                Body = body
             },
             Token = deviceToken
         };

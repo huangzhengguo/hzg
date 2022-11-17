@@ -154,12 +154,12 @@ public class UserService : IUserService
         }
 
         var user = await _accountDbContext.Users.SingleOrDefaultAsync(u => u.Id == userId);
-        if (user.Password != MD5Tool.Encrypt(modifyDto.old_password, user.Salt))
+        if (user.Password != MD5Tool.Encrypt(modifyDto.OldPassword, user.Salt))
         {
             return false;
         }
 
-        user.Password = MD5Tool.Encrypt(modifyDto.new_password, user.Salt);
+        user.Password = MD5Tool.Encrypt(modifyDto.NewPassword, user.Salt);
 
         _accountDbContext.Users.Update(user);
 
