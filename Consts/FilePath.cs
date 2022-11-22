@@ -55,37 +55,4 @@ public static class FilePath
     {
         return Path.Combine("file/instruction", id);
     }
-
-    private static readonly string FILE_SERVER = "http://192.168.0.108:9004";
-    private static readonly string FILE_ROOT_PATH = "wwwroot/";
-
-    /// <summary>
-    /// 文件绝对路径
-    /// </summary>
-    /// <param name="fileName"></param>
-    /// <param name="filePath"></param>
-    /// <returns></returns>
-    public static string FullFilePath(string fileName, string filePath)
-    {
-        var absFilePath = string.IsNullOrWhiteSpace(fileName) == false ? (Path.Combine(FILE_SERVER, filePath, Uri.EscapeDataString(fileName))) : null;
-        if (absFilePath == null)
-        {
-            return null;
-        }
-
-        Debug.WriteLine(absFilePath);
-
-        return absFilePath;
-    }
-
-    /// <summary>
-    /// 文件相对路径
-    /// </summary>
-    /// <param name="fileName"></param>
-    /// <param name="filePath"></param>
-    /// <returns></returns>
-    public static string RelativeFilePath(string filePath)
-    {
-        return Path.Combine(FILE_ROOT_PATH, filePath);
-    }
 }
