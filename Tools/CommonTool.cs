@@ -43,5 +43,17 @@ public static class CommonTool
         }
     }
 
-    
+    /// <summary>
+    /// 转换
+    /// </summary>
+    /// <param name="kr"></param>
+    /// <returns></returns>
+    public static DT SelectConvertFunc<DT, ST>(ST kr) where DT : new()
+    {
+        var vo = new DT();
+
+        CommonTool.CopyProperties(kr, vo);
+
+        return vo;
+    }
 }
