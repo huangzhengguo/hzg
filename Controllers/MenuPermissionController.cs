@@ -19,7 +19,7 @@ namespace Ledinpro.Controllers;
 /// </summary>
 [Authorize]
 [ApiController]
-[Route("api/[controller]/")]
+[Route("api/account/menu_permission/")]
 [ApiExplorerSettings(IgnoreApi = true)]
 public class MenuPermissionController : ControllerBase
 {

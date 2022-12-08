@@ -20,7 +20,7 @@ namespace Hzg.Controllers;
 /// </summary>
 [ApiController]
 [Authorize]
-[Route("api/[controller]/")]
+[Route("api/account/group/")]
 [ApiExplorerSettings(IgnoreApi = true)]
 public class GroupController : ControllerBase
 {

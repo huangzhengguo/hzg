@@ -2,22 +2,19 @@ using System;
 
 namespace Hzg.Models;
 
-/// <summary>
-/// 登录用户的信息
-/// </summary>
-public class LoginUserInfo
+public class LoginUserInfo<T>
 {
     /// <summary>
     /// 用户id
     /// </summary>
     /// <value></value>
-    public Guid? UserId { get; set; }
+    public T UserId { get; set; }
 
     /// <summary>
     /// 公司
     /// </summary>
     /// <value></value>
-    public String Brand { get; set; }
+    public string Brand { get; set; }
 
     /// <summary>
     /// 用户名
@@ -48,4 +45,11 @@ public class LoginUserInfo
     /// </summary>
     /// <value></value>
     public string Phone { get; set; }
+}
+
+/// <summary>
+/// 登录用户的信息
+/// </summary>
+public class LoginUserInfo: LoginUserInfo<Guid>
+{
 }

@@ -17,7 +17,7 @@ namespace Hzg.Controllers;
 /// </summary>
 [ApiController]
 [Authorize]
-[Route("api/[controller]/")]
+[Route("api/account/user/")]
 [ApiExplorerSettings(IgnoreApi = true)]
 public class UserController : ControllerBase
 {

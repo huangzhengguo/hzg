@@ -18,7 +18,7 @@ namespace Radians.Controllers;
 /// </summary>
 [Authorize]
 [ApiController]
-[Route("api/[controller]/")]
+[Route("api/account/")]
 [ApiExplorerSettings(IgnoreApi = true)]
 public class AccountController : ControllerBase
 {

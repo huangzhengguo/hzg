@@ -38,7 +38,6 @@ public class JwtService : IJwtService
         var claims = new Claim[]
         {
             new Claim(ClaimTypes.Email, userDto.Email),
-            
             new Claim(ClaimTypes.NameIdentifier, userDto.Id),
             // 用户所在的分组
             // new Claim("groups", userDto.Groups)

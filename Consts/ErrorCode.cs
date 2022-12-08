@@ -112,6 +112,8 @@ public enum ErrorCode : int
     Email_Format_Error = 21043,
     // 验证码发送频繁模板
     Verify_Code_Too_Frequency_Tepmlete = 21044,
+    // 已关闭
+    Has_Closed = 21045,
 
     // 不存在
     NotExist = 20040

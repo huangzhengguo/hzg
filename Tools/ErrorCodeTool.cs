@@ -174,6 +174,9 @@ public static class ErrorCodeTool
             case ErrorCode.Verify_Code_Too_Frequency_Tepmlete:
                 message = "Verification codes are sent too frequency! Please wait for {0}" + " Seconds.";
                 break;
+            case ErrorCode.Has_Closed:
+                message = "Has closed.";
+                break;
             default:
                 message = null;
                 break;
