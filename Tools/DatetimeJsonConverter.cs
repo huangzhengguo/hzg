@@ -11,11 +11,17 @@ public class DatetimeJsonConverter : JsonConverter<DateTime>
 {
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return reader.GetDateTime();
+        return DateTime.Parse(reader.GetString());
     }
+
+    // public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    // {
+    //     Debug.Assert(typeToConvert == typeof(DateTimeOffset));
+    //     return DateTimeOffset.Parse(reader.GetString());
+    // }
 
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString("yyyy-MM-dd"));
+        writer.WriteStringValue(value.ToString("yyyy-MM-dd HH:mm:ss"));
     }
 }
