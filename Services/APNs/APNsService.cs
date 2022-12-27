@@ -52,7 +52,7 @@ public class APNsService : IAPNsService
     private string GetnerateAPNsJWTToken(string oldToken)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var iat = ((DateTime.UtcNow.Ticks - new DateTime(1970, 1, 1).Ticks) / TimeSpan.TicksPerSecond);
+        var iat = DateTimeTool.UtcNowUnixTimeSeconds();
 
         // 判断原 token 是否超过 50 分钟，如果未超过，直接返回
         if (string.IsNullOrWhiteSpace(oldToken) == false)
