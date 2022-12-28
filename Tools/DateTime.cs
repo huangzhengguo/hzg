@@ -22,4 +22,15 @@ public class DateTimeTool
     {
         return new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
     }
+
+    /// <summary>
+    /// 转换毫秒为 UTC 时间
+    /// </summary>
+    /// <param name="milliseconds">毫秒数</param>
+    /// <param name="format">时间格式</param>
+    /// <returns></returns>
+    public static string MillisecondsToFormatDate(long milliseconds, string format = "yyyy-MM-dd HH:mm:ss")
+    {
+        return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds).UtcDateTime.ToString(format);
+    }
 }

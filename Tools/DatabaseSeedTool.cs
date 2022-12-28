@@ -171,6 +171,10 @@ public static class DatabaseSeedTool
 
         #endregion
 
+        // 设备管理
+        var deviceManagement = await GenerateMenu(context, "设备管理", true, false, "DeviceManagement", "", "/device/");
+        var subDeviceManagement = await GenerateMenu(context, "设备", false, true, "SubDeviceManagement", "device/device", "device", true, deviceManagement.Id);
+
         // 说明书
         var instructionManagement = await GenerateMenu(context, "说明书", true, false, "InstructionManagement", "", "/instruction/");
         var subInstructionManagement = await GenerateMenu(context, "产品说明书", false, true, "SubInstructionManagement", "instruction/instruction", "instruction", true, instructionManagement.Id);
@@ -193,6 +197,8 @@ public static class DatabaseSeedTool
                             iotProductManagement,
                             iotMainProductManagement,
                             iotSubProductManagement,
+                            deviceManagement,
+                            subDeviceManagement,
                             instructionManagement,
                             subInstructionManagement,
                             faqManagement,
@@ -248,7 +254,7 @@ public static class DatabaseSeedTool
     /// <param name="componentPath"></param>
     /// <param name="path"></param>
     /// <returns></returns>
-    private static async Task<Menu> GenerateMenu(AccountDbContext context, string title, bool isRoot, bool isFinal, string name, string componentPath, string path, bool keepAlive = false, Guid? parentMenuId = null)
+    public static async Task<Menu> GenerateMenu(AccountDbContext context, string title, bool isRoot, bool isFinal, string name, string componentPath, string path, bool keepAlive = false, Guid? parentMenuId = null)
     {
         var menu = await context.Menus.SingleOrDefaultAsync(m => m.Title == title);
         if (menu == null)

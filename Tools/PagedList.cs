@@ -65,7 +65,7 @@ public class PagedList<T> : List<T>
         // 使用此方法，而不使用构造方法，是因为构造方法不能异步运行
         var count = await source.CountAsync();
 
-        var items = await source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+        var items = await source.Skip(pageIndex * pageSize).Take(pageSize).ToListAsync();
 
         return new PagedList<T>(items, count, pageIndex, pageSize);
     }
