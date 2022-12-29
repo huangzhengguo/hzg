@@ -12,7 +12,7 @@ public enum UserStatus
 /// <summary>
 /// 用户类
 /// </summary>
-public class User : BaseAccount
+public class HzgUser : BaseAccount
 {
     /// <summary>
     /// 用户名
@@ -141,6 +141,6 @@ public class User : BaseAccount
     public UserStatus Status { get; set; }
 
     // 导航属性
-    public virtual ICollection<UserRole> UserRoles { get; set; }
-    public virtual ICollection<UserGroup> UserGroups { get; set; }
+    public virtual ICollection<HzgUserRole> UserRoles { get; set; }
+    public virtual ICollection<HzgUserGroup> UserGroups { get; set; }
 }

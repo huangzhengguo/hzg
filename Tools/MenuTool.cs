@@ -7,7 +7,7 @@ namespace Hzg.Tool;
 
 public class MenuTool
 {
-    public static async Task<List<Menu>> GetUserPermissionMenus(AccountDbContext context, string userName)
+    public static async Task<List<HzgMenu>> GetUserPermissionMenus(AccountDbContext context, string userName)
     {
         // 获取菜单权限数据
         // 需要所有用户数据和菜单权限数据做对比，放到前端做对比
@@ -15,7 +15,7 @@ public class MenuTool
         var menuPermissions = await context.MenuPermissions.AsNoTracking().Where(m => m.UserName == userName).ToListAsync();
 
         // 根据权限数据获取 Menu 列表
-        var menusToReturn = new List<Menu>();
+        var menusToReturn = new List<HzgMenu>();
         var menus = await context.Menus.AsNoTracking().ToListAsync();
         foreach(var p in menuPermissions)
         {
@@ -40,7 +40,7 @@ public class MenuTool
     /// <param name="context"></param>
     /// <param name="id"></param>
     /// <returns></returns>
-    public static async Task<List<Menu>> GetUserPermissionMenus(AccountDbContext context, Guid? id)
+    public static async Task<List<HzgMenu>> GetUserPermissionMenus(AccountDbContext context, Guid? id)
     {
         // 获取菜单权限数据
         // 需要所有用户数据和菜单权限数据做对比，放到前端做对比
@@ -48,7 +48,7 @@ public class MenuTool
         var menuPermissions = await context.MenuPermissions.AsNoTracking().Where(m => m.UserId == id).ToListAsync();
 
         // 根据权限数据获取 Menu 列表
-        var menusToReturn = new List<Menu>();
+        var menusToReturn = new List<HzgMenu>();
         var menus = await context.Menus.AsNoTracking().ToListAsync();
         foreach(var p in menuPermissions)
         {
@@ -74,7 +74,7 @@ public class MenuTool
     /// <param name="menu"></param>
     /// <param name="id"></param>
     /// <returns></returns>
-    public static List<VueRouter> GenerateVueRouterData(List<Menu> data, Menu menu, Guid? id)
+    public static List<VueRouter> GenerateVueRouterData(List<HzgMenu> data, HzgMenu menu, Guid? id)
     {
         var resultJson = new List<VueRouter>();
 
@@ -127,7 +127,7 @@ public class MenuTool
     /// <param name="menu"></param>
     /// <param name="id"></param>
     /// <returns></returns>
-    public static List<MenuTreeNode> GenerateTreeData(List<Menu> data, Menu menu, Guid? id)
+    public static List<MenuTreeNode> GenerateTreeData(List<HzgMenu> data, HzgMenu menu, Guid? id)
     {
         var resultJson = new List<MenuTreeNode>();
 

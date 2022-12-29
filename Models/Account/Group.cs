@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hzg.Models;
 
-public class Group : BaseAccount
+public class HzgGroup : BaseAccount
 {
         /// <summary>
         /// 分组名称
@@ -21,6 +21,6 @@ public class Group : BaseAccount
         [Column("description")]
         public string Description { get; set; }
 
-        public virtual ICollection<UserGroup> UserGroups { get; set; }
-        public virtual ICollection<RoleGroup> GroupRoles { get; set; }
+        public virtual ICollection<HzgUserGroup> UserGroups { get; set; }
+        public virtual ICollection<HzgRoleGroup> GroupRoles { get; set; }
 }

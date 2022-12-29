@@ -25,7 +25,7 @@ public class MenuPermissionController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
     private readonly IUserService _userService;
-    public MenuPermissionController(AccountDbContext accountContext, ILogger<MenuPermission> logger, IUserService userService)
+    public MenuPermissionController(AccountDbContext accountContext, ILogger<HzgMenuPermission> logger, IUserService userService)
     {
         this._accountContext = accountContext;
         this._userService = userService;
@@ -59,7 +59,7 @@ public class MenuPermissionController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("create-menu-permission")]
-    public async Task<string> CreateMenuPermission([FromBody] MenuPermission menuPermission)
+    public async Task<string> CreateMenuPermission([FromBody] HzgMenuPermission menuPermission)
     {
         var responseData = new ResponseData()
         {
@@ -94,7 +94,7 @@ public class MenuPermissionController : ControllerBase
     /// <returns></returns>
     [HttpDelete]
     [Route("delete-menu-permission")]
-    public async Task<string> DeleteMenuPermission([FromBody] MenuPermission menuPermission)
+    public async Task<string> DeleteMenuPermission([FromBody] HzgMenuPermission menuPermission)
     {
         var responseData = new ResponseData()
         {

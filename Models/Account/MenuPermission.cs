@@ -7,7 +7,7 @@ namespace Hzg.Models;
 /// <summary>
 /// 导航菜单权限表
 /// </summary>
-public class MenuPermission : BaseEntity
+public class HzgMenuPermission : BaseEntity
 {
     /// <summary>
     /// 根菜单标识

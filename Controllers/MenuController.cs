@@ -34,7 +34,7 @@ public class MenuController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("create")]
-    public async Task<string> Create([FromBody] Menu menu)
+    public async Task<string> Create([FromBody] HzgMenu menu)
     {
         if (menu == null)
         {
@@ -72,7 +72,7 @@ public class MenuController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("update")]
-    public async Task<string> Update([FromBody] Menu menu)
+    public async Task<string> Update([FromBody] HzgMenu menu)
     {
         if (menu == null)
         {
@@ -174,7 +174,7 @@ public class MenuController : ControllerBase
         var menuPermissions = await _accountContext.MenuPermissions.AsNoTracking().Where(m => m.UserName == userName).ToListAsync();
 
         // 根据权限数据获取 Menu 列表
-        var menusToReturn = new List<Menu>();
+        var menusToReturn = new List<HzgMenu>();
         var menus = await _accountContext.Menus.AsNoTracking().ToListAsync();
         foreach(var p in menuPermissions)
         {

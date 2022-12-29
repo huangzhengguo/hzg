@@ -121,7 +121,7 @@ public class AccountController : ControllerBase
             return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
         }
 
-        var user = new User();
+        var user = new HzgUser();
 
         user.Name = model.Email;
         user.Email = model.Email;
@@ -236,7 +236,7 @@ public class AccountController : ControllerBase
     [Route("groupusers")]
     public async Task<string> GetGroupUsers(string group)
     {
-        var users = new List<User>();
+        var users = new List<HzgUser>();
         if (group != null)
         {
             var groupModel = await _accountContext.Groups.SingleOrDefaultAsync(g => g.Name == group);
@@ -348,7 +348,7 @@ public class AccountController : ControllerBase
     /// 生成用户节点
     /// </summary>
     /// <returns></returns>
-    private UserTreeNode GenerateUserTreeNode(User u, string groupId, List<UserRole> userRoles, List<Role> roles)
+    private UserTreeNode GenerateUserTreeNode(HzgUser u, string groupId, List<HzgUserRole> userRoles, List<HzgRole> roles)
     {
         var userNodeModel = new UserTreeNode();
         

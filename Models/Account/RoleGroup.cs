@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hzg.Models;
 
-public class RoleGroup
+public class HzgRoleGroup
 {
     [Column("role_id")]
     public Guid RoleId { get; set; }
@@ -11,6 +11,6 @@ public class RoleGroup
     [Column("group_id")]
     public Guid GroupId { get; set; }
 
-    public virtual Role Role { get; set; }
-    public virtual Group Group { get; set; }
+    public virtual HzgRole Role { get; set; }
+    public virtual HzgGroup Group { get; set; }
 }

@@ -22,7 +22,7 @@ public static class DatabaseSeedTool
         {
             userId = Guid.NewGuid();
 
-            var admin = new User();
+            var admin = new HzgUser();
 
             admin.Id = userId;
             admin.Name = "Admin";
@@ -46,7 +46,7 @@ public static class DatabaseSeedTool
         var adminMenuId = Guid.NewGuid();
         if (menu == null)
         {
-            var adminMenu = new Menu();
+            var adminMenu = new HzgMenu();
 
             adminMenu.Id = adminMenuId;
             adminMenu.Title = "后台管理";
@@ -65,7 +65,7 @@ public static class DatabaseSeedTool
         }
 
         // 菜单管理
-        var menuManagement = new Menu();
+        var menuManagement = new HzgMenu();
 
         menuManagement.Id = Guid.NewGuid();
         menuManagement.ParentMenuId = adminMenuId;
@@ -78,7 +78,7 @@ public static class DatabaseSeedTool
         menuManagement.Path = "menuManagement";
 
         // 分组管理
-        var groupManagement = new Menu();
+        var groupManagement = new HzgMenu();
 
         groupManagement.Id = Guid.NewGuid();
         groupManagement.ParentMenuId = adminMenuId;
@@ -91,7 +91,7 @@ public static class DatabaseSeedTool
         groupManagement.Path = "groupManagement";
 
         // 分组管理
-        var roleManagement = new Menu();
+        var roleManagement = new HzgMenu();
 
         roleManagement.Id = Guid.NewGuid();
         roleManagement.ParentMenuId = adminMenuId;
@@ -107,7 +107,7 @@ public static class DatabaseSeedTool
         var productManagement = await context.Menus.SingleOrDefaultAsync(m => m.Title == "产品管理");
         if (productManagement == null)
         {
-            productManagement = new Menu();
+            productManagement = new HzgMenu();
             productManagement.Id = Guid.NewGuid();
         }
 
@@ -120,7 +120,7 @@ public static class DatabaseSeedTool
         productManagement.Path = "/productmanagement/";
 
         // 产品分类管理
-        var productClassifyManagement = new Menu();
+        var productClassifyManagement = new HzgMenu();
 
         productClassifyManagement.Id = Guid.NewGuid();
         productClassifyManagement.ParentMenuId = productManagement.Id;
@@ -133,7 +133,7 @@ public static class DatabaseSeedTool
         productClassifyManagement.Path = "productclassifymanagement";
 
         // 产品管理
-        var productManagement1 = new Menu();
+        var productManagement1 = new HzgMenu();
 
         productManagement1.Id = Guid.NewGuid();
         productManagement1.ParentMenuId = productManagement.Id;
@@ -147,7 +147,7 @@ public static class DatabaseSeedTool
         productManagement1.Meta = "{\"keepAlive\": false}";
 
         // 产品轮播图管理
-        var productCarouselManagement = new Menu();
+        var productCarouselManagement = new HzgMenu();
 
         productCarouselManagement.Id = Guid.NewGuid();
         productCarouselManagement.ParentMenuId = productManagement.Id;
@@ -187,7 +187,7 @@ public static class DatabaseSeedTool
         var firmwareManagement = await GenerateMenu(context, "固件", true, false, "FirmwareManagement", "", "/firmware/");
         var subFirmwareManagement = await GenerateMenu(context, "产品固件", false, true, "SubFirmwareManagement", "firmware/firmware", "firmware", true, firmwareManagement.Id);
 
-        Menu[] allMenus = { menuManagement,
+        HzgMenu[] allMenus = { menuManagement,
                             groupManagement, 
                             roleManagement, 
                             productManagement, 
@@ -206,7 +206,7 @@ public static class DatabaseSeedTool
                             firmwareManagement,
                             subFirmwareManagement
                             };
-        Menu menuAdmin = null;
+        HzgMenu menuAdmin = null;
         foreach(var am in allMenus)
         {
             menuAdmin = await context.Menus.SingleOrDefaultAsync(m => m.ParentMenuId == am.ParentMenuId && m.Title == am.Title);
@@ -227,7 +227,7 @@ public static class DatabaseSeedTool
                                                                                 && mp.UserId == userId);
             if (permission == null)
             {
-                var adminMenuPersmission = new MenuPermission();
+                var adminMenuPersmission = new HzgMenuPermission();
 
                 // adminMenuPersmission.Id = Guid.NewGuid();
                 adminMenuPersmission.RootMenuId = adminMenuId;
@@ -254,12 +254,12 @@ public static class DatabaseSeedTool
     /// <param name="componentPath"></param>
     /// <param name="path"></param>
     /// <returns></returns>
-    public static async Task<Menu> GenerateMenu(AccountDbContext context, string title, bool isRoot, bool isFinal, string name, string componentPath, string path, bool keepAlive = false, Guid? parentMenuId = null)
+    public static async Task<HzgMenu> GenerateMenu(AccountDbContext context, string title, bool isRoot, bool isFinal, string name, string componentPath, string path, bool keepAlive = false, Guid? parentMenuId = null)
     {
         var menu = await context.Menus.SingleOrDefaultAsync(m => m.Title == title);
         if (menu == null)
         {
-            menu = new Menu();
+            menu = new HzgMenu();
             menu.Id = Guid.NewGuid();
 
             if (isRoot == false)

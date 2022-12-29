@@ -23,7 +23,7 @@ public class UserController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
     private readonly IUserService _userService;
-    public UserController(AccountDbContext accountContext, ILogger<MenuPermission> logger, IUserService userService)
+    public UserController(AccountDbContext accountContext, ILogger<HzgMenuPermission> logger, IUserService userService)
     {
         this._accountContext = accountContext;
         this._userService = userService;
@@ -100,7 +100,7 @@ public class UserController : ControllerBase
     [Route("create")]
     public async Task<string> Create([FromBody] UserEditDto user)
     {
-        var model = new User();
+        var model = new HzgUser();
 
         model.Id = Guid.NewGuid();
         model.Name = user.Name;
@@ -124,7 +124,7 @@ public class UserController : ControllerBase
         // 添加分组关联
         foreach(var gId in user.GroupIds)
         {
-            var userGroup = new UserGroup()
+            var userGroup = new HzgUserGroup()
             {
                 UserId = model.Id,
                 GroupId = new Guid(gId)
@@ -136,7 +136,7 @@ public class UserController : ControllerBase
         // 添加角色关联
         foreach(var rId in user.RoleIds)
         {
-            var userRole = new UserRole()
+            var userRole = new HzgUserRole()
             {
                 UserId = model.Id,
                 RoleId = new Guid(rId)
@@ -184,7 +184,7 @@ public class UserController : ControllerBase
         var userGroupIds = userGroups.Where(ug => ug.UserId == model.Id).Select(ug => ug.GroupId.ToString());
         var ids = GetIdsToAddAndRemove(user.GroupIds, userGroupIds, id =>
         {                
-            return new UserGroup
+            return new HzgUserGroup
             {
                 UserId = model.Id,
                 GroupId = new Guid(id)
@@ -202,7 +202,7 @@ public class UserController : ControllerBase
         var userRoleIds = userRoles.Where(ug => ug.UserId == model.Id).Select(ug => ug.RoleId.ToString());
         var roleIds = GetIdsToAddAndRemove(user.RoleIds, userRoleIds, id =>
         {                
-            return new UserRole
+            return new HzgUserRole
             {
                 UserId = model.Id,
                 RoleId = new Guid(id)

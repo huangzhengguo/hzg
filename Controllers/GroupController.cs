@@ -61,9 +61,9 @@ public class GroupController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("create")]
-    public async Task<string> Create([FromBody] Group group)
+    public async Task<string> Create([FromBody] HzgGroup group)
     {
-        var model = new Group();
+        var model = new HzgGroup();
 
         model.Name = group.Name;
 
@@ -95,7 +95,7 @@ public class GroupController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("update")]
-    public async Task<string> UpdateGroup([FromBody] Group group)
+    public async Task<string> UpdateGroup([FromBody] HzgGroup group)
     {
         var response = new ResponseData()
         {
@@ -213,14 +213,4 @@ public class GroupController : ControllerBase
 
     //         return JsonSerializer.Serialize(responseData, JsonSerializerTool.DefaultOptions());
     // }
-
-    public class TreeNodeModel
-    {
-        public int Id { get; set; }
-        public int? ParentMenuId { get; set; }
-        public string Label { get; set; }
-        public TreeNodeModel[] Children { get; set; }
-        public bool IsLeaf { get; set; }
-        public bool Disabled { get; set; }
-    }
 }

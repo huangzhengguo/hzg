@@ -7,7 +7,7 @@ namespace Hzg.Models;
 /// <summary>
 /// 导航菜单
 /// </summary>
-public class Menu : BaseEntity
+public class HzgMenu : BaseEntity
 {
     /// <summary>
     /// 排序编号

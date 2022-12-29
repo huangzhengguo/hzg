@@ -12,30 +12,30 @@ public class AccountDbContext : DbContext
     {}
 
     // 用户
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<HzgUser> Users { get; set; }
     // 用户分组
-    public virtual DbSet<Group> Groups { get; set; }
+    public virtual DbSet<HzgGroup> Groups { get; set; }
     // 用户角色
-    public virtual DbSet<Role> Roles { get; set; }
+    public virtual DbSet<HzgRole> Roles { get; set; }
     // 用户角色关联
-    public virtual DbSet<UserRole> UserRoles { get; set; }
+    public virtual DbSet<HzgUserRole> UserRoles { get; set; }
     // 用户分组关联
-    public virtual DbSet<UserGroup> UserGroups { get; set; }
+    public virtual DbSet<HzgUserGroup> UserGroups { get; set; }
     // 角色分组关联
-    public virtual DbSet<RoleGroup> RoleGroups { get; set; }
+    public virtual DbSet<HzgRoleGroup> RoleGroups { get; set; }
     // 职位
-    public virtual DbSet<Position> Positions { get; set; }
+    public virtual DbSet<HzgPosition> Positions { get; set; }
     // 菜单权限
-    public virtual DbSet<MenuPermission> MenuPermissions { get; set; }
+    public virtual DbSet<HzgMenuPermission> MenuPermissions { get; set; }
     // 菜单
-    public virtual DbSet<Menu> Menus { get; set; }
+    public virtual DbSet<HzgMenu> Menus { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         // 用户表
-        modelBuilder.Entity<User>(b =>
+        modelBuilder.Entity<HzgUser>(b =>
         {
             b.ToTable("user");
 
@@ -45,7 +45,7 @@ public class AccountDbContext : DbContext
         });
 
         // 分组表
-        modelBuilder.Entity<Group>(b =>
+        modelBuilder.Entity<HzgGroup>(b =>
         {
             b.ToTable("group");
 
@@ -55,7 +55,7 @@ public class AccountDbContext : DbContext
         });
 
         // 角色表
-        modelBuilder.Entity<Role>(b =>
+        modelBuilder.Entity<HzgRole>(b =>
         {
             b.ToTable("role");
 
@@ -65,7 +65,7 @@ public class AccountDbContext : DbContext
         });
 
         // 用户分组
-        modelBuilder.Entity<UserGroup>(b =>
+        modelBuilder.Entity<HzgUserGroup>(b =>
         {
             b.ToTable("user_group");
 
@@ -73,7 +73,7 @@ public class AccountDbContext : DbContext
         });
 
         // 用户角色
-        modelBuilder.Entity<UserRole>(b =>
+        modelBuilder.Entity<HzgUserRole>(b =>
         {
             b.ToTable("user_role");
 
@@ -81,7 +81,7 @@ public class AccountDbContext : DbContext
         });
 
         // 分组角色
-        modelBuilder.Entity<RoleGroup>(b =>
+        modelBuilder.Entity<HzgRoleGroup>(b =>
         {
             b.ToTable("role_group");
 
@@ -89,19 +89,19 @@ public class AccountDbContext : DbContext
         });
 
         // 职位
-        modelBuilder.Entity<Position>(b =>
+        modelBuilder.Entity<HzgPosition>(b =>
         {
             b.ToTable("position");
         });
 
         // 菜单权限表
-        modelBuilder.Entity<MenuPermission>(mp =>
+        modelBuilder.Entity<HzgMenuPermission>(mp =>
         {
             mp.ToTable("menu_permission");
         });
 
         // 菜单表
-        modelBuilder.Entity<Menu>(mp =>
+        modelBuilder.Entity<HzgMenu>(mp =>
         {
             mp.ToTable("menu");
         });

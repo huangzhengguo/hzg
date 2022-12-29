@@ -21,10 +21,18 @@ public class PagedList<T> : List<T>
     /// <value></value>
     public int TotalPages { get; private set; }
 
+    /// <summary>
+    /// 记录总数
+    /// </summary>
+    /// <value></value>
+    public int AllDataCount { get; private set; }
+
     public PagedList(List<T> items, int count, int pageIndex, int pageSize)
     {
         PageIndex = pageIndex;
         TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+
+        AllDataCount = count;
 
         this.AddRange(items);
     }

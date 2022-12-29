@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hzg.Models;
 
-public class UserGroup
+public class HzgUserGroup
 {
     [Column("user_id")]
     public Guid UserId { get; set; }
@@ -20,6 +20,6 @@ public class UserGroup
     [Comment("是否是管理员")]
     public bool? IsAdmin { get; set; }
 
-    public virtual User User { get; set; }
-    public virtual Group Group { get; set; }
+    public virtual HzgUser User { get; set; }
+    public virtual HzgGroup Group { get; set; }
 }

@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hzg.Models;
 
-public class Role : BaseAccount
+public class HzgRole : BaseAccount
 {
     [StringLength(32)]
     [Column("name")]
     public string Name { get; set; }
 
-    public virtual ICollection<UserRole> UserRoles { get; set; }
-    public virtual ICollection<RoleGroup> RoleGroups { get; set; }
+    public virtual ICollection<HzgUserRole> UserRoles { get; set; }
+    public virtual ICollection<HzgRoleGroup> RoleGroups { get; set; }
 }

@@ -57,9 +57,9 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("create")]
-    public async Task<string> Create([FromBody] Role role)
+    public async Task<string> Create([FromBody] HzgRole role)
     {
-        var model = new Role();
+        var model = new HzgRole();
 
         model.Name = role.Name;
 
@@ -90,7 +90,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("update")]
-    public async Task<string> update([FromBody] Role role)
+    public async Task<string> update([FromBody] HzgRole role)
     {
         var response = new ResponseData()
         {
