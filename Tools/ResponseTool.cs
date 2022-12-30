@@ -113,7 +113,7 @@ public class ResponseData<T>
     }
 
     /// <summary>
-    /// 数据数量
+    /// 总数量
     /// </summary>
     /// <value></value>
     public int AllDataCount { get; set; }

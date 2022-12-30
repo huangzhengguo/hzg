@@ -1,7 +1,7 @@
 using AlibabaCloud.SDK.Iot20180120;
 using AlibabaCloud.SDK.Iot20180120.Models;
 using System.ComponentModel.DataAnnotations;
-// using Ledinpro.Iot.Dto;
+// using Inledco.Iot.Dto;
 
 namespace Hzg.Tool;
 
