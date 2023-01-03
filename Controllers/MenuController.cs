@@ -17,11 +17,11 @@ namespace Hzg.Controllers;
 [ApiController]
 [Route("api/account/menu/")]
 [ApiExplorerSettings(IgnoreApi = true)]
-public class MenuController : ControllerBase
+public class HzgMenuController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
     private readonly IUserService _userService;
-    public MenuController(AccountDbContext accountContext, IUserService userService)
+    public HzgMenuController(AccountDbContext accountContext, IUserService userService)
     {
         this._accountContext = accountContext;
         this._userService = userService;

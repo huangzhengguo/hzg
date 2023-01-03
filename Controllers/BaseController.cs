@@ -8,7 +8,7 @@ namespace Hzg.Controllers;
 /// </summary>
 [Authorize]
 [ApiController]
-public class BaseController : ControllerBase
+public class HzgBaseController : ControllerBase
 {
 
 }

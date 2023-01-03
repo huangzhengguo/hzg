@@ -22,11 +22,11 @@ namespace Hzg.Controllers;
 [Authorize]
 [Route("api/account/group/")]
 [ApiExplorerSettings(IgnoreApi = true)]
-public class GroupController : ControllerBase
+public class HzgGroupController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
     private readonly IUserService _userService;
-    public GroupController(AccountDbContext accountContext, IUserService userService)
+    public HzgGroupController(AccountDbContext accountContext, IUserService userService)
     {
         this._accountContext = accountContext;
         this._userService = userService;

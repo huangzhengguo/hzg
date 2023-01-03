@@ -2,13 +2,15 @@ namespace Hzg.Models;
 
 public class VerificationTemplate
 {
-    /**
-     * 验证码邮件模板主题
-     */
+    /// <summary>
+    /// 验证码邮件模板主题
+    /// </summary>
+    /// <value></value>
     public String Subject { get; set; }
 
-    /**
-     * 验证码邮件模板内容格式
-     */
+    /// <summary>
+    /// 验证码邮件模板内容格式
+    /// </summary>
+    /// <value></value>
     public String Content { get; set; }
 }

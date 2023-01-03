@@ -18,11 +18,11 @@ namespace Hzg.Controllers;
 [Authorize]
 [Route("api/account/role/")]
 [ApiExplorerSettings(IgnoreApi = true)]
-public class RoleController : ControllerBase
+public class HzgRoleController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
     private readonly IUserService _userService;
-    public RoleController(AccountDbContext accountContext, IUserService userService)
+    public HzgRoleController(AccountDbContext accountContext, IUserService userService)
     {
         this._accountContext = accountContext;
         this._userService = userService;

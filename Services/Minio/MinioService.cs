@@ -8,7 +8,7 @@ namespace Hzg.Services;
 
 public class MinioService : IMinioService
 {
-    private static string DefaultBucketName = "radians";
+    // private static string DefaultBucketName = "inledco";
     private static MinioClient _minioClient;
     private readonly IConfiguration _configuration;
 

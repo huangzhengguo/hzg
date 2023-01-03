@@ -21,11 +21,11 @@ namespace Inledco.Controllers;
 [ApiController]
 [Route("api/account/menu_permission/")]
 [ApiExplorerSettings(IgnoreApi = true)]
-public class MenuPermissionController : ControllerBase
+public class HzgMenuPermissionController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
     private readonly IUserService _userService;
-    public MenuPermissionController(AccountDbContext accountContext, ILogger<HzgMenuPermission> logger, IUserService userService)
+    public HzgMenuPermissionController(AccountDbContext accountContext, ILogger<HzgMenuPermission> logger, IUserService userService)
     {
         this._accountContext = accountContext;
         this._userService = userService;

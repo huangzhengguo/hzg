@@ -7,7 +7,7 @@ namespace Hzg.Models;
 /// 基类
 /// </summary>
 /// <typeparam name="KeyT"></typeparam>
-public abstract class BaseEntity<KeyT>
+public abstract class HzgBaseEntity<KeyT>
 {
     /// <summary>
     /// 主键
@@ -44,7 +44,7 @@ public abstract class BaseEntity<KeyT>
     public string Remark { get; set; }
 }
 
-public abstract class BaseEntity : BaseEntity<Guid>
+public abstract class HzgBaseEntity : HzgBaseEntity<Guid>
 {
     /// <summary>
     /// 创建人 ID

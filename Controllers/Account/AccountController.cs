@@ -11,7 +11,7 @@ using Hzg.Models;
 using Hzg.Consts;
 using Hzg.Tool;
 
-namespace Radians.Controllers;
+namespace Inledco.Controllers;
 
 /// <summary>
 /// 账号
@@ -20,7 +20,7 @@ namespace Radians.Controllers;
 [ApiController]
 [Route("api/account/")]
 [ApiExplorerSettings(IgnoreApi = true)]
-public class AccountController : ControllerBase
+public class HzgAccountController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
     private IConfiguration _configuration;
@@ -36,7 +36,7 @@ public class AccountController : ControllerBase
     /// <param name="inledcoContext">数据库上下文</param>
     /// <param name="configuration">配置</param>
     /// <param name="jwtService">JWT服务</param>
-    public AccountController(AccountDbContext accountContext,
+    public HzgAccountController(AccountDbContext accountContext,
                              IConfiguration configuration,
                              IJwtService jwtService,
                              ILogger<LoginViewModel> logger,

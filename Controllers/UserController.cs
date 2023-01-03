@@ -19,11 +19,11 @@ namespace Hzg.Controllers;
 [Authorize]
 [Route("api/account/user/")]
 [ApiExplorerSettings(IgnoreApi = true)]
-public class UserController : ControllerBase
+public class HzgUserController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
     private readonly IUserService _userService;
-    public UserController(AccountDbContext accountContext, ILogger<HzgMenuPermission> logger, IUserService userService)
+    public HzgUserController(AccountDbContext accountContext, ILogger<HzgMenuPermission> logger, IUserService userService)
     {
         this._accountContext = accountContext;
         this._userService = userService;

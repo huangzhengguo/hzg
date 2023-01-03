@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hzg.Models;
 
-public class HzgPosition : BaseEntity
+public class HzgPosition : HzgBaseEntity
 {
     /// <summary>
     /// 职位名称
