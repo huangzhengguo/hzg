@@ -74,13 +74,6 @@ public class HzgUser : BaseAccount
     public string UserMobile { get; set; }
 
     /// <summary>
-    /// 企业ID
-    /// </summary>
-    [Column("brand")]
-    [MaxLength(32)]
-    public String Brand { get; set; }
-
-    /// <summary>
     /// 头像
     /// </summary>
     /// <value></value>

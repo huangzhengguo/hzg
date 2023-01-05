@@ -16,6 +16,13 @@ public abstract class BaseAccount<KeyT>
     public KeyT Id { get; set; }
 
     /// <summary>
+    /// 企业ID
+    /// </summary>
+    [Column("brand")]
+    [MaxLength(32)]
+    public String Brand { get; set; }
+
+    /// <summary>
     /// 创建人 ID
     /// </summary>
     /// <value></value>

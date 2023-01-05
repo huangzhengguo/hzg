@@ -175,17 +175,21 @@ public static class DatabaseSeedTool
         var deviceManagement = await GenerateMenu(context, "设备管理", true, false, "DeviceManagement", "", "/device/");
         var subDeviceManagement = await GenerateMenu(context, "设备", false, true, "SubDeviceManagement", "device/device", "device", true, deviceManagement.Id);
 
+        // 账户管理
+        var accountManagement = await GenerateMenu(context, "账号管理", true, false, "AccountManagement", "", "/account/");
+        var userManagement = await GenerateMenu(context, "用户", false, true, "UserManagement", "account/user", "user", true, accountManagement.Id);
+        var iotGroupManagement = await GenerateMenu(context, "分组", false, true, "GroupManagement", "account/group", "group", true, accountManagement.Id);
+
+        // 文件
         // 说明书
-        var instructionManagement = await GenerateMenu(context, "说明书", true, false, "InstructionManagement", "", "/instruction/");
-        var subInstructionManagement = await GenerateMenu(context, "产品说明书", false, true, "SubInstructionManagement", "instruction/instruction", "instruction", true, instructionManagement.Id);
+        var fileManagement = await GenerateMenu(context, "文件", true, false, "fileManagement", "", "/file/");
+        var subInstructionManagement = await GenerateMenu(context, "产品说明书", false, true, "SubInstructionManagement", "instruction/instruction", "instruction", true, fileManagement.Id);
 
         // FAQ
-        var faqManagement = await GenerateMenu(context, "FAQ", true, false, "FaqManagement", "", "/faq/");
-        var subFaqnManagement = await GenerateMenu(context, "APP FAQ", false, true, "SubFaqManagement", "faq/faq", "faq", true, faqManagement.Id);
+        var subFaqnManagement = await GenerateMenu(context, "APP FAQ", false, true, "SubFaqManagement", "faq/faq", "faq", true, fileManagement.Id);
 
         // 固件
-        var firmwareManagement = await GenerateMenu(context, "固件", true, false, "FirmwareManagement", "", "/firmware/");
-        var subFirmwareManagement = await GenerateMenu(context, "产品固件", false, true, "SubFirmwareManagement", "firmware/firmware", "firmware", true, firmwareManagement.Id);
+        var subFirmwareManagement = await GenerateMenu(context, "产品固件", false, true, "SubFirmwareManagement", "firmware/firmware", "firmware", true, fileManagement.Id);
 
         HzgMenu[] allMenus = { menuManagement,
                             groupManagement, 
@@ -199,11 +203,12 @@ public static class DatabaseSeedTool
                             iotSubProductManagement,
                             deviceManagement,
                             subDeviceManagement,
-                            instructionManagement,
+                            accountManagement,
+                            userManagement,
+                            iotGroupManagement,
+                            fileManagement,
                             subInstructionManagement,
-                            faqManagement,
                             subFaqnManagement,
-                            firmwareManagement,
                             subFirmwareManagement
                             };
         HzgMenu menuAdmin = null;
@@ -246,13 +251,13 @@ public static class DatabaseSeedTool
     /// <summary>
     /// 生成菜单项
     /// </summary>
-    /// <param name="context"></param>
-    /// <param name="title"></param>
-    /// <param name="isRoot"></param>
-    /// <param name="isFinal"></param>
-    /// <param name="name"></param>
-    /// <param name="componentPath"></param>
-    /// <param name="path"></param>
+    /// <param name="context">数据</param>
+    /// <param name="title">标题</param>
+    /// <param name="isRoot">是否是根</param>
+    /// <param name="isFinal">是否是页</param>
+    /// <param name="name">名称</param>
+    /// <param name="componentPath">组件路径</param>
+    /// <param name="path">路由路径</param>
     /// <returns></returns>
     public static async Task<HzgMenu> GenerateMenu(AccountDbContext context, string title, bool isRoot, bool isFinal, string name, string componentPath, string path, bool keepAlive = false, Guid? parentMenuId = null)
     {
