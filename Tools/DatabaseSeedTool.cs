@@ -178,7 +178,7 @@ public static class DatabaseSeedTool
         // 账户管理
         var accountManagement = await GenerateMenu(context, "账号管理", true, false, "AccountManagement", "", "/account/");
         var userManagement = await GenerateMenu(context, "用户", false, true, "UserManagement", "account/user", "user", true, accountManagement.Id);
-        var iotGroupManagement = await GenerateMenu(context, "分组", false, true, "GroupManagement", "account/group", "group", true, accountManagement.Id);
+        var iotGroupManagement = await GenerateMenu(context, "分组", false, true, "AccountGroupManagement", "account/group", "group", true, accountManagement.Id);
 
         // 文件
         // 说明书

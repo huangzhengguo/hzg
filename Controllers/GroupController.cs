@@ -36,7 +36,8 @@ public class HzgGroupController : ControllerBase
     public async Task<string> get(string name)
     {
         var groups = await _accountContext.Groups.AsNoTracking().Where(g => g.Name == name).OrderBy(g => g.Name).ToListAsync();
-        if (string.IsNullOrWhiteSpace(name)) {
+        if (string.IsNullOrWhiteSpace(name))
+        {
             groups = await _accountContext.Groups.AsNoTracking().OrderBy(g => g.Name).ToListAsync();
         }
 

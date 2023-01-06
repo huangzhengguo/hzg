@@ -147,7 +147,7 @@ public class HzgRoleController : ControllerBase
     }
 
     /// <summary>
-    /// 获取指定分组的
+    /// 获取指定分组的角色
     /// </summary>
     /// <returns></returns>
     [HttpGet]
