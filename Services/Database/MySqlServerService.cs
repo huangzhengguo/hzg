@@ -9,7 +9,7 @@ namespace Hzg.Services;
 /// </summary>
 public static class MySqlServerServiceExtesion
 {
-    private static MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(8, 0, 22));
+    private static MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(8, 0, 31));
     /// <summary>
     /// 添加 MySqlServer 服务
     /// </summary>

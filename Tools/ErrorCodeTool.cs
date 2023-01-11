@@ -177,6 +177,9 @@ public static class ErrorCodeTool
             case ErrorCode.Has_Closed:
                 message = "Has closed.";
                 break;
+            case ErrorCode.Content_Can_Not_Empty:
+                message = "Content Can Not Empty!";
+                break;
             default:
                 message = null;
                 break;

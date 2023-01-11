@@ -79,7 +79,7 @@ public class HzgGroupController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.Create_Success;
+        response.Code = ErrorCode.Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
@@ -110,7 +110,7 @@ public class HzgGroupController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.Update_Success;
+        response.Code = ErrorCode.Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
@@ -153,7 +153,7 @@ public class HzgGroupController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.Delete_Group_Success;
+        response.Code = ErrorCode.Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }

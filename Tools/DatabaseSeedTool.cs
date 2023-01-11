@@ -191,6 +191,10 @@ public static class DatabaseSeedTool
         // 固件
         var subFirmwareManagement = await GenerateMenu(context, "产品固件", false, true, "SubFirmwareManagement", "firmware/firmware", "firmware", true, fileManagement.Id);
 
+        // 客户服务
+        var serviceManagement = await GenerateMenu(context, "售后", true, false, "ServiceManagement", "", "/service/");
+        var customerServiceManagement = await GenerateMenu(context, "客户反馈", false, true, "CustomerServiceManagement", "service/feedback", "feedback", true, serviceManagement.Id);
+
         HzgMenu[] allMenus = { menuManagement,
                             groupManagement, 
                             roleManagement, 
@@ -209,7 +213,9 @@ public static class DatabaseSeedTool
                             fileManagement,
                             subInstructionManagement,
                             subFaqnManagement,
-                            subFirmwareManagement
+                            subFirmwareManagement,
+                            serviceManagement,
+                            customerServiceManagement
                             };
         HzgMenu menuAdmin = null;
         foreach(var am in allMenus)

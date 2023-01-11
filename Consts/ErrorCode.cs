@@ -114,7 +114,8 @@ public enum ErrorCode : int
     Verify_Code_Too_Frequency_Tepmlete = 21044,
     // 已关闭
     Has_Closed = 21045,
-
     // 不存在
-    NotExist = 20040
+    NotExist = 20046,
+    // 内容不能为空
+    Content_Can_Not_Empty = 20047
 }
