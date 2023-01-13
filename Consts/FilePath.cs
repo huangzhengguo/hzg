@@ -26,6 +26,9 @@ public static class FilePath
     // 固件
     public static readonly string RADIANS_PRODUCT_FIRMWARE_PATH = "file/instruction/product/firmware/";
 
+    // 用户头像路径
+    public static readonly string USER_AVATAR_PATH = "file/user/avatar/";
+
     /// <summary>
     /// FAQ 文件路径
     /// </summary>
