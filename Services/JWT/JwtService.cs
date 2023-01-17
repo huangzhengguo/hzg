@@ -39,6 +39,9 @@ public class JwtService : IJwtService
         {
             new Claim(ClaimTypes.Email, userDto.Email),
             new Claim(ClaimTypes.NameIdentifier, userDto.Id),
+            new Claim("userid", userDto.Id),
+            new Claim("username", userDto.UserName),
+            new Claim("nickname", userDto.Nickname ?? "nickname"),
             // 用户所在的分组
             // new Claim("groups", userDto.Groups)
             // new Claim(ClaimTypes.Role, userDto.Roles),
