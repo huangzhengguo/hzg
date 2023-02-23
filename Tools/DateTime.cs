@@ -15,6 +15,15 @@ public class DateTimeTool
     }
 
     /// <summary>
+    /// 指定时间秒数时间戳
+    /// </summary>
+    /// <returns></returns>
+    public static long UtcUnixTimeSeconds(DateTime dateTime)
+    {
+        return new DateTimeOffset(dateTime).ToUnixTimeSeconds();
+    }
+
+    /// <summary>
     /// UTC 当前时间毫秒数时间戳
     /// </summary>
     /// <returns></returns>

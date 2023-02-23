@@ -19,6 +19,19 @@ public static class JsonSerializerTool
     }
 
     /// <summary>
+    /// 反序列化
+    /// </summary>
+    /// <param name="json"></param>
+    /// <param name="isDate"></param>
+    /// <returns></returns>
+    public static Dictionary<string, object> Deserialization(string json, bool isDate = true)
+    {
+        var result = JsonSerializer.Deserialize(json, typeof(Dictionary<string, object>), JsonSerializerTool.DefaultOptions(isDate)) as Dictionary<string, object>;
+
+        return result;
+    }
+
+    /// <summary>
     /// 获取序列化选项
     /// </summary>
     /// <param name="isDate"></param>
