@@ -42,4 +42,22 @@ public class DateTimeTool
     {
         return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds).UtcDateTime.ToString(format);
     }
+
+    /// <summary>
+    /// 检测妙数时间差是否超过指定天数
+    /// </summary>
+    /// <param name="startTime"></param>
+    /// <param name="endTime"></param>
+    /// <param name="days"></param>
+    /// <returns></returns>
+    public static bool CheckSecondsRangeMoreThanDays(long startTime, long endTime, long days)
+    {
+        var timeSpan = new TimeSpan((endTime - startTime) * 10000000);
+        if (timeSpan.Days > days)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

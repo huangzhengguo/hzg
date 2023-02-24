@@ -117,5 +117,7 @@ public enum ErrorCode : int
     // 不存在
     NotExist = 20046,
     // 内容不能为空
-    Content_Can_Not_Empty = 20047
+    Content_Can_Not_Empty = 20047,
+    // 时间过长
+    Date_Range_Too_Long = 20048
 }

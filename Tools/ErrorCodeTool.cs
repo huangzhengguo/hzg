@@ -180,6 +180,9 @@ public static class ErrorCodeTool
             case ErrorCode.Content_Can_Not_Empty:
                 message = "Content Can Not Empty!";
                 break;
+            case ErrorCode.Date_Range_Too_Long:
+                message = "Max One Year.";
+                break;
             default:
                 message = null;
                 break;
