@@ -60,4 +60,9 @@ public class DateTimeTool
 
         return false;
     }
+
+    public static DateTime FromLongTimeStamp(long timeStamp)
+    {
+        return DateTimeOffset.FromUnixTimeMilliseconds(timeStamp).DateTime;
+    }
 }

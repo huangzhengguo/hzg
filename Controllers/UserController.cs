@@ -147,7 +147,7 @@ public class HzgUserController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.Create_Success;
+        response.Code = ErrorCode.Success;
 
         return JsonSerializerTool.SerializeDefault(response);
     }
