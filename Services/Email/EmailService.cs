@@ -1,8 +1,10 @@
 using System.Text;
-using System.Net;
-using System.Net.Mail;
 using System.ComponentModel;
 using Microsoft.Extensions.Configuration;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
+using Hzg.Models;
 
 namespace Hzg.Services;
 
@@ -77,24 +79,39 @@ public class EmailService : IEmailService
     /// <summary>
     /// 发送邮件
     /// </summary>
-    /// <param name="sender"></param>
+    /// <param name="mailProperties"></param>
     /// <param name="from"></param>
     /// <param name="to"></param>
     /// <param name="subject"></param>
     /// <param name="content"></param>
     /// <returns></returns>
-    public bool SendMail(SmtpClient sender, String from, String to, String subject, String content)
+    public bool SendMail(MailProperties mailProperties, String from, String to, String subject, String content)
     {
-        var mailMessage = new MailMessage();
+        var message = new MimeMessage();
 
-        mailMessage.From = new MailAddress(from, from, Encoding.UTF8);
-        mailMessage.To.Add(new MailAddress(to));
-        mailMessage.SubjectEncoding = Encoding.UTF8;
-        mailMessage.Subject = subject;
-        mailMessage.BodyEncoding = Encoding.UTF8;
-        mailMessage.Body = content;
+        message.From.Add(new MailboxAddress(from, from));
+        message.To.Add(new MailboxAddress(to, to));
+        message.Subject = subject;
+        message.Body = new TextPart("plain")
+        {
+            Text = content
+        };
 
-        sender.Send(mailMessage);
+        using(var client = new SmtpClient())
+        {
+            var useSsl = false;
+            if (mailProperties.Properties.Keys.Contains("mail.smtp.ssl.enable") == true && mailProperties.Properties["mail.smtp.ssl.enable"].ToString() == "true")
+            {
+                useSsl = true;
+            }
+            client.Connect(mailProperties.Host, mailProperties.Port, useSsl);
+
+            // Note: only needed if the SMTP server requires authentication
+            client.Authenticate (mailProperties.UserName, mailProperties.Password);
+
+            client.Send(message);
+            client.Disconnect(true);
+        }
 
         return true;
     }
@@ -106,14 +123,14 @@ public class EmailService : IEmailService
     /// <param name="body"></param>
     public void SendEmailAsync(string email, string body, Action<bool> callback)
     {
-        this.SendEmailCallback = callback;
+        // this.SendEmailCallback = callback;
 
-        var mailMessage = GetMailMessage(email, body);
-        var smtpClient = GetSmtpClient();
+        // var mailMessage = GetMailMessage(email, body);
+        // var smtpClient = GetSmtpClient();
 
-        smtpClient.SendCompleted += SendCompletedCallback;
+        // smtpClient.SendCompleted += SendCompletedCallback;
 
-        smtpClient.SendAsync(mailMessage, "Test");
+        // smtpClient.SendAsync(mailMessage, "Test");
     }
 
     /// <summary>
@@ -154,9 +171,9 @@ public class EmailService : IEmailService
     {
         var smtp = new SmtpClient();
 
-        smtp.Host = this._host;
-        smtp.Port = this._port;
-        smtp.Credentials = new NetworkCredential(this._fromEmail, this._password);
+        // smtp.Host = this._host;
+        // smtp.Port = this._port;
+        // smtp.Credentials = new NetworkCredential(this._fromEmail, this._password);
 
         return smtp;
     }
@@ -167,17 +184,18 @@ public class EmailService : IEmailService
     /// <param name="email"></param>
     /// <param name="body"></param>
     /// <returns></returns>
-    private MailMessage GetMailMessage(string email, string body)
+    private MimeMessage GetMailMessage(string email, string body)
     {
-        var mailMessage = new MailMessage();
+        var message = new MimeMessage();
 
-        mailMessage.From = new MailAddress(this._fromEmail, this._displayName, Encoding.UTF8);
-        mailMessage.To.Add(new MailAddress(email));
-        mailMessage.SubjectEncoding = Encoding.UTF8;
-        mailMessage.Subject = this._subject;
-        mailMessage.BodyEncoding = Encoding.UTF8;
-        mailMessage.Body = body;
+        message.From.Add(new MailboxAddress(this._displayName, this._fromEmail));
+        message.To.Add(new MailboxAddress(email, email));
+        message.Subject = this._subject;
+        message.Body = new TextPart("plain")
+        {
+            Text = body
+        };
 
-        return mailMessage;
+        return message;
     }
 }

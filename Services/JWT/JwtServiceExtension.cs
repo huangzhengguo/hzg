@@ -37,8 +37,8 @@ public static class JwtServiceExtension
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,
-                ValidateIssuerSigningKey = true,
-                ValidateLifetime = true,
+                // ValidateIssuerSigningKey = true,
+                // ValidateLifetime = true,
 
                 ValidIssuer = issuer,
                 ValidAudience = audience,

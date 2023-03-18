@@ -1,4 +1,7 @@
-using System.Net.Mail;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
+using Hzg.Models;
 
 namespace Hzg.Services;
 
@@ -17,13 +20,13 @@ public interface IEmailService
     /// <summary>
     /// 发送邮件
     /// </summary>
-    /// <param name="sender"></param>
+    /// <param name="mailProperties"></param>
     /// <param name="from"></param>
     /// <param name="to"></param>
     /// <param name="subject"></param>
     /// <param name="content"></param>
     /// <returns></returns>
-    public bool SendMail(SmtpClient sender, String from, String to, String subject, String content);
+    public bool SendMail(MailProperties mailProperties, String from, String to, String subject, String content);
     
     /// <summary>
     /// 异步发送邮件
