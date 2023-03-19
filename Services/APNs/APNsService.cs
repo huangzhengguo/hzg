@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.JsonWebTokens;
 using System.IdentityModel.Tokens.Jwt;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.Net.Http.Headers;
@@ -94,9 +95,13 @@ public class APNsService : IAPNsService
         var jwtHeader = new JwtHeader(signingCredentials);
         var jwtPayload = new JwtPayload(claims);
 
-        var jwtSecurityToken = new JwtSecurityToken(jwtHeader, jwtPayload);
+        var jwtSecurityToken = new JsonWebTokenHandler();
 
-        APNsService.token = tokenHandler.WriteToken(jwtSecurityToken);
+        APNsService.token = jwtSecurityToken.CreateToken(new SecurityTokenDescriptor()
+        {
+            AdditionalHeaderClaims = jwtHeader,
+            Claims = jwtPayload
+        });
 
         return APNsService.token;
     }
