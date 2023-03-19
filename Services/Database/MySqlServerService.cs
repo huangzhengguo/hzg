@@ -9,16 +9,16 @@ namespace Hzg.Services;
 /// </summary>
 public static class MySqlServerServiceExtesion
 {
-    private static MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(8, 0, 31));
     /// <summary>
     /// 添加 MySqlServer 服务
     /// </summary>
     /// <param name="services"></param>
     public static void AddMySqlService<T>(this IServiceCollection services, IConfiguration configuration, string connectStr) where T : DbContext
     {
+        var connectionString = configuration.GetConnectionString(connectStr);
         services.AddDbContext<T>(options =>
         {
-            options.UseMySql(configuration.GetConnectionString(connectStr), serverVersion);
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         });
     }
 }
