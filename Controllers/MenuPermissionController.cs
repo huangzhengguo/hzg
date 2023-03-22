@@ -72,6 +72,11 @@ public class HzgMenuPermissionController : ControllerBase
             var mp = await _accountContext.MenuPermissions.SingleOrDefaultAsync(m => m.SubMenuId == menuPermission.SubMenuId && m.UserId == menuPermission.UserId);
             if (mp == null)
             {
+                var userId = await _userService.GetLoginUserId();
+
+                menuPermission.CreatorId = userId.Value;
+                menuPermission.CreateTime = DateTime.Now;
+
                 _accountContext.MenuPermissions.Add(menuPermission);
 
                 int resultRowCount = await _accountContext.SaveChangesAsync();

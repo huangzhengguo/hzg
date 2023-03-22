@@ -37,7 +37,7 @@ public class JwtService : IJwtService
     {
         var claims = new Claim[]
         {
-            new Claim(ClaimTypes.Email, userDto.Email),
+            new Claim(ClaimTypes.Email, userDto.Email ?? "example.com"),
             new Claim(ClaimTypes.NameIdentifier, userDto.Id),
             new Claim("userid", userDto.Id),
             new Claim("username", userDto.UserName ?? "username"),
