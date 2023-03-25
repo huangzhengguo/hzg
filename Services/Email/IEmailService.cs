@@ -13,13 +13,6 @@ public interface IEmailService
     /// <summary>
     /// 发送邮件
     /// </summary>
-    /// <param name="email">邮箱</param>
-    /// <param name="body">邮件内容</param>
-    void SendEmail(string email, string body);
-
-    /// <summary>
-    /// 发送邮件
-    /// </summary>
     /// <param name="mailProperties"></param>
     /// <param name="from"></param>
     /// <param name="to"></param>

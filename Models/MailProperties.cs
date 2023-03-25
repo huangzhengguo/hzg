@@ -51,7 +51,7 @@ public class MailProperties
     /// 发件箱
     /// </summary>
     /// <value></value>
-    public String UserName { get; set; }
+    public String Email { get; set; }
 
     /// <summary>
     /// 发件箱密码

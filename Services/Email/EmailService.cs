@@ -64,21 +64,6 @@ public class EmailService : IEmailService
     /// <summary>
     /// 发送邮件
     /// </summary>
-    /// <param name="email">邮箱</param>
-    /// <param name="body">邮件内容</param>
-    public void SendEmail(string email, string body)
-    {
-        // 邮件消息信息
-        var mailMessage = GetMailMessage(email, body);
-
-        var smtp = GetSmtpClient();
-
-        smtp.Send(mailMessage);
-    }
-
-    /// <summary>
-    /// 发送邮件
-    /// </summary>
     /// <param name="mailProperties"></param>
     /// <param name="from"></param>
     /// <param name="to"></param>
@@ -107,7 +92,7 @@ public class EmailService : IEmailService
             client.Connect(mailProperties.Host, mailProperties.Port, useSsl);
 
             // Note: only needed if the SMTP server requires authentication
-            client.Authenticate (mailProperties.UserName, mailProperties.Password);
+            client.Authenticate (mailProperties.Email, mailProperties.Password);
 
             client.Send(message);
             client.Disconnect(true);
@@ -161,21 +146,6 @@ public class EmailService : IEmailService
         {
             this.SendEmailCallback(mailSent);
         }
-    }
-
-    /// <summary>
-    /// 获取默认 SMTP 客户端
-    /// </summary>
-    /// <returns></returns>
-    private SmtpClient GetSmtpClient()
-    {
-        var smtp = new SmtpClient();
-
-        // smtp.Host = this._host;
-        // smtp.Port = this._port;
-        // smtp.Credentials = new NetworkCredential(this._fromEmail, this._password);
-
-        return smtp;
     }
 
     /// <summary>
