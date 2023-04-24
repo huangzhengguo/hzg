@@ -35,7 +35,15 @@ public class MqttService : IMqttService
             await MqttTool.Reconnect(emqxMqttClient, emqxMqttClient.Options);
         }
 
-        await emqxMqttClient.PublishAsync(applicationMessage);
+        var result = await emqxMqttClient.PublishAsync(applicationMessage);
+        if (result.IsSuccess == true)
+        {
+            
+        }
+        else
+        {
+
+        }
     }
 
     /// <summary>

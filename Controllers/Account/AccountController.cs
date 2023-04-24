@@ -185,7 +185,7 @@ public class HzgAccountController : ControllerBase
             {
                 token = jwtToken,
                 menuData = menusToReturn,
-                Brand = user.Brand
+                Brand = model.Brand
             };
 
             return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());

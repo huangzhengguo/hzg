@@ -10,5 +10,5 @@ public enum SensorTypeEnum : UInt16
     // 湿度
     Humidity = 1,
     // 温湿度
-    TemperatureHumidity = 2
+    TemperatureHumidity = 2,
 }

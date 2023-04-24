@@ -95,13 +95,9 @@ public class APNsService : IAPNsService
         var jwtHeader = new JwtHeader(signingCredentials);
         var jwtPayload = new JwtPayload(claims);
 
-        var jwtSecurityToken = new JsonWebTokenHandler();
+        var jwtSecurityToken = new JwtSecurityToken(jwtHeader, jwtPayload);
 
-        APNsService.token = jwtSecurityToken.CreateToken(new SecurityTokenDescriptor()
-        {
-            AdditionalHeaderClaims = jwtHeader,
-            Claims = jwtPayload
-        });
+        APNsService.token = tokenHandler.WriteToken(jwtSecurityToken);
 
         return APNsService.token;
     }

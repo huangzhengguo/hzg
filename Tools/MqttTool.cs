@@ -99,7 +99,7 @@ public static class MqttTool
         mqttClientOptions.ProtocolVersion = MqttProtocolVersion.V311;
         mqttClientOptions.ClientId = clientId;
         mqttClientOptions.Credentials = new MqttClientCredentials(username, Encoding.UTF8.GetBytes(password));
-        mqttClientOptions.KeepAlivePeriod = TimeSpan.FromSeconds(60);
+        mqttClientOptions.KeepAlivePeriod = TimeSpan.FromSeconds(1800);
 
         await Reconnect(mqttClient, mqttClientOptions);
 

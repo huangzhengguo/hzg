@@ -31,9 +31,10 @@ public class FcmService : IFcmService
         };
 
         string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
-        Debug.WriteLine("Fcm 发送消息返回:" + response);
+
 
         responseData.Code = ErrorCode.Success;
+        responseData.Data = response;
 
         return responseData;
     }
