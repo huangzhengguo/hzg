@@ -10,6 +10,12 @@ namespace Hzg.Services;
 public interface IUserService
 {
     /// <summary>
+    /// 获取当前登录用户所属品牌
+    /// </summary>
+    /// <returns></returns>
+    string GetCurrentUserBrand();
+
+    /// <summary>
     /// 获取当前登录用户的信息
     /// </summary>
     /// <returns></returns>

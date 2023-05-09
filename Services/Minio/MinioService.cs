@@ -31,7 +31,7 @@ public class MinioService : IMinioService
                 Secure = secure
             };
 
-            _minioClient = MinioTool.CreateMinioClient(con);
+            _minioClient = HZG_MinioTool.CreateMinioClient(con);
         }
     }
 
@@ -59,7 +59,7 @@ public class MinioService : IMinioService
         }
         var objectName = Path.Combine(filePath, fileName);
         var stream = formFile.OpenReadStream();
-        var success = await MinioTool.UploadFile(_minioClient, bucketName, objectName, stream, formFile.Length, formFile.ContentType);
+        var success = await HZG_MinioTool.UploadFile(_minioClient, bucketName, objectName, stream, formFile.Length, formFile.ContentType);
         if (success == true)
         {
             return (true, bucketName, objectName, fileName);
@@ -89,7 +89,7 @@ public class MinioService : IMinioService
     /// <returns></returns>
     public async Task<string> GetFileUrl(string bucketName, string objectName, string contentType = "")
     {
-        return await MinioTool.GetFileUrl(_minioClient, bucketName, objectName, contentType);
+        return await HZG_MinioTool.GetFileUrl(_minioClient, bucketName, objectName, contentType);
     }
 
     /// <summary>
@@ -112,7 +112,7 @@ public class MinioService : IMinioService
     /// <returns></returns>
     public async Task<bool> RemoveFile(string bucketName, string objectName)
     {
-        return await MinioTool.RemoveFile(_minioClient, bucketName, objectName);
+        return await HZG_MinioTool.RemoveFile(_minioClient, bucketName, objectName);
     }
 
     /// <summary>

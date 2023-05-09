@@ -14,6 +14,11 @@ public class UserDto
     public string Id { get; set; }
 
     /// <summary>
+    /// 品牌
+    /// </summary>
+    public string Brand { get; set; }
+
+    /// <summary>
     /// 用户名
     /// </summary>
     /// <value></value>

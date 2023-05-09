@@ -11,7 +11,7 @@ public class LoginUserInfo<T>
     public T UserId { get; set; }
 
     /// <summary>
-    /// 公司
+    /// 品牌
     /// </summary>
     /// <value></value>
     public string Brand { get; set; }

@@ -9,7 +9,7 @@ namespace Hzg.Tool;
 /// <summary>
 /// Minio 工具类
 /// </summary>
-public static class MinioTool
+public static class HZG_MinioTool
 {
     /// <summary>
     /// 创建 Minio 客户端

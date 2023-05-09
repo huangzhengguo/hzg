@@ -42,6 +42,7 @@ public class JwtService : IJwtService
             new Claim("userid", userDto.Id),
             new Claim("username", userDto.UserName ?? "username"),
             new Claim("nickname", userDto.Nickname ?? "nickname"),
+            new Claim("brand", userDto.Brand.ToLower() ?? "brand")
             // 用户所在的分组
             // new Claim("groups", userDto.Groups)
             // new Claim(ClaimTypes.Role, userDto.Roles),

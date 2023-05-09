@@ -176,6 +176,7 @@ public class HzgAccountController : ControllerBase
             userDto.UserName = user.Name;
             userDto.Id = user.Id.ToString();
             userDto.Email = user.Email;
+            userDto.Brand = model.Brand;
 
             var jwtToken = _jwtService.GetnerateJWTToken(userDto);
 

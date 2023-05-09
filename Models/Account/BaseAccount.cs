@@ -20,7 +20,7 @@ public abstract class BaseAccount<KeyT>
     /// </summary>
     [Column("brand")]
     [MaxLength(32)]
-    public String Brand { get; set; }
+    public string Brand { get; set; }
 
     /// <summary>
     /// 创建人 ID

@@ -28,6 +28,16 @@ public class UserService : IUserService
     }
 
     /// <summary>
+    /// 获取当前登录用户所属品牌
+    /// </summary>
+    /// <returns></returns>
+    public string GetCurrentUserBrand()
+    {
+        var user = _httpContextAccessor.HttpContext.User;
+        return user.FindFirst("brand")?.Value;
+    }
+
+    /// <summary>
     /// 获取当前登录用户信息
     /// </summary>
     /// <returns></returns>
