@@ -14,6 +14,7 @@ public static class MqttTool
 {
     private static string accessSecret = "123456789";
     private static string accessKey = "987654321";
+    
     /// <summary>
     /// 生成 ClientId
     /// </summary>

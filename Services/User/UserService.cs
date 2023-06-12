@@ -226,7 +226,7 @@ public class UserService : IUserService
             return false;
         }
 
-        CommonTool.CopyProperties(userEditDto, user);
+        HZG_CommonTool.CopyProperties(userEditDto, user);
 
         _accountDbContext.Users.Update(user);
         if (await _accountDbContext.SaveChangesAsync() != 1)

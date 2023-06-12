@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Hzg.Tool;
 
-public static class CommonTool
+public static class HZG_CommonTool
 {
     /// <summary>
     /// 复制一个对象的属性到另一个对象
@@ -52,7 +52,7 @@ public static class CommonTool
     {
         var vo = new DT();
 
-        CommonTool.CopyProperties(kr, vo);
+        HZG_CommonTool.CopyProperties(kr, vo);
 
         return vo;
     }
