@@ -1,23 +1,32 @@
 using System.Diagnostics;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using FirebaseAdmin.Auth;
 using FirebaseAdmin.Messaging;
 using Hzg.Tool;
 using Hzg.Consts;
+using Microsoft.Extensions.Configuration;
 
 namespace Hzg.Services;
 
 public class FcmService : IFcmService
 {
+    private readonly IConfiguration _configuration;
+    public FcmService(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
     /// <summary>
-    /// 发送推送通知
+    /// 发送通知
     /// </summary>
-    /// <param name="apnsTopic">APP Id</param>
-    /// <param name="deviceToken">设备标识</param>
-    /// <param name="type">通知类型</param>
-    /// <param name="title">标题</param>
-    /// <param name="subtitle">子标题</param>
-    /// <param name="body">通知内容</param>
+    /// <param name="deviceToken"></param>
+    /// <param name="brand"></param>
+    /// <param name="type"></param>
+    /// <param name="title"></param>
+    /// <param name="body"></param>
     /// <returns></returns>
-    public async Task<ResponseData<string>> PushNotification(string deviceToken, NotificationType type, string title, string subtitle, string body)
+    public async Task<ResponseData<string>> PushNotification(string brand, string deviceToken, NotificationType type, string title, string body)
     {
         var responseData = ResponseTool.FailedResponseData<string>();
         var message = new Message()
@@ -30,10 +39,20 @@ public class FcmService : IFcmService
             Token = deviceToken
         };
 
-        string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
+        var lowerBrand = brand.ToLower();
 
+        var firebaseApp = FirebaseAdmin.FirebaseApp.GetInstance(lowerBrand);
+        if (firebaseApp == null)
+        {
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile(_configuration["google:" + lowerBrand + ":secretKeyPath"])
+            }, lowerBrand);
+        }
 
-        responseData.Code = ErrorCode.Success;
+        string response = await FirebaseMessaging.GetMessaging(firebaseApp).SendAsync(message);
+
+        responseData.Code = Hzg.Consts.ErrorCode.Success;
         responseData.Data = response;
 
         return responseData;

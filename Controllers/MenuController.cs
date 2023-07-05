@@ -41,7 +41,7 @@ public class HzgMenuController : ControllerBase
         }
         var result = new ResponseData()
         {
-            Code = ErrorCode.Create_Success,
+            Code = ErrorCode.Success,
             Data = null,
             ShowMsg = true
         };

@@ -56,4 +56,9 @@ public static class HZG_CommonTool
 
         return vo;
     }
+
+    public static string GetSortCode(int count)
+    {
+        return count.ToString("D32");
+    }
 }

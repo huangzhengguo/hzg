@@ -25,7 +25,6 @@ public enum NotificationType: int
 public class APNsService : IAPNsService
 {
     static string token = null;
-    static string baseUrl = null;
 
     private readonly IConfiguration _configuration;
     private readonly IHttpClientFactory _httpClientFactory;
@@ -33,24 +32,22 @@ public class APNsService : IAPNsService
     {
         this._configuration = configuration;
         this._httpClientFactory = httpClientFactory;
-
-        APNsService.baseUrl = this._configuration["apple:pushNotificationServer"];
     }
 
     /// <summary>
     /// 生成 APNs JWT token
     /// </summary>
     /// <returns></returns>
-    public string GetnerateAPNsJWTToken()
+    public string GetnerateAPNsJWTToken(string brand)
     {
-        return this.GetnerateAPNsJWTToken(APNsService.token);
+        return this.GetnerateAPNsJWTToken(brand, APNsService.token);
     }
 
     /// <summary>
     /// 生成 APNs JWT token
     /// </summary>
     /// <returns></returns>
-    private string GetnerateAPNsJWTToken(string oldToken)
+    private string GetnerateAPNsJWTToken(string brand, string oldToken)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var iat = DateTimeTool.UtcNowUnixTimeSeconds();
@@ -73,9 +70,9 @@ public class APNsService : IAPNsService
             }
         }
 
-        var kid = _configuration["apple:kid"];
-        var securityKey = _configuration["apple:securityKey"].Replace("\n", "");
-        var iss = _configuration["apple:iss"];
+        var kid = _configuration["apple:" + brand + ":kid"];
+        var securityKey = _configuration["apple:" + brand + ":securityKey"].Replace("\n", "");
+        var iss = _configuration["apple:" + brand + ":iss"];
         
         var claims = new Claim[]
         {
@@ -112,11 +109,12 @@ public class APNsService : IAPNsService
     /// <param name="subtitle">子标题</param>
     /// <param name="body">通知内容</param>
     /// <returns></returns>
-    public async Task<ResponseData<string>> PushNotification(string apnsTopic, string deviceToken, NotificationType type, string title, string subtitle, string body)
+    public async Task<ResponseData<string>> PushNotification(string brand, string apnsTopic, string deviceToken, NotificationType type, string title, string subtitle, string body)
     {
         var responseData = ResponseTool.FailedResponseData<string>();
-        var token = this.GetnerateAPNsJWTToken();
-        var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, APNsService.baseUrl + deviceToken)
+        var token = this.GetnerateAPNsJWTToken(brand);
+        var server = this._configuration["apple:" + brand + ":pushNotificationServer"];
+        var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, server + deviceToken)
         {
             Headers = 
             {

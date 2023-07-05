@@ -45,19 +45,25 @@ public class UserService : IUserService
     {
         var user = _httpContextAccessor.HttpContext.User;
         var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var brand = user.FindFirst("brand")?.Value;
 
-        var loginUser = await _accountDbContext.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id.ToString() == userId);
-        if (loginUser != null)
-        {
-            var userInfo = new LoginUserInfo();
+        // var loginUser = await _accountDbContext.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id.ToString() == userId);
+        // if (loginUser != null)
+        // {
+        //     var userInfo = new LoginUserInfo();
 
-            userInfo.UserId = loginUser.Id;
-            userInfo.Brand = loginUser.Brand;
+        //     userInfo.UserId = loginUser.Id;
+        //     userInfo.Brand = loginUser.Brand;
 
-            return userInfo;
-        }
+        //     return userInfo;
+        // }
 
-        return null;
+        var userInfo = new LoginUserInfo();
+
+        userInfo.UserId = new Guid(userId);
+        userInfo.Brand = brand;
+
+        return userInfo;
     }
 
     /// <summary>
