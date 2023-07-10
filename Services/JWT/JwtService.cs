@@ -35,21 +35,19 @@ public class JwtService : IJwtService
     /// <returns></returns>
     public string GetnerateJWTToken(UserDto userDto)
     {
-        var claims = new Claim[]
+        var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Email, userDto.Email ?? "example.com"),
             new Claim(ClaimTypes.NameIdentifier, userDto.Id),
             new Claim("userid", userDto.Id),
             new Claim("username", userDto.UserName ?? "username"),
-            new Claim("nickname", userDto.Nickname ?? "nickname"),
-            
+            new Claim("nickname", userDto.Nickname ?? "nickname")
             // 用户所在的分组
             // new Claim("groups", userDto.Groups)
             // new Claim(ClaimTypes.Role, userDto.Roles),
         };
-
         if (string.IsNullOrWhiteSpace(userDto.Brand) == false) {
-            claims.Append(new Claim("brand", userDto.Brand.ToLower()));
+            claims.Add(new Claim("brand", userDto.Brand.ToLower()));
         }
 
         var issuer = _configuration[JwtOptionsConst.IssuerSettingPath];
