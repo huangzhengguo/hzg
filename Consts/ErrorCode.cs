@@ -121,5 +121,7 @@ public enum ErrorCode : int
     // 时间过长
     Date_Range_Too_Long = 20048,
     // 密码不一致
-    New_Old_Password_Not_Same = 21049
+    New_Old_Password_Not_Same = 21049,
+    // 自己不能绑定自己
+    Can_Not_Bind_Self = 21050
 }

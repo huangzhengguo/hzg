@@ -14,17 +14,9 @@ public interface IEmailService
     /// 发送邮件
     /// </summary>
     /// <param name="mailProperties"></param>
-    /// <param name="from"></param>
     /// <param name="to"></param>
     /// <param name="subject"></param>
     /// <param name="content"></param>
     /// <returns></returns>
-    public bool SendMail(MailProperties mailProperties, String from, String to, String subject, String content);
-    
-    /// <summary>
-    /// 异步发送邮件
-    /// </summary>
-    /// <param name="email"></param>
-    /// <param name="body"></param>
-    public void SendEmailAsync(string email, string body, Action<bool> callback);
+    public bool SendMail(MailProperties mailProperties, String to, String subject, String content);
 }

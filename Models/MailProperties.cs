@@ -1,4 +1,5 @@
 namespace Hzg.Models;
+using Hzg.Consts;
 
 /// <summary>
 /// 邮件属性
@@ -42,6 +43,11 @@ public class MailProperties
     public String Protocol { get; set; }
 
     /// <summary>
+    /// 加密方式
+    /// </summary>
+    public EncryptionMode EncryptionMode { get; set; }
+
+    /// <summary>
     /// 属性
     /// </summary>
     /// <value></value>
@@ -52,6 +58,12 @@ public class MailProperties
     /// </summary>
     /// <value></value>
     public String Email { get; set; }
+
+    /// <summary>
+    /// 认证用户名
+    /// </summary>
+    /// <value></value>
+    public String UserName { get; set; }
 
     /// <summary>
     /// 发件箱密码

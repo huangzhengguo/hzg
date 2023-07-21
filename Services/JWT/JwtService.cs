@@ -47,7 +47,7 @@ public class JwtService : IJwtService
             // new Claim(ClaimTypes.Role, userDto.Roles),
         };
         if (string.IsNullOrWhiteSpace(userDto.Brand) == false) {
-            claims.Add(new Claim("brand", userDto.Brand.ToLower()));
+            claims.Add(new Claim("brand", userDto.Brand));
         }
 
         var issuer = _configuration[JwtOptionsConst.IssuerSettingPath];

@@ -5,6 +5,8 @@ using MailKit.Net.Smtp;
 using MailKit;
 using MimeKit;
 using Hzg.Models;
+using Microsoft.Extensions.Logging;
+using Hzg.Consts;
 
 namespace Hzg.Services;
 
@@ -14,51 +16,14 @@ namespace Hzg.Services;
 public class EmailService : IEmailService
 {
     private readonly IConfiguration _configuration;
-    // SMTP 服务器
-    private string _host {
-        get {
-            return _configuration["email:host"];
-        }
-    }
-    // 端口
-    private int _port {
-        get {
-            return Convert.ToInt32(_configuration["email:port"]);
-        }
-    }
-    // 发件人邮箱密码
-    private string _password {
-        get {
-            return _configuration["email:password"];
-        }
-    }
-
-    // 发件人邮箱
-    private string _fromEmail {
-        get {
-            return _configuration["email:email"];
-        }
-    }
-
-    // 邮件主题
-    private string _subject {
-        get {
-            return _configuration["email:subject"];
-        }
-    }
-
-    // 显示名称
-    private string _displayName {
-        get {
-            return _configuration["email:displayName"];
-        }
-    }
+    private readonly ILogger _logger;
 
     private Action<bool> SendEmailCallback = null;
 
-    public EmailService(IConfiguration configuration)
+    public EmailService(IConfiguration configuration, ILogger<string> logger)
     {
         _configuration = configuration;
+        _logger = logger;
     }
 
     /// <summary>
@@ -70,102 +35,56 @@ public class EmailService : IEmailService
     /// <param name="subject"></param>
     /// <param name="content"></param>
     /// <returns></returns>
-    public bool SendMail(MailProperties mailProperties, String from, String to, String subject, String content)
+    public bool SendMail(MailProperties mailProperties, String to, String subject, String content)
     {
-        var message = new MimeMessage();
-
-        message.From.Add(new MailboxAddress(from, from));
-        message.To.Add(new MailboxAddress(to, to));
-        message.Subject = subject;
-        message.Body = new TextPart("plain")
+        if (mailProperties.Protocol == "SMTP")
         {
-            Text = content
-        };
+            var message = new MimeMessage();
 
-        using(var client = new SmtpClient())
-        {
-            var useSsl = false;
-            if (mailProperties.Properties.Keys.Contains("mail.smtp.ssl.enable") == true && mailProperties.Properties["mail.smtp.ssl.enable"].ToString() == "true")
+            message.From.Add(new MailboxAddress(mailProperties.Email, mailProperties.Email));
+            message.To.Add(new MailboxAddress(to, to));
+            message.Subject = subject;
+            message.Body = new TextPart("plain")
             {
-                useSsl = true;
+                Text = content
+            };
+
+            using(var client = new SmtpClient())
+            {
+                if (mailProperties.EncryptionMode == EncryptionMode.SSL)
+                {
+                    client.Connect(mailProperties.Host, mailProperties.Port, true);
+                }
+                else if (mailProperties.EncryptionMode == EncryptionMode.STARTTLS)
+                {
+                    client.Connect(mailProperties.Host, mailProperties.Port, options: MailKit.Security.SecureSocketOptions.StartTls);
+                }
+                
+                // Note: only needed if the SMTP server requires authentication
+                client.Authenticate(mailProperties.UserName, mailProperties.Password);
+
+                client.Send(message);
+                client.Disconnect(true);
             }
-            client.Connect(mailProperties.Host, mailProperties.Port, useSsl);
+        }
+        else if (mailProperties.Protocol == "Exchange")
+        {
+            // ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2013_SP1);
 
-            // Note: only needed if the SMTP server requires authentication
-            client.Authenticate (mailProperties.Email, mailProperties.Password);
+            // service.Credentials = new WebCredentials(mailProperties.Email, mailProperties.Password);
 
-            client.Send(message);
-            client.Disconnect(true);
+            // if (mailProperties.Properties.Keys.Contains("mail.smtp.ssl.enable") == true && mailProperties.Properties["mail.smtp.ssl.enable"].ToString() == "true")
+            // {
+            //     service.Url = new Uri("https://" + mailProperties.Host + ":" + mailProperties.Port);
+            // }
+            
+            // EmailMessage email = new EmailMessage(service);
+            // email.Subject = subject;
+            // email.Body = new MessageBody(content);
+            // email.ToRecipients.Add(to);
+            // email.Send();
         }
 
         return true;
-    }
-
-    /// <summary>
-    /// 异步发送邮件
-    /// </summary>
-    /// <param name="email"></param>
-    /// <param name="body"></param>
-    public void SendEmailAsync(string email, string body, Action<bool> callback)
-    {
-        // this.SendEmailCallback = callback;
-
-        // var mailMessage = GetMailMessage(email, body);
-        // var smtpClient = GetSmtpClient();
-
-        // smtpClient.SendCompleted += SendCompletedCallback;
-
-        // smtpClient.SendAsync(mailMessage, "Test");
-    }
-
-    /// <summary>
-    /// 异步发送邮件回调
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
-    {
-        var mailSent = false;
-        string token = (string) e.UserState;
-        if (e.Cancelled)
-        {
-            return;
-        }
-
-        if (e.Error != null)
-        {
-            mailSent = false;
-        }
-        else
-        {
-            mailSent = true;
-
-        }
-
-        if (this.SendEmailCallback != null)
-        {
-            this.SendEmailCallback(mailSent);
-        }
-    }
-
-    /// <summary>
-    /// 获取邮件消息
-    /// </summary>
-    /// <param name="email"></param>
-    /// <param name="body"></param>
-    /// <returns></returns>
-    private MimeMessage GetMailMessage(string email, string body)
-    {
-        var message = new MimeMessage();
-
-        message.From.Add(new MailboxAddress(this._displayName, this._fromEmail));
-        message.To.Add(new MailboxAddress(email, email));
-        message.Subject = this._subject;
-        message.Body = new TextPart("plain")
-        {
-            Text = body
-        };
-
-        return message;
     }
 }
