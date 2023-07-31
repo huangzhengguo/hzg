@@ -8,6 +8,7 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
 using Hzg.Tool;
 using Hzg.Consts;
+using Hzg.Dto;
 
 namespace Hzg.Services;
 
@@ -104,12 +105,9 @@ public class APNsService : IAPNsService
     /// </summary>
     /// <param name="apnsTopic">APP Id</param>
     /// <param name="deviceToken">设备标识</param>
-    /// <param name="type">通知类型</param>
-    /// <param name="title">标题</param>
-    /// <param name="subtitle">子标题</param>
-    /// <param name="body">通知内容</param>
+    /// <param name="dto">通知数据</param>
     /// <returns></returns>
-    public async Task<ResponseData<string>> PushNotification(string brand, string apnsTopic, string deviceToken, NotificationType type, string title, string subtitle, string body)
+    public async Task<ResponseData<string>> PushNotification(string brand, string apnsTopic, string deviceToken, APNSNotificationDto dto)
     {
         var responseData = ResponseTool.FailedResponseData<string>();
         var token = this.GetnerateAPNsJWTToken(brand);
@@ -131,11 +129,12 @@ public class APNsService : IAPNsService
             {
                 alert = new
                 {
-                    title = title,
-                    subtitle = subtitle,
-                    body = body
+                    title = dto.Title,
+                    subtitle = dto.Subtitle,
+                    body = dto.Body
                 }
-            }
+            },
+            data = dto.Data
         };
         var content = new StringContent(JsonSerializerTool.SerializeDefault(notContent),  System.Text.Encoding.UTF8, Application.Json);
 

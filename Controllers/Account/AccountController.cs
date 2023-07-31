@@ -29,6 +29,7 @@ public class HzgAccountController : ControllerBase
     private readonly IUserService _userService;
     private readonly IEmailService _emailService;
     private readonly IVerifyCodeService _verifyCodeService;
+    private readonly IRedisService _redisService;
 
     /// <summary>
     /// 构造方法
@@ -42,7 +43,8 @@ public class HzgAccountController : ControllerBase
                              ILogger<LoginViewModel> logger,
                              IUserService userService,
                              IEmailService emailService,
-                             IVerifyCodeService verifyCodeService)
+                             IVerifyCodeService verifyCodeService,
+                             IRedisService redisService)
     {
         _accountContext = accountContext;
         _configuration = configuration;
@@ -51,6 +53,7 @@ public class HzgAccountController : ControllerBase
         _logger = logger;
         _emailService = emailService;
         _verifyCodeService = verifyCodeService;
+        _redisService = redisService;
     }
 
     /// <summary>
@@ -112,7 +115,7 @@ public class HzgAccountController : ControllerBase
         }
 
         // 获取本地验证码
-        var localVerifyCode = RedisTool.GetStringValue(model.Email);
+        var localVerifyCode = _redisService.GetStringValue(model.Email);
         if (localVerifyCode == null || localVerifyCode.Equals(model.VerifyCode) == false)
         {
             // 验证码不一致

@@ -17,14 +17,16 @@ public class UserService : IUserService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly AccountDbContext _accountDbContext;
     private readonly ILocalizerService _localizerService;
-
+    private readonly IRedisService _redisService;
     public UserService(IHttpContextAccessor httpContextAccessor,
                        AccountDbContext accountDbContext,
-                       ILocalizerService localizerService)
+                       ILocalizerService localizerService,
+                       IRedisService redisService)
     {
         _httpContextAccessor = httpContextAccessor;
         _accountDbContext = accountDbContext;
         _localizerService = localizerService;
+        _redisService = redisService;
     }
 
     /// <summary>
@@ -195,11 +197,11 @@ public class UserService : IUserService
     public async Task<bool> ResetPassword(ResetDto resetDto)
     {
         var verifyCodeKey = CommonConstant.EMAIL_RESETPSW_CODE_KEY + resetDto.Email;
-        var verifyCode = RedisTool.GetStringValue(verifyCodeKey);
+        var verifyCode = _redisService.GetStringValue(verifyCodeKey);
         if (verifyCode != null && resetDto.VerifyCode == verifyCode)
         {
             // 删除 Redis 中的验证码
-            RedisTool.DeleteStringValue(verifyCodeKey);
+            _redisService.DeleteStringValue(verifyCodeKey);
 
             var user = await _accountDbContext.Users.SingleOrDefaultAsync(u => u.Email == resetDto.Email && u.Brand == resetDto.Brand);
             

@@ -10,11 +10,13 @@ public class VerifyCodeService : IVerifyCodeService
 
     private readonly IConfiguration _configuration;
     private readonly IEmailService _emailService;
+    private readonly IRedisService _redisService;
 
-    public VerifyCodeService(IConfiguration configuration, IEmailService emailService)
+    public VerifyCodeService(IConfiguration configuration, IEmailService emailService, IRedisService redisService)
     {
         _configuration = configuration;
         _emailService = emailService;
+        _redisService = redisService;
     }
 
     /// <summary>
@@ -54,10 +56,10 @@ public class VerifyCodeService : IVerifyCodeService
 
         // 存储到 Redis
         String key = typePrefix + email;
-        string exitCode = RedisTool.GetStringValue(key);
+        string exitCode = _redisService.GetStringValue(key);
         if (string.IsNullOrWhiteSpace(exitCode) == false)
         {
-            long leftSeconds = RedisTool.GetRemainingSeconds(key);
+            long leftSeconds = _redisService.GetRemainingSeconds(key);
             long usedSeconds = CommonConstant.CODE_TIME - leftSeconds;
 
             if (usedSeconds < EMAIL_CODE_INTERVAL)
@@ -70,7 +72,7 @@ public class VerifyCodeService : IVerifyCodeService
 
         String code = RandomTool.GenerateDigitalCode();
 
-        RedisTool.SetStringValue(key, code, CommonConstant.CODE_TIME);
+        _redisService.SetStringValue(key, code, CommonConstant.CODE_TIME);
 
         responseData.Data = code;
         responseData.Code = ErrorCode.Success;

@@ -5,6 +5,7 @@ using FirebaseAdmin.Auth;
 using FirebaseAdmin.Messaging;
 using Hzg.Tool;
 using Hzg.Consts;
+using Hzg.Dto;
 using Microsoft.Extensions.Configuration;
 
 namespace Hzg.Services;
@@ -20,22 +21,21 @@ public class FcmService : IFcmService
     /// <summary>
     /// 发送通知
     /// </summary>
-    /// <param name="deviceToken"></param>
-    /// <param name="brand"></param>
-    /// <param name="type"></param>
-    /// <param name="title"></param>
-    /// <param name="body"></param>
+    /// <param name="deviceToken">设备标识</param>
+    /// <param name="brand">品牌</param>
+    /// <param name="dto">通知数据</param>
     /// <returns></returns>
-    public async Task<ResponseData<string>> PushNotification(string brand, string deviceToken, NotificationType type, string title, string body)
+    public async Task<ResponseData<string>> PushNotification(string brand, string deviceToken, FCMNotificationDto dto)
     {
         var responseData = ResponseTool.FailedResponseData<string>();
         var message = new Message()
         {
             Notification = new Notification()
             {
-                Title = title,
-                Body = body
+                Title = dto.Title,
+                Body = dto.Body
             },
+            Data = dto.Data,
             Token = deviceToken
         };
 

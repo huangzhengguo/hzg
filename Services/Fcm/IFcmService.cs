@@ -1,4 +1,5 @@
 using Hzg.Tool;
+using Hzg.Dto;
 
 namespace Hzg.Services;
 
@@ -7,11 +8,9 @@ public interface IFcmService
     /// <summary>
     /// 发送通知
     /// </summary>
-    /// <param name="deviceToken"></param>
-    /// <param name="brand"></param>
-    /// <param name="type"></param>
-    /// <param name="title"></param>
-    /// <param name="body"></param>
+    /// <param name="deviceToken">设备标识</param>
+    /// <param name="brand">品牌</param>
+    /// <param name="dto">通知数据</param>
     /// <returns></returns>
-    Task<ResponseData<string>> PushNotification(string brand, string deviceToken, NotificationType type, string title, string body);
+    Task<ResponseData<string>> PushNotification(string brand, string deviceToken, FCMNotificationDto dto);
 }

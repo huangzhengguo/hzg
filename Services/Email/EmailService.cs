@@ -51,9 +51,13 @@ public class EmailService : IEmailService
 
             using(var client = new SmtpClient())
             {
-                if (mailProperties.EncryptionMode == EncryptionMode.SSL)
+                if (mailProperties.EncryptionMode == EncryptionMode.None)
                 {
-                    client.Connect(mailProperties.Host, mailProperties.Port, true);
+                    client.Connect(mailProperties.Host, mailProperties.Port, useSsl: false);
+                }
+                else if (mailProperties.EncryptionMode == EncryptionMode.SSL)
+                {
+                    client.Connect(mailProperties.Host, mailProperties.Port, useSsl: true);
                 }
                 else if (mailProperties.EncryptionMode == EncryptionMode.STARTTLS)
                 {
