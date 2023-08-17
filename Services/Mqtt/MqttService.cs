@@ -6,9 +6,17 @@ using Hzg.Tool;
 
 namespace Hzg.Services;
 
+/// <summary>
+/// MQTT 服务
+/// </summary>
 public class MqttService : IMqttService
 {
     private readonly IConfiguration _configuration;
+
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="configuration">配置</param>
     public MqttService(IConfiguration configuration)
     {
         this._configuration = configuration;

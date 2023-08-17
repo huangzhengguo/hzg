@@ -11,7 +11,9 @@ public static class JsonSerializerTool
     /// <summary>
     /// 默认序列化，JsonSerializer 静态类不能扩展，所以这里使用静态方法
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="value">值</param>
+    /// <param name="isDate">是否为日期</param>
+    /// <typeparam name="TValue">值类型</typeparam>
     /// <returns></returns>
     public static string SerializeDefault<TValue>(TValue value, bool isDate = true)
     {

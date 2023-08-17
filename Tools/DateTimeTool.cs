@@ -61,6 +61,11 @@ public class DateTimeTool
         return false;
     }
 
+    /// <summary>
+    /// 转换毫秒时间戳为日期
+    /// </summary>
+    /// <param name="timeStamp">毫秒时间戳</param>
+    /// <returns></returns>
     public static DateTime FromLongTimeStamp(long timeStamp)
     {
         return DateTimeOffset.FromUnixTimeMilliseconds(timeStamp).DateTime;

@@ -44,6 +44,9 @@ public abstract class HzgBaseEntity<KeyT>
     public string Remark { get; set; }
 }
 
+/// <summary>
+/// 基类
+/// </summary>
 public abstract class HzgBaseEntity : HzgBaseEntity<Guid>
 {
     /// <summary>

@@ -5,8 +5,17 @@ using Hzg.Data;
 
 namespace Hzg.Tool;
 
+/// <summary>
+/// 菜单工具类
+/// </summary>
 public class MenuTool
 {
+    /// <summary>
+    /// 获取用户菜单权限
+    /// </summary>
+    /// <param name="context">数据库上下文</param>
+    /// <param name="userName">用户名</param>
+    /// <returns></returns>
     public static async Task<List<HzgMenu>> GetUserPermissionMenus(AccountDbContext context, string userName)
     {
         // 获取菜单权限数据

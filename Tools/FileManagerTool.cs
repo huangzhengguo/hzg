@@ -3,6 +3,9 @@ using Hzg.Consts;
 
 namespace Hzg.Tool;
 
+/// <summary>
+/// 文件管理工具
+/// </summary>
 public static class FileManagerTool
 {
     /// <summary>

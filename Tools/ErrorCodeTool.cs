@@ -2,6 +2,9 @@ using Hzg.Consts;
 
 namespace Hzg.Tool;
 
+/// <summary>
+/// 错误码工具类
+/// </summary>
 public static class ErrorCodeTool
 {
     /// <summary>

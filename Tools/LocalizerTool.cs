@@ -7,11 +7,11 @@ namespace Hzg.Tool;
 /// </summary>
 public static class LocalizerTool
 {
-    // private static string currentLanguage = "en";
     /// <summary>
-    /// 
+    /// 获取对应键值的语言文本
     /// </summary>
-    /// <param name="key"></param>
+    /// <param name="key">键</param>
+    /// <param name="language">语言</param>
     /// <returns></returns>
     public static string Value(string key, string language = "en")
     {

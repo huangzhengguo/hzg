@@ -3,6 +3,9 @@ using Hzg.Consts;
 
 namespace Hzg.Services;
 
+/// <summary>
+/// 验证码
+/// </summary>
 public interface IVerifyCodeService
 {
     /// <summary>

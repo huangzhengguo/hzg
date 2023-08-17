@@ -4,6 +4,9 @@ using Hzg.Tool;
 
 namespace Hzg.Services;
 
+/// <summary>
+/// 验证码
+/// </summary>
 public class VerifyCodeService : IVerifyCodeService
 {
     private int EMAIL_CODE_INTERVAL = 300;
@@ -12,6 +15,12 @@ public class VerifyCodeService : IVerifyCodeService
     private readonly IEmailService _emailService;
     private readonly IRedisService _redisService;
 
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="configuration">配置</param>
+    /// <param name="emailService">邮件</param>
+    /// <param name="redisService">Redis</param>
     public VerifyCodeService(IConfiguration configuration, IEmailService emailService, IRedisService redisService)
     {
         _configuration = configuration;

@@ -264,6 +264,8 @@ public static class DatabaseSeedTool
     /// <param name="name">名称</param>
     /// <param name="componentPath">组件路径</param>
     /// <param name="path">路由路径</param>
+    /// <param name="keepAlive">是否保活</param>
+    /// <param name="parentMenuId">父菜单路径</param>
     /// <returns></returns>
     public static async Task<HzgMenu> GenerateMenu(AccountDbContext context, string title, bool isRoot, bool isFinal, string name, string componentPath, string path, bool keepAlive = false, Guid? parentMenuId = null)
     {

@@ -169,7 +169,7 @@ public class UserService : IUserService
     /// <summary>
     /// 重置密码
     /// </summary>
-    /// <param name="resetDto"></param>
+    /// <param name="modifyDto">修改信息</param>
     /// <returns></returns>
     public async Task<bool> ModifyPassword(ModifyDto modifyDto)
     {

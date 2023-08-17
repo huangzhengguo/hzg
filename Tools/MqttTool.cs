@@ -18,10 +18,9 @@ public static class MqttTool
     /// <summary>
     /// 生成 ClientId
     /// </summary>
-    /// <param name="brand"></param>
-    /// <param name="productKey"></param>
-    /// <param name="deviceId"></param>
-    /// <param name="accessKey"></param>
+    /// <param name="brand">品牌</param>
+    /// <param name="productKey">产品密钥</param>
+    /// <param name="deviceId">设备标识</param>
     /// <returns></returns>
     public static string GenerateClientId(String brand, string productKey, string deviceId)
     {
@@ -43,9 +42,8 @@ public static class MqttTool
     /// <summary>
     /// 生成 username
     /// </summary>
-    /// <param name="clientId"></param>
-    /// <param name="username"></param>
-    /// <param name="deviceId"></param>
+    /// <param name="clientId">客户端标识</param>
+    /// <param name="username">用户名</param>
     /// <returns></returns>
     public static string GeneratePassword(string clientId, string username)
     {
@@ -55,11 +53,11 @@ public static class MqttTool
     }
 
     /// <summary>
-    /// 生成 username
+    /// 生成设备的 MQTT 参数
     /// </summary>
-    /// <param name="clientId"></param>
-    /// <param name="username"></param>
-    /// <param name="deviceId"></param>
+    /// <param name="brand">品牌</param>
+    /// <param name="productKey">产品密钥</param>
+    /// <param name="deviceId">设备标识</param>
     /// <returns></returns>
     public static (string clientid, string username, string password) GenerateMqttParam(String brand, string productKey, string deviceId)
     {
@@ -73,9 +71,9 @@ public static class MqttTool
     /// <summary>
     /// 验证 MQTT 连接参数
     /// </summary>
-    /// <param name="clientId"></param>
-    /// <param name="username"></param>
-    /// <param name="password"></param>
+    /// <param name="clientId">客户端标识</param>
+    /// <param name="username">用户名</param>
+    /// <param name="password">密码</param>
     /// <returns></returns>
     public static bool VerifyMqtt(string clientId, string username, string password)
     {
@@ -85,11 +83,11 @@ public static class MqttTool
     /// <summary>
     /// 创建 MQTT 客户端并连接服务器
     /// </summary>
-    /// <param name="server"></param>
-    /// <param name="port"></param>
-    /// <param name="clientId"></param>
-    /// <param name="username"></param>
-    /// <param name="password"></param>
+    /// <param name="server">MQTT 服务器</param>
+    /// <param name="port">MQTT 服务器端口</param>
+    /// <param name="clientId">客户端标识</param>
+    /// <param name="username">用户名</param>
+    /// <param name="password">密码</param>
     /// <returns></returns>
     public static async Task<IMqttClient> ConnectMqttServer(string server, int? port, string clientId, string username, string password)
     {
@@ -110,8 +108,8 @@ public static class MqttTool
     /// <summary>
     /// 重连服务器
     /// </summary>
-    /// <param name="mqttClient"></param>
-    /// <param name="mqttClientOptions"></param>
+    /// <param name="mqttClient">MQTT 客户端</param>
+    /// <param name="mqttClientOptions">MQTT 客户端配置</param>
     /// <returns></returns>
     public static async Task Reconnect(IMqttClient mqttClient, MqttClientOptions mqttClientOptions)
     {

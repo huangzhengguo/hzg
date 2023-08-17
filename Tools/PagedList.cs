@@ -27,6 +27,13 @@ public class PagedList<T> : List<T>
     /// <value></value>
     public int AllDataCount { get; private set; }
 
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="items">项目列表</param>
+    /// <param name="count">数量</param>
+    /// <param name="pageIndex">页码</param>
+    /// <param name="pageSize">页大小</param>
     public PagedList(List<T> items, int count, int pageIndex, int pageSize)
     {
         PageIndex = pageIndex;

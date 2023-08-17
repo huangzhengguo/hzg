@@ -3,6 +3,9 @@ using Hzg.Consts;
 
 namespace Hzg.Tool;
 
+/// <summary>
+/// Redis 工具
+/// </summary>
 public static class RedisTool
 {
     private static ConnectionMultiplexer _redis;
@@ -16,7 +19,7 @@ public static class RedisTool
                     EndPoints = { CommonConstant.RedisServer }
                 };
 
-                options.Password = "Cyd@2020";
+                options.Password = "";
 
                 _redis = ConnectionMultiplexer.Connect(options);
             }
