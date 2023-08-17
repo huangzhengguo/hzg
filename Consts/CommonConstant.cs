@@ -1,5 +1,8 @@
 namespace Hzg.Consts;
 
+/// <summary>
+/// 常用常量
+/// </summary>
 public static class CommonConstant
 {
     /// <summary>

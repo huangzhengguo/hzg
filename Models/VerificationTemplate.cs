@@ -1,5 +1,8 @@
 namespace Hzg.Models;
 
+/// <summary>
+/// 验证码模板
+/// </summary>
 public class VerificationTemplate
 {
     /// <summary>

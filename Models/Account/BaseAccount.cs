@@ -57,6 +57,9 @@ public abstract class BaseAccount<KeyT>
     public string Remark { get; set; }
 }
 
+/// <summary>
+/// 账户基类
+/// </summary>
 public abstract class BaseAccount : BaseAccount<Guid>
 {
     /// <summary>

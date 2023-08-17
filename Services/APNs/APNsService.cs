@@ -12,11 +12,26 @@ using Hzg.Dto;
 
 namespace Hzg.Services;
 
+/// <summary>
+/// 通知类型
+/// </summary>
 public enum NotificationType: int
 {
+    /// <summary>
+    /// Alert
+    /// </summary>
     Alert = 0,
+    /// <summary>
+    /// 声音
+    /// </summary>
     Sound = 1,
+    /// <summary>
+    /// 横幅
+    /// </summary>
     Badge = 2,
+    /// <summary>
+    /// 静音
+    /// </summary>
     Silent = 3
 }
 
@@ -29,6 +44,12 @@ public class APNsService : IAPNsService
 
     private readonly IConfiguration _configuration;
     private readonly IHttpClientFactory _httpClientFactory;
+
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="configuration">配置</param>
+    /// <param name="httpClientFactory">Http 工厂</param>
     public APNsService(IConfiguration configuration, IHttpClientFactory httpClientFactory)
     {
         this._configuration = configuration;
@@ -103,6 +124,7 @@ public class APNsService : IAPNsService
     /// <summary>
     /// 发送推送通知
     /// </summary>
+    /// <param name="brand">品牌</param>
     /// <param name="apnsTopic">APP Id</param>
     /// <param name="deviceToken">设备标识</param>
     /// <param name="dto">通知数据</param>

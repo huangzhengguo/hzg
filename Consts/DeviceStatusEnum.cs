@@ -5,10 +5,16 @@ namespace Hzg.Consts;
 /// </summary>
 public enum DeviceStatusEnum : Int32
 {
-    // 未激活
+    /// <summary>
+    /// 未激活
+    /// </summary>
     UnActivate = -1,
-    // 离线
+    /// <summary>
+    /// 离线
+    /// </summary>
     Offline = 0,
-    // 在线
+    /// <summary>
+    /// 在线
+    /// </summary>
     Online = 1
 }

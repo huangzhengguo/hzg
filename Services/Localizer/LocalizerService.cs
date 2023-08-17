@@ -10,6 +10,10 @@ public class LocalizerService : ILocalizerService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="httpContextAccessor"></param>
     public LocalizerService(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;

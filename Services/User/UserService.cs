@@ -18,6 +18,14 @@ public class UserService : IUserService
     private readonly AccountDbContext _accountDbContext;
     private readonly ILocalizerService _localizerService;
     private readonly IRedisService _redisService;
+
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="httpContextAccessor"></param>
+    /// <param name="accountDbContext"></param>
+    /// <param name="localizerService"></param>
+    /// <param name="redisService"></param>
     public UserService(IHttpContextAccessor httpContextAccessor,
                        AccountDbContext accountDbContext,
                        ILocalizerService localizerService,

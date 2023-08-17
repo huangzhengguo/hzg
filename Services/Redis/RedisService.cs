@@ -4,9 +4,17 @@ using Microsoft.Extensions.Configuration;
 
 namespace Hzg.Services;
 
+/// <summary>
+/// Redis 服务
+/// </summary>
 public class RedisService : IRedisService
 {
     private static ConnectionMultiplexer _redis;
+
+    /// <summary>
+    /// Redis 实例
+    /// </summary>
+    /// <value></value>
     public ConnectionMultiplexer Redis
     {
         get {
@@ -28,6 +36,10 @@ public class RedisService : IRedisService
 
     private readonly IConfiguration _configuration;
 
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="configuration"></param>
     public RedisService(IConfiguration configuration)
     {
         _configuration = configuration;
@@ -36,7 +48,9 @@ public class RedisService : IRedisService
     /// <summary>
     /// 设置字符串
     /// </summary>
-    /// <param name="key"></param>
+    /// <param name="key">键</param>
+    /// <param name="value">值</param>
+    /// <param name="seconds">有效期秒数</param>
     /// <returns></returns>
     public bool SetStringValue(string key, string value, long seconds)
     {

@@ -3,10 +3,13 @@ using Hzg.Dto;
 
 namespace Hzg.Services;
 
+/// <summary>
+/// APNS 通知
+/// </summary>
 public interface IAPNsService
 {
     /// <summary>
-    /// 生成 APNs JWT token
+    /// APNs 生成 JWT token，添加服务的时候，使用单利
     /// </summary>
     /// <param name="brand">品牌</param>
     /// <returns></returns>
@@ -15,6 +18,7 @@ public interface IAPNsService
     /// <summary>
     /// 发送推送通知
     /// </summary>
+    /// <param name="brand">品牌</param>
     /// <param name="apnsTopic">APP Id</param>
     /// <param name="deviceToken">设备标识</param>
     /// <param name="dto">通知数据</param>

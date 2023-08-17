@@ -62,7 +62,7 @@ public interface IUserService
     /// <summary>
     /// 重置密码
     /// </summary>
-    /// <param name="resetDto"></param>
+    /// <param name="modifyDto">重置密码信息</param>
     /// <returns></returns>
     Task<bool> ModifyPassword(ModifyDto modifyDto);
 

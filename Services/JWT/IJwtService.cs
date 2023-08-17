@@ -7,10 +7,18 @@ namespace Hzg.Services;
 /// </summary>
 public interface IJwtService
 {
-    // 生成 JWT token
+    /// <summary>
+    /// 生成 JWT token
+    /// </summary>
+    /// <param name="userDto">用户信息</param>
+    /// <returns></returns>
     string GetnerateJWTToken(UserDto userDto);
 
-    // 解析 JWT token
+    /// <summary>
+    /// 解析 JWT token
+    /// </summary>
+    /// <param name="token">token</param>
+    /// <returns></returns>
     UserDto DecodeJWTToken(string token);
 
     /// <summary>

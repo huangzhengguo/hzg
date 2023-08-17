@@ -5,7 +5,13 @@ namespace Hzg.Consts;
 /// </summary>
 public enum BindType
 {
+    /// <summary>
+    /// 管理员
+    /// </summary>
     Admin = 0,
+    /// <summary>
+    /// 成员
+    /// </summary>
     Member = 1
 }
 

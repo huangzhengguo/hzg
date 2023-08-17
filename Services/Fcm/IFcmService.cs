@@ -3,6 +3,9 @@ using Hzg.Dto;
 
 namespace Hzg.Services;
 
+/// <summary>
+/// FCM 通知
+/// </summary>
 public interface IFcmService
 {
     /// <summary>

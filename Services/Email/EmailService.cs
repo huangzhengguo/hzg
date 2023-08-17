@@ -20,6 +20,11 @@ public class EmailService : IEmailService
 
     private Action<bool> SendEmailCallback = null;
 
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="configuration">配置</param>
+    /// <param name="logger">日志</param>
     public EmailService(IConfiguration configuration, ILogger<string> logger)
     {
         _configuration = configuration;
@@ -30,7 +35,6 @@ public class EmailService : IEmailService
     /// 发送邮件
     /// </summary>
     /// <param name="mailProperties"></param>
-    /// <param name="from"></param>
     /// <param name="to"></param>
     /// <param name="subject"></param>
     /// <param name="content"></param>

@@ -10,9 +10,20 @@ using Microsoft.Extensions.Configuration;
 
 namespace Hzg.Services;
 
+/// <summary>
+/// FCM 通知
+/// </summary>
 public class FcmService : IFcmService
 {
+    /// <summary>
+    /// 配置
+    /// </summary>
     private readonly IConfiguration _configuration;
+
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="configuration">配置</param>
     public FcmService(IConfiguration configuration)
     {
         _configuration = configuration;

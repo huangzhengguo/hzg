@@ -54,6 +54,10 @@ public class UserDto
     /// <value></value>
     public string Nickname { get; set; }
     
+    /// <summary>
+    /// 头像
+    /// </summary>
+    /// <value></value>
     public string Avatar { get; set; }
 
     public string Topic { get; set; }

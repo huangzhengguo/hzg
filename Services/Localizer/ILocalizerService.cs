@@ -1,5 +1,8 @@
 namespace Hzg.Services;
 
+/// <summary>
+/// 国际化
+/// </summary>
 public interface ILocalizerService
 {
     /// <summary>

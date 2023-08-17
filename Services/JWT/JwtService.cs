@@ -22,6 +22,12 @@ public class JwtService : IJwtService
     private readonly IHttpContextAccessor _httpContextAccessor;
     // 配置
     private readonly IConfiguration _configuration;
+
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="configuration">配置</param>
+    /// <param name="httpContextAccessor">请求访问</param>
     public JwtService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
     {
         _configuration = configuration;
