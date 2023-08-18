@@ -22,6 +22,12 @@ public class HzgRoleController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
     private readonly IUserService _userService;
+
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="accountContext">用户数据上下文</param>
+    /// <param name="userService">用户服务</param>
     public HzgRoleController(AccountDbContext accountContext, IUserService userService)
     {
         this._accountContext = accountContext;
@@ -53,7 +59,7 @@ public class HzgRoleController : ControllerBase
     /// <summary>
     /// 新建角色
     /// </summary>
-    /// <param name="group"></param>
+    /// <param name="role">角色信息</param>
     /// <returns></returns>
     [HttpPost]
     [Route("create")]

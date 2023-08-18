@@ -9,6 +9,11 @@ namespace Hzg.Tool;
 public static class RedisTool
 {
     private static ConnectionMultiplexer _redis;
+
+    /// <summary>
+    /// Redis 对象
+    /// </summary>
+    /// <value></value>
     public static ConnectionMultiplexer Redis
     {
         get {
@@ -31,7 +36,9 @@ public static class RedisTool
     /// <summary>
     /// 设置字符串
     /// </summary>
-    /// <param name="key"></param>
+    /// <param name="key">键</param>
+    /// <param name="value">值</param>
+    /// <param name="seconds">有效期秒数</param>
     /// <returns></returns>
     public static bool SetStringValue(string key, string value, long seconds)
     {
@@ -55,6 +62,10 @@ public static class RedisTool
         return db.StringGet(key);
     }
 
+    /// <summary>
+    /// 删除字符串
+    /// </summary>
+    /// <param name="key">键</param>
     public static void DeleteStringValue(string key)
     {
         IDatabase db = Redis.GetDatabase();

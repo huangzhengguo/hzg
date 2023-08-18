@@ -8,28 +8,72 @@ namespace Hzg.Data;
 /// </summary>
 public class AccountDbContext : DbContext
 {
+    /// <summary>
+    /// 账号
+    /// </summary>
+    /// <param name="options">配置</param>
+    /// <returns></returns>
     public AccountDbContext(DbContextOptions<AccountDbContext> options) : base(options)
     {}
 
-    // 用户
+    /// <summary>
+    /// 用户
+    /// </summary>
+    /// <value></value>
     public virtual DbSet<HzgUser> Users { get; set; }
-    // 用户分组
+
+    /// <summary>
+    /// 用户分组
+    /// </summary>
+    /// <value></value>
     public virtual DbSet<HzgGroup> Groups { get; set; }
-    // 用户角色
+
+    /// <summary>
+    /// 角色
+    /// </summary>
+    /// <value></value>
     public virtual DbSet<HzgRole> Roles { get; set; }
-    // 用户角色关联
+
+    /// <summary>
+    /// 用户角色关联
+    /// </summary>
+    /// <value></value>
     public virtual DbSet<HzgUserRole> UserRoles { get; set; }
-    // 用户分组关联
+
+    /// <summary>
+    /// 用户分组关联
+    /// </summary>
+    /// <value></value>
     public virtual DbSet<HzgUserGroup> UserGroups { get; set; }
-    // 角色分组关联
+
+    /// <summary>
+    /// 角色分组关联
+    /// </summary>
+    /// <value></value>
     public virtual DbSet<HzgRoleGroup> RoleGroups { get; set; }
-    // 职位
+
+    /// <summary>
+    /// 职位
+    /// </summary>
+    /// <value></value>
     public virtual DbSet<HzgPosition> Positions { get; set; }
-    // 菜单权限
+     
+    /// <summary>
+    /// 菜单权限
+    /// </summary>
+    /// <value></value>
     public virtual DbSet<HzgMenuPermission> MenuPermissions { get; set; }
-    // 菜单
+    
+    /// <summary>
+    /// 菜单
+    /// </summary>
+    /// <value></value>
     public virtual DbSet<HzgMenu> Menus { get; set; }
 
+    /// <summary>
+    /// 模型创建
+    /// </summary>
+    /// <param name="modelBuilder"></param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

@@ -2,6 +2,10 @@ using System;
 
 namespace Hzg.Models;
 
+/// <summary>
+/// 登录用户信息
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class LoginUserInfo<T>
 {
     /// <summary>

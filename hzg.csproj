@@ -5,9 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- <Nullable>enable</Nullable> -->
     <PackageId>Hzg.Tools</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>ZhengGuo Huang</Authors>
     <Company>HZG</Company>
+    <RepositoryUrl>https://github.com/huangzhengguo/hzg</RepositoryUrl>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 

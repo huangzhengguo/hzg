@@ -7,6 +7,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Hzg.Services;
 
+/// <summary>
+/// JWT 扩展
+/// </summary>
 public static class JwtServiceExtension
 {
     /// <summary>

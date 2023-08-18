@@ -21,6 +21,12 @@ public class HzgMenuController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
     private readonly IUserService _userService;
+
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="accountContext">用户数据上下文</param>
+    /// <param name="userService">用户服务</param>
     public HzgMenuController(AccountDbContext accountContext, IUserService userService)
     {
         this._accountContext = accountContext;
@@ -161,9 +167,9 @@ public class HzgMenuController : ControllerBase
     }
 
     /// <summary>
-    /// 获取指定菜单
+    /// 获取用户菜单
     /// </summary>
-    /// <param name="menuId"></param>
+    /// <param name="userName">用户名</param>
     /// <returns></returns>
     [HttpGet]
     [Route("user-menu-permission")]

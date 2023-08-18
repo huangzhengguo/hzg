@@ -25,6 +25,13 @@ public class HzgMenuPermissionController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
     private readonly IUserService _userService;
+
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="accountContext">用户数据上下文</param>
+    /// <param name="logger">日志</param>
+    /// <param name="userService">用户服务</param>
     public HzgMenuPermissionController(AccountDbContext accountContext, ILogger<HzgMenuPermission> logger, IUserService userService)
     {
         this._accountContext = accountContext;

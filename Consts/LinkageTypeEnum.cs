@@ -5,8 +5,12 @@ namespace Hzg.Consts;
 /// </summary>
 public enum LinkageTypeEnum : UInt16
 {
-    // 开关联动
+    /// <summary>
+    /// 开关联动
+    /// </summary>
     Power = 0,
-    // 传感器联动
+    /// <summary>
+    /// 传感器联动
+    /// </summary>
     Sensor = 1
 }

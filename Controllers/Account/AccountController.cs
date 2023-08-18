@@ -34,9 +34,14 @@ public class HzgAccountController : ControllerBase
     /// <summary>
     /// 构造方法
     /// </summary>
-    /// <param name="inledcoContext">数据库上下文</param>
+    /// <param name="accountContext">数据库上下文</param>
     /// <param name="configuration">配置</param>
     /// <param name="jwtService">JWT服务</param>
+    /// <param name="logger">日志</param>
+    /// <param name="userService">用户服务</param>
+    /// <param name="emailService">邮件服务</param>
+    /// <param name="verifyCodeService">验证码</param>
+    /// <param name="redisService">Redis</param>
     public HzgAccountController(AccountDbContext accountContext,
                              IConfiguration configuration,
                              IJwtService jwtService,
@@ -381,15 +386,57 @@ public class HzgAccountController : ControllerBase
         return userNodeModel;
     }
 
+    /// <summary>
+    /// 用户目录树节点
+    /// </summary>
     public class UserTreeNode
     {
+        /// <summary>
+        /// 节点键
+        /// </summary>
+        /// <value></value>
         public string NodeKey { get; set; }
+
+        /// <summary>
+        /// 标识
+        /// </summary>
+        /// <value></value>
         public Guid Id { get; set; }
+
+        /// <summary>
+        /// 父菜单标识
+        /// </summary>
+        /// <value></value>
         public Guid? ParentMenuId { get; set; }
+
+        /// <summary>
+        /// 名称
+        /// </summary>
+        /// <value></value>
         public string Label { get; set; }
+
+        /// <summary>
+        /// 名称值
+        /// </summary>
+        /// <value></value>
         public string LabelValue { get; set; }
+
+        /// <summary>
+        /// 子菜单
+        /// </summary>
+        /// <value></value>
         public UserTreeNode[] Children { get; set; }
+
+        /// <summary>
+        /// 是否是叶子节点
+        /// </summary>
+        /// <value></value>
         public bool IsLeaf { get; set; }
+
+        /// <summary>
+        /// 是否禁用
+        /// </summary>
+        /// <value></value>
         public bool Disabled { get; set; }
 
         /// <summary>
@@ -404,7 +451,16 @@ public class HzgAccountController : ControllerBase
     /// </summary>
     public class LoginUser
     {
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        /// <value></value>
         public string UserName { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        /// <value></value>
         public string Password { get; set; }
     }
 
@@ -413,12 +469,46 @@ public class HzgAccountController : ControllerBase
     /// </summary>
     public class UserInfoDto
     {
+        /// <summary>
+        /// 用户标识
+        /// </summary>
+        /// <value></value>
         public Guid UserId { get; set; }
+
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        /// <value></value>
         public string UserName { get; set; }
+
+        /// <summary>
+        /// 分组标识
+        /// </summary>
+        /// <value></value>
         public Guid GroupId { get; set; }
-        public string GroupName { get; set; }            
+
+        /// <summary>
+        /// 分组名称
+        /// </summary>
+        /// <value></value>
+        public string GroupName { get; set; }
+
+        /// <summary>
+        /// 角色标识
+        /// </summary>
+        /// <value></value>          
         public Guid RoleId { get; set; }
+
+        /// <summary>
+        /// 角色名称
+        /// </summary>
+        /// <value></value>
         public string RoleName { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        /// <value></value>
         public string Password { get; set; }
     }
 }

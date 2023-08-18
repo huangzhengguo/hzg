@@ -21,6 +21,12 @@ public class HzgGroupController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
     private readonly IUserService _userService;
+
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="accountContext">用户数据上下文</param>
+    /// <param name="userService">用户服务</param>
     public HzgGroupController(AccountDbContext accountContext, IUserService userService)
     {
         this._accountContext = accountContext;
@@ -157,56 +163,4 @@ public class HzgGroupController : ControllerBase
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
-
-    /// <summary>
-    /// 获取分组角色目录树
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    // [HttpGet]
-    // [Route("get-group-roles")]
-    // public async Task<string> getGroupRoles(Guid? id) {
-    //         // 格式 [{ label: '', children: [ { label: '', children: [] } ] }]
-    //         var userTreeData = new List<TreeNodeModel>();
-    //         var groups = _accountContext.Groups.AsNoTracking().ToList();
-    //         foreach(var m in groups)
-    //         {
-    //             var nodeModel = new TreeNodeModel();
-
-    //             nodeModel.Id = m.Id;
-    //             nodeModel.ParentMenuId = null;
-    //             nodeModel.Label = m.Name;
-    //             nodeModel.IsLeaf = false;
-    //             nodeModel.Disabled = true;
-
-    //             // 获取分组成员
-    //             var childrenUserTreeData = new List<TreeNodeModel>();
-    //             var groupsRoles = await _accountContext.Roles.AsNoTracking().Where(u => u.GroupId == m.Id).ToListAsync();
-    //             foreach(var gu in groupsRoles)
-    //             {
-    //                 var userNodeModel = new TreeNodeModel();
-                    
-    //                 userNodeModel.Id = gu.Id;
-    //                 userNodeModel.ParentMenuId = m.Id;
-    //                 userNodeModel.Label = gu.Name;
-    //                 userNodeModel.IsLeaf = true;
-    //                 userNodeModel.Disabled = false;
-
-    //                 childrenUserTreeData.Add(userNodeModel);
-    //             }
-
-    //             nodeModel.Children = childrenUserTreeData.ToArray();
-
-    //             userTreeData.Add(nodeModel);
-    //         }
-
-    //         var responseData = new ResponseData()
-    //         {
-    //             Code = ErrorCode.Success,
-    //             Message = "获取成功",
-    //             Data = userTreeData
-    //         };
-
-    //         return JsonSerializer.Serialize(responseData, JsonSerializerTool.DefaultOptions());
-    // }
 }

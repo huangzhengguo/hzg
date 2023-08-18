@@ -60,8 +60,27 @@ public class UserDto
     /// <value></value>
     public string Avatar { get; set; }
 
+    /// <summary>
+    /// 主题
+    /// </summary>
+    /// <value></value>
     public string Topic { get; set; }
+
+    /// <summary>
+    /// MQTT 客户端标识
+    /// </summary>
+    /// <value></value>
     public string MqttClientId { get; set; }
+
+    /// <summary>
+    /// MQTT 用户名
+    /// </summary>
+    /// <value></value>
     public string MqttUsername { get; set; }
+
+    /// <summary>
+    /// MQTT 密码
+    /// </summary>
+    /// <value></value>
     public string MqttPassword { get; set; }
 }

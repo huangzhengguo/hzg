@@ -3,9 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hzg.Models;
 
+/// <summary>
+/// 用户状态
+/// </summary>
 public enum UserStatus
 {
+    /// <summary>
+    /// 离线
+    /// </summary>
     Offline = 0,
+    /// <summary>
+    /// 在线
+    /// </summary>
     Online = 1
 }
 
@@ -133,7 +142,15 @@ public class HzgUser : BaseAccount
     [Column("status")]
     public UserStatus Status { get; set; }
 
-    // 导航属性
+    /// <summary>
+    /// 用户角色
+    /// </summary>
+    /// <value></value>
     public virtual ICollection<HzgUserRole> UserRoles { get; set; }
+
+    /// <summary>
+    /// 用户分组
+    /// </summary>
+    /// <value></value>
     public virtual ICollection<HzgUserGroup> UserGroups { get; set; }
 }

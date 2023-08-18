@@ -5,12 +5,20 @@ namespace Hzg.Consts;
 /// </summary>
 public enum TriggerConditionEnum : UInt16
 {
-    // 开关联动
+    /// <summary>
+    /// 开关联动
+    /// </summary>
     On = 0,
-    // 传感器联动
+    /// <summary>
+    /// 传感器联动
+    /// </summary>
     Off = 1,
-    // 低于
+    /// <summary>
+    /// 低于
+    /// </summary>
     LessThan = 2,
-    // 高于
+    /// <summary>
+    /// 高于
+    /// </summary>
     MoreThan = 3
 }

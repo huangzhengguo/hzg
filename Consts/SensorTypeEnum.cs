@@ -5,11 +5,17 @@ namespace Hzg.Consts;
 /// </summary>
 public enum SensorTypeEnum : UInt16
 {
-    // 温度
+    /// <summary>
+    /// 温度
+    /// </summary>
     Temperature = 0,
-    // 湿度
+    /// <summary>
+    /// 湿度
+    /// </summary>
     Humidity = 1,
-    // 温湿度
+    /// <summary>
+    /// 温湿度
+    /// </summary>
     TemperatureHumidity = 2,
 }
 
@@ -18,10 +24,16 @@ public enum SensorTypeEnum : UInt16
 /// </summary>
 public enum SensorValueTypeEnum : UInt16
 {
-    // 温度
+    /// <summary>
+    /// 温度
+    /// </summary>
     Temperature = 0,
-    // 湿度
+    /// <summary>
+    /// 湿度
+    /// </summary>
     Humidity = 1,
-    // 温湿度
+    /// <summary>
+    /// 温湿度
+    /// </summary>
     TemperatureHumidity = 2,
 }

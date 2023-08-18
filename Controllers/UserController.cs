@@ -23,6 +23,13 @@ public class HzgUserController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
     private readonly IUserService _userService;
+
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="accountContext">用户数据上下文</param>
+    /// <param name="logger">日志</param>
+    /// <param name="userService">用户服务</param>
     public HzgUserController(AccountDbContext accountContext, ILogger<HzgMenuPermission> logger, IUserService userService)
     {
         this._accountContext = accountContext;
@@ -94,7 +101,7 @@ public class HzgUserController : ControllerBase
     /// <summary>
     /// 新建用户
     /// </summary>
-    /// <param name="group"></param>
+    /// <param name="user">用户信息</param>
     /// <returns></returns>
     [HttpPost]
     [Route("create")]

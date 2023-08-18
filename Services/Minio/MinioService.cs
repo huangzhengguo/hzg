@@ -6,12 +6,19 @@ using Hzg.Consts;
 
 namespace Hzg.Services;
 
+/// <summary>
+/// Minio 文件服务
+/// </summary>
 public class MinioService : IMinioService
 {
     // private static string DefaultBucketName = "inledco";
     private static MinioClient _minioClient;
     private readonly IConfiguration _configuration;
 
+    /// <summary>
+    /// 构造方法
+    /// </summary>
+    /// <param name="configuration"></param>
     public MinioService(IConfiguration configuration)
     {
         _configuration = configuration;

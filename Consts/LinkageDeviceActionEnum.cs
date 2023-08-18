@@ -5,8 +5,12 @@ namespace Hzg.Consts;
 /// </summary>
 public enum LinkageDeviceActionEnum : UInt16
 {
-    // 开
+    /// <summary>
+    /// 开
+    /// </summary>
     On = 0,
-    // 关
+    /// <summary>
+    /// 关
+    /// </summary>
     Off = 1
 }
