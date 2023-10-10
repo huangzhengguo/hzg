@@ -106,9 +106,10 @@ public class APNsService : IAPNsService
 
         eCDsa.ImportPkcs8PrivateKey(Convert.FromBase64String(securityKey), out _);
 
-        var key = new ECDsaSecurityKey(eCDsa);
-
-        key.KeyId = kid;
+        var key = new ECDsaSecurityKey(eCDsa)
+        {
+            KeyId = kid
+        };
 
         var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.EcdsaSha256);
         var jwtHeader = new JwtHeader(signingCredentials);
