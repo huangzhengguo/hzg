@@ -12,7 +12,7 @@ using Hzg.Consts;
 using Hzg.Tool;
 using Hzg.Services;
 
-namespace Inledco.Controllers;
+namespace Admin.Controllers;
 
 /// <summary>
 /// 菜单权限

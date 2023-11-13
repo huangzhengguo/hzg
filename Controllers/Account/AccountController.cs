@@ -11,7 +11,7 @@ using Hzg.Models;
 using Hzg.Consts;
 using Hzg.Tool;
 
-namespace Inledco.Controllers;
+namespace Admin.Controllers;
 
 /// <summary>
 /// 账号
