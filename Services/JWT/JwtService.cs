@@ -1,13 +1,15 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Primitives;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.ObjectPool;
+using Org.BouncyCastle.Asn1.X509.SigI;
 
 namespace Hzg.Services;
 
@@ -41,33 +43,38 @@ public class JwtService : IJwtService
     /// <returns></returns>
     public string GetnerateJWTToken(UserDto userDto)
     {
-        var claims = new List<Claim>
+        var dicClaims = new Dictionary<string, object>
         {
-            new Claim(ClaimTypes.Email, userDto.Email ?? "example.com"),
-            new Claim(ClaimTypes.NameIdentifier, userDto.Id),
-            new Claim("userid", userDto.Id),
-            new Claim("username", userDto.UserName ?? "username"),
-            new Claim("nickname", userDto.Nickname ?? "nickname")
-            // 用户所在的分组
-            // new Claim("groups", userDto.Groups)
-            // new Claim(ClaimTypes.Role, userDto.Roles),
+            { ClaimTypes.Email, string.IsNullOrWhiteSpace(userDto.Email) == true ? "example.com" : userDto.Email },
+            { ClaimTypes.NameIdentifier, userDto.Id },
+            { "userid", userDto.Id },
+            { "username", userDto.UserName ?? "username" },
+            { "nickname", userDto.Nickname ?? "nickname" }
         };
+
         if (string.IsNullOrWhiteSpace(userDto.Brand) == false) {
-            claims.Add(new Claim("brand", userDto.Brand));
+            dicClaims.Add("brand", userDto.Brand);
         }
 
         var issuer = _configuration[JwtOptionsConst.IssuerSettingPath];
         var audience = _configuration[JwtOptionsConst.AudienceSettingPath];
         var expires = DateTime.Now.AddHours(Convert.ToDouble(_configuration[JwtOptionsConst.ExpiresHourSettingPath]));
-
         var security = _configuration[JwtOptionsConst.SecurityKeySettingPath];
-        SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(security));
+
+        SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(security));
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+        var securityTokenDescriptor = new SecurityTokenDescriptor()
+        {
+            Issuer = issuer,
+            Claims = dicClaims,
+            Audience = audience,
+            Expires = expires,
+            SigningCredentials = signingCredentials
+        };
 
-        var jwtSecurityToken = new JwtSecurityToken(claims: claims, issuer: issuer, audience: audience, expires: expires, signingCredentials: signingCredentials);
-        var tokenHandler = new JwtSecurityTokenHandler();
+        var jsonWebTokenHandler = new JsonWebTokenHandler();
 
-        return tokenHandler.WriteToken(jwtSecurityToken);
+        return jsonWebTokenHandler.CreateToken(securityTokenDescriptor);
     }
 
     /// <summary>
@@ -75,77 +82,77 @@ public class JwtService : IJwtService
     /// </summary>
     /// <param name="token"></param>
     /// <returns></returns>
-    public UserDto DecodeJWTToken(string token)
-    {
-        var tokenHandler = new JwtSecurityTokenHandler();
-        if (tokenHandler.CanReadToken(token))
-        {
-            JwtPayload jwtPayload = tokenHandler.ReadJwtToken(token).Payload;
+    // public UserDto DecodeJWTToken(string token)
+    // {
+    //     var tokenHandler = new JwtSecurityTokenHandler();
+    //     if (tokenHandler.CanReadToken(token))
+    //     {
+    //         JwtPayload jwtPayload = tokenHandler.ReadJwtToken(token).Payload;
             
-            var userName = jwtPayload.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
-            var userGroups = jwtPayload.Claims.FirstOrDefault(c => c.Type == "groups").Value;
-            var userRoles = jwtPayload.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+    //         var userName = jwtPayload.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+    //         var userGroups = jwtPayload.Claims.FirstOrDefault(c => c.Type == "groups").Value;
+    //         var userRoles = jwtPayload.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
 
-            UserDto user = new UserDto();
+    //         UserDto user = new UserDto();
 
-            user.UserName = userName;
-            user.Groups = userGroups;
-            user.Roles = userRoles;
+    //         user.UserName = userName;
+    //         user.Groups = userGroups;
+    //         user.Roles = userRoles;
 
-            return user;
-        }
+    //         return user;
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
     /// <summary>
     /// 新增 Token
     /// </summary>
     /// <param name="userDto">用户传输对象</param>
     /// <returns></returns>
-    public JwtAuthDto Create(UserDto userDto)
-    {
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["secretKey:sha256secret"]));
+    // public JwtAuthDto Create(UserDto userDto)
+    // {
+    //     var tokenHandler = new JwtSecurityTokenHandler();
+    //     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["secretKey:sha256secret"]));
 
-        DateTime authAt = DateTime.UtcNow;
-        DateTime expires = authAt.AddMinutes(Convert.ToDouble(_configuration["JwtIssuerOptions:ExpireMinutes"]));
+    //     DateTime authAt = DateTime.UtcNow;
+    //     DateTime expires = authAt.AddMinutes(Convert.ToDouble(_configuration["JwtIssuerOptions:ExpireMinutes"]));
 
-        // 声明
-        var claims = new Claim[]
-        {
-            new Claim(ClaimTypes.Name, userDto.UserName),
-            new Claim(ClaimTypes.Role, userDto.Roles),
-            new Claim(ClaimTypes.Expiration, expires.ToString())
-        };
+    //     // 声明
+    //     var claims = new Claim[]
+    //     {
+    //         new Claim(ClaimTypes.Name, userDto.UserName),
+    //         new Claim(ClaimTypes.Role, userDto.Roles),
+    //         new Claim(ClaimTypes.Expiration, expires.ToString())
+    //     };
 
-        var identity = new ClaimsIdentity(claims);
-        // 签发一个用户信息凭证
-        _httpContextAccessor.HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+    //     var identity = new ClaimsIdentity(claims);
+    //     // 签发一个用户信息凭证
+    //     _httpContextAccessor.HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-        var jwtSecurityToken = new JwtSecurityToken
-        (
-            claims: claims,
-            issuer: _configuration["JwtIssuerOptions:Issuer"],
-            audience: _configuration["JwtIssuerOptions:Audience"],
-            expires: expires,
-            signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
-        );
+    //     var jwtSecurityToken = new JwtSecurityToken
+    //     (
+    //         claims: claims,
+    //         issuer: _configuration["JwtIssuerOptions:Issuer"],
+    //         audience: _configuration["JwtIssuerOptions:Audience"],
+    //         expires: expires,
+    //         signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
+    //     );
 
-        var jwt = new JwtAuthDto
-        {
-            // UserId = userDto.UserId,
-            Token = tokenHandler.WriteToken(jwtSecurityToken),
-            AuthTime = new DateTimeOffset(authAt).ToUnixTimeSeconds(),
-            Expires = new DateTimeOffset(expires).ToUnixTimeSeconds(),
-            Success = true,
-            Code = 20000
-        };
+    //     var jwt = new JwtAuthDto
+    //     {
+    //         // UserId = userDto.UserId,
+    //         Token = tokenHandler.WriteToken(jwtSecurityToken),
+    //         AuthTime = new DateTimeOffset(authAt).ToUnixTimeSeconds(),
+    //         Expires = new DateTimeOffset(expires).ToUnixTimeSeconds(),
+    //         Success = true,
+    //         Code = 20000
+    //     };
 
-        _jwtTokens.Add(jwt);
+    //     _jwtTokens.Add(jwt);
 
-        return jwt;
-    }
+    //     return jwt;
+    // }
 
     /// <summary>
     /// 刷新 Token
@@ -153,25 +160,25 @@ public class JwtService : IJwtService
     /// <param name="token">token</param>
     /// <param name="userDto">用户信息传输对象</param>
     /// <returns></returns>
-    public Task<JwtAuthDto> RefreshTokenAsync(string token, UserDto userDto)
-    {
-        var jwt = GetToken(token);
-        if (jwt == null)
-        {
-            return Task.FromResult(new JwtAuthDto
-            {
-                Token = "未获取到 Token",
-                Success = false
-            });
-        }
+    // public Task<JwtAuthDto> RefreshTokenAsync(string token, UserDto userDto)
+    // {
+    //     var jwt = GetToken(token);
+    //     if (jwt == null)
+    //     {
+    //         return Task.FromResult(new JwtAuthDto
+    //         {
+    //             Token = "未获取到 Token",
+    //             Success = false
+    //         });
+    //     }
 
-        var newJwt = Create(userDto);
+    //     var newJwt = Create(userDto);
 
-        // 停用旧的 Token
-        InvalidateToken(token);
+    //     // 停用旧的 Token
+    //     InvalidateToken(token);
 
-        return Task.FromResult(newJwt);
-    }
+    //     return Task.FromResult(newJwt);
+    // }
 
     /// <summary>
     /// 当前 Token 是否有效

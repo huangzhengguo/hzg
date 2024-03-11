@@ -19,13 +19,13 @@ public interface IJwtService
     /// </summary>
     /// <param name="token">token</param>
     /// <returns></returns>
-    UserDto DecodeJWTToken(string token);
+    // UserDto DecodeJWTToken(string token);
 
     /// <summary>
     /// 新增 Token
     /// </summary>
     /// <param name="userDto">用户信息传输对象</param>
-    JwtAuthDto Create(UserDto userDto);
+    // JwtAuthDto Create(UserDto userDto);
 
     /// <summary>
     /// 刷新 Token
@@ -33,7 +33,7 @@ public interface IJwtService
     /// <param name="token">token</param>
     /// <param name="userDto">用户信息传输对象</param>
     /// <returns></returns>
-    Task<JwtAuthDto> RefreshTokenAsync(string token, UserDto userDto);
+    // Task<JwtAuthDto> RefreshTokenAsync(string token, UserDto userDto);
 
     /// <summary>
     /// 当前 Token 是否有效

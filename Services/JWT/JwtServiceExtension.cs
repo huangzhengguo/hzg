@@ -27,26 +27,37 @@ public static class JwtServiceExtension
         var audience = configuration[JwtOptionsConst.AudienceSettingPath];
         var security = configuration[JwtOptionsConst.SecurityKeySettingPath];
 
-        var key = Encoding.UTF8.GetBytes(security);
+        var key = Encoding.ASCII.GetBytes(security);
 
         services.AddAuthentication(options => {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        
         }).AddJwtBearer(options =>
         {
             options.TokenValidationParameters = new TokenValidationParameters()
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,
-                // ValidateIssuerSigningKey = true,
-                // ValidateLifetime = true,
-
+                ValidateIssuerSigningKey = true,
+                ValidateLifetime = true,
+                // ClockSkew = TimeSpan.Zero,
                 ValidIssuer = issuer,
                 ValidAudience = audience,
                 IssuerSigningKey = new SymmetricSecurityKey(key)
             };
+            // options.TokenHandlers.Add(new BearerTokenHandler());
+            // options.Events = new JwtBearerEvents()
+            // {
+            //     OnAuthenticationFailed = c =>
+            //     {
+            //         return c.Response.WriteAsJsonAsync("认证出错");
+            //     },
+            //     OnTokenValidated = c =>
+            //     {
+            //         return Task.CompletedTask;
+            //     }
+            // };
         });
 
         return services;

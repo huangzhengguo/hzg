@@ -12,7 +12,7 @@ namespace Hzg.Services;
 public class MinioService : IMinioService
 {
     // private static string DefaultBucketName = "admin";
-    private static MinioClient _minioClient;
+    private static IMinioClient _minioClient;
     private readonly IConfiguration _configuration;
 
     /// <summary>

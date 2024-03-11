@@ -155,14 +155,14 @@ public class HzgAccountController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [AllowAnonymous]
-    [Route("[action]")]
+    [Route("login")]
     public async Task<string> Login([FromBody] LoginViewModel model)
     {
         var result = new ResponseData() {
             Code = ErrorCode.Success
         };
 
-        var user = await _accountContext.Users.SingleOrDefaultAsync(u => u.Name == model.UserName);
+        var user = await _accountContext.Users.SingleOrDefaultAsync(u => u.Name == model.UserName && u.Brand == model.Brand);
         if (user == null)
         {
             result.Code = ErrorCode.User_Not_Exist;
@@ -210,7 +210,7 @@ public class HzgAccountController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    [Route("[action]")]
+    [Route("logout")]
     public async Task<ResponseData<string>> LogOut()
     {
         return await this._userService.Logout();

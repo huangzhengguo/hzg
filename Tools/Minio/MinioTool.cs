@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using Minio;
 using Minio.DataModel;
 using Minio.Exceptions;
+using Minio.DataModel.Args;
 
 namespace Hzg.Tool;
 
@@ -16,7 +17,7 @@ public static class HZG_MinioTool
     /// </summary>
     /// <param name="configuration">配置</param>
     /// <returns></returns>
-    public static MinioClient CreateMinioClient(MinioConfiguration configuration)
+    public static IMinioClient CreateMinioClient(MinioConfiguration configuration)
     {
         return new MinioClient()
                             .WithEndpoint(configuration.Endpoint)
@@ -35,7 +36,7 @@ public static class HZG_MinioTool
     /// <param name="size"></param>
     /// <param name="type"></param>
     /// <returns></returns>
-    public static async Task<bool> UploadFile(MinioClient minioClient, string bucketName, string objectName, Stream stream, long size, string type)
+    public static async Task<bool> UploadFile(IMinioClient minioClient, string bucketName, string objectName, Stream stream, long size, string type)
     {
         try
         {
@@ -78,7 +79,7 @@ public static class HZG_MinioTool
     /// <param name="contentType">内容类型</param>
     /// <param name="expire">过期时长</param>
     /// <returns></returns>
-    public static async Task<string> GetFileUrl(MinioClient minioClient, string bucketName, string objectName, string contentType, int expire = 60 * 60 * 24)
+    public static async Task<string> GetFileUrl(IMinioClient minioClient, string bucketName, string objectName, string contentType, int expire = 60 * 60 * 24)
     {
         try
         {
@@ -107,7 +108,7 @@ public static class HZG_MinioTool
     /// <param name="bucketName">桶</param>
     /// <param name="objectName">对象</param>
     /// <returns></returns>
-    public static async Task<bool> RemoveFile(MinioClient minioClient, string bucketName, string objectName)
+    public static async Task<bool> RemoveFile(IMinioClient minioClient, string bucketName, string objectName)
     {
         try
         {
