@@ -41,7 +41,7 @@ public abstract class BaseAccount<KeyT>
     /// 创建时间
     /// </summary>
     [Column("create_time")]
-    public DateTime CreateTime { get; set; }
+    public DateTime? CreateTime { get; set; }
 
     /// <summary>
     /// 修改时间

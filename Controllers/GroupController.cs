@@ -39,7 +39,7 @@ public class HzgGroupController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("get")]
-    public async Task<string> get(string name)
+    public async Task<string> List(string name)
     {
         var groups = await _accountContext.Groups.AsNoTracking().Where(g => g.Name == name).OrderBy(g => g.Name).ToListAsync();
         if (string.IsNullOrWhiteSpace(name))
@@ -122,13 +122,13 @@ public class HzgGroupController : ControllerBase
     }
 
     /// <summary>
-    /// 删除角色
+    /// 删除分组
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">分组标识</param>
     /// <returns></returns>
     [HttpDelete]
     [Route("delete")]
-    public async Task<string> delete(Guid? id)
+    public async Task<string> Delete(Guid? id)
     {
         var response = new ResponseData()
         {
@@ -138,7 +138,7 @@ public class HzgGroupController : ControllerBase
         var group = await _accountContext.Groups.SingleOrDefaultAsync(u => u.Id == id);
         if (group == null)
         {
-            // 用户不存在
+            // 分组不存在
             return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
         }
 
@@ -156,6 +156,7 @@ public class HzgGroupController : ControllerBase
         var groupRoles = await _accountContext.RoleGroups.Where(m => m.GroupId == id).ToListAsync();
         
         _accountContext.RoleGroups.RemoveRange(groupRoles);
+        _accountContext.Groups.Remove(group);
 
         await _accountContext.SaveChangesAsync();
 

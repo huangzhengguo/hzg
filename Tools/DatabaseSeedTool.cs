@@ -41,15 +41,15 @@ public static class DatabaseSeedTool
             userId = user.Id;
         }
 
-        // 后台管理
-        var menu = await context.Menus.SingleOrDefaultAsync(m => m.Title == "后台管理");
+        // 系统管理
+        var menu = await context.Menus.SingleOrDefaultAsync(m => m.Title == "系统管理");
         var adminMenuId = Guid.NewGuid();
         if (menu == null)
         {
             var adminMenu = new HzgMenu();
 
             adminMenu.Id = adminMenuId;
-            adminMenu.Title = "后台管理";
+            adminMenu.Title = "系统管理";
             adminMenu.IsRoot = true;
             adminMenu.IsFinal = false;
             adminMenu.Url = "#";

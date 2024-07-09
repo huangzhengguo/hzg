@@ -40,7 +40,7 @@ public class HzgRoleController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("get")]
-    public async Task<string> get(string name)
+    public async Task<string> Get(string name)
     {
         var roles = await _accountContext.Roles.AsNoTracking().Where(m => m.Name == name).OrderBy(m => m.Name).ToListAsync();
         if (string.IsNullOrWhiteSpace(name)) {
@@ -74,17 +74,20 @@ public class HzgRoleController : ControllerBase
             Code = ErrorCode.Role_Has_Exist
         };
 
-        var u = await _accountContext.Roles.SingleOrDefaultAsync(m => m.Id == model.Id);
+        var u = await _accountContext.Roles.SingleOrDefaultAsync(m => m.Id == model.Id || m.Name == role.Name);
         if (u != null)
         {
             return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
         }
 
+        model.CreateTime = DateTime.Now;
+        model.CreatorId = await _userService.GetLoginUserId() ?? Guid.Empty;
+
         _accountContext.Roles.Add(model);
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.Create_Success;
+        response.Code = ErrorCode.Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
@@ -96,7 +99,7 @@ public class HzgRoleController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("update")]
-    public async Task<string> update([FromBody] HzgRole role)
+    public async Task<string> Update([FromBody] HzgRole role)
     {
         var response = new ResponseData()
         {
@@ -110,14 +113,26 @@ public class HzgRoleController : ControllerBase
             return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
         }
 
+        var sameNameEntity = await _accountContext.Roles.SingleOrDefaultAsync(u => u.Id != role.Id && u.Name == role.Name);
+        if (sameNameEntity != null)
+        {
+            // 相同名称角色已存在
+            response.Code = ErrorCode.Group_Has_Exist;
+            response.Message = "相同名称角色已存在";
+
+            return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
+        }
+
         // 角色信息
         model.Name = role.Name;
+        model.UpdateTime = DateTime.Now;
+        model.UpdateUser = await _userService.GetLoginUserId() ?? Guid.Empty;
 
         _accountContext.Roles.Update(model);
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.Update_Success;
+        response.Code = ErrorCode.Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
@@ -129,7 +144,7 @@ public class HzgRoleController : ControllerBase
     /// <returns></returns>
     [HttpDelete]
     [Route("delete")]
-    public async Task<string> delete(Guid? id)
+    public async Task<string> Delete(Guid? id)
     {
         var response = new ResponseData()
         {
@@ -147,7 +162,7 @@ public class HzgRoleController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.Delete_Success;
+        response.Code = ErrorCode.Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }

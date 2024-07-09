@@ -53,13 +53,48 @@ public class HzgMenuController : ControllerBase
         };
 
         // 检测菜单是否已经存在
+        // 1. 同一级的菜单标题不能相同
+        // 2. 路由名称不能相同
         var m = await _accountContext.Menus.AsNoTracking().Where(m => m.ParentMenuId == menu.ParentMenuId && m.Title == menu.Title).ToListAsync();
         if (m != null && m.Count > 0)
         {
             result.Code = ErrorCode.Menu_Has_Exist;
+            result.Message = "同一级的菜单标题不能相同";
 
             return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
         }
+
+        m = await _accountContext.Menus.AsNoTracking().Where(m => m.Name == menu.Name).ToListAsync();
+        if (m != null && m.Count > 0)
+        {
+            result.Code = ErrorCode.Menu_Has_Exist;
+            result.Message = "已存在相同路由名称的菜单: " + m[0].Title;
+
+            return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
+        }
+        
+        // 根据是否有父菜单，判断是否是根菜单
+        if (menu.ParentMenuId == null)
+        {
+            menu.IsRoot = true;
+        }
+        else
+        {
+            menu.IsRoot = false;
+        }
+
+        // 根据是否指定了组件路径，判断是否是叶子菜单
+        if (string.IsNullOrEmpty(menu.ComponentPath) == false)
+        {
+            menu.IsFinal = true;
+        }
+        else
+        {
+            menu.IsFinal = false;
+        }
+
+        menu.CreatorId = await _userService.GetLoginUserId() ?? Guid.Empty;
+        menu.CreateTime = DateTime.Now;
 
         _accountContext.Menus.Add(menu);
         var n = await _accountContext.SaveChangesAsync();
@@ -90,10 +125,25 @@ public class HzgMenuController : ControllerBase
         };
 
         // 检测菜单是否已经存在
-        var data = await _accountContext.Menus.AsNoTracking().SingleOrDefaultAsync(m => m.Id == menu.Id);
-        if (data != null)
+        var entity = await _accountContext.Menus.AsNoTracking().SingleOrDefaultAsync(m => m.Id == menu.Id);
+        if (entity != null)
         {
-            _accountContext.Update(menu);
+            HZG_CommonTool.CopyProperties(menu, entity);
+
+            if (entity.ParentMenuId == null)
+            {
+                entity.IsRoot = true;
+                entity.ComponentPath = null;
+            }
+            else
+            {
+                entity.IsRoot = false;
+            }
+
+            entity.UpdateUser = await _userService.GetLoginUserId() ?? Guid.Empty;
+            entity.UpdateTime = DateTime.Now;
+
+            _accountContext.Update(entity);
 
             await _accountContext.SaveChangesAsync();
 
@@ -117,7 +167,7 @@ public class HzgMenuController : ControllerBase
     {
         var result = new ResponseData()
         {
-            Code = ErrorCode.Delete_Success,
+            Code = ErrorCode.Success,
             Data = null
         };
 
