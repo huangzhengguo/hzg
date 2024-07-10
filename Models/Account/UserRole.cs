@@ -1,11 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hzg.Models;
 
 /// <summary>
 /// 用户角色
 /// </summary>
+[Table("user_role")]
+[Comment("用户角色关联表")]
 public class HzgUserRole
 {
     /// <summary>
@@ -13,6 +16,7 @@ public class HzgUserRole
     /// </summary>
     /// <value></value>
     [Column("user_id")]
+    [Comment("用户标识")]
     public Guid UserId { get; set; }
 
     /// <summary>
@@ -20,6 +24,7 @@ public class HzgUserRole
     /// </summary>
     /// <value></value>
     [Column("role_id")]
+    [Comment("角色标识")]
     public Guid RoleId { get; set; }
 
     /// <summary>

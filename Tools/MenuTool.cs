@@ -144,7 +144,7 @@ public class MenuTool
         if (menu == null || id == null)
         {
             // 根节点
-            childrenData = data.Where(m => m.IsRoot == true).ToList();
+            childrenData = data.Where(m => m.IsRoot == true).ToList();  
             if (childrenData.Count == 0 || childrenData == null)
             {
                 return resultJson;
@@ -160,15 +160,17 @@ public class MenuTool
         }
 
         // 非根节点
-        var rootJson = new MenuTreeNode();
-        rootJson.Id = menu.Id;
-        rootJson.ParentMenuId = menu.ParentMenuId;
-        rootJson.Label = menu.Title;
-        rootJson.Url = menu.Url;
-        rootJson.Name = menu.Name;
-        rootJson.Path = menu.Path;
-        rootJson.ComponentPath = menu.ComponentPath;
-        rootJson.Meta = menu.Meta;
+        var rootJson = new MenuTreeNode
+        {
+            Id = menu.Id,
+            ParentMenuId = menu.ParentMenuId,
+            Label = menu.Title,
+            Url = menu.Url,
+            Name = menu.Name,
+            Path = menu.Path,
+            ComponentPath = menu.ComponentPath,
+            Meta = menu.Meta
+        };
 
         var childrenList = new List<MenuTreeNode>();
         foreach(var item in childrenData)

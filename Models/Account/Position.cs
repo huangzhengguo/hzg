@@ -1,12 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hzg.Models;
 
 /// <summary>
 /// 职位
 /// </summary>
-public class HzgPosition : HzgBaseEntity
+[Table("position")]
+[Comment("职位表")]
+public class HzgPosition : BaseAccount
 {
     /// <summary>
     /// 职位名称

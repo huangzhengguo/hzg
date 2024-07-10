@@ -57,18 +57,39 @@ public class HzgGroupController : ControllerBase
     }
 
     /// <summary>
+    /// 获取所有分组
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("list_tree")]
+    public async Task<string> ListTree(string name)
+    {
+        var groups = await _accountContext.Groups.AsNoTracking().Where(g => g.Name == name).OrderBy(g => g.Name).ToListAsync();
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            groups = await _accountContext.Groups.AsNoTracking().OrderBy(g => g.Name).ToListAsync();
+        }
+
+        var data = GroupTool.GenerateTreeData(groups, null);
+
+        var response = new ResponseData()
+        {
+            Code = ErrorCode.Success,
+            Data = data
+        };
+
+        return JsonSerializerTool.SerializeDefault(response);
+    }
+
+    /// <summary>
     /// 新建分组
     /// </summary>
-    /// <param name="group"></param>
+    /// <param name="group">分组信息</param>
     /// <returns></returns>
     [HttpPost]
     [Route("create")]
     public async Task<string> Create([FromBody] HzgGroup group)
     {
-        var model = new HzgGroup();
-
-        model.Name = group.Name;
-
         var response = new ResponseData()
         {
             ShowMsg = true,
@@ -81,7 +102,15 @@ public class HzgGroupController : ControllerBase
             return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
         }
 
-        _accountContext.Groups.Add(model);
+        if (group.Id == group.ParentId)
+        {
+            group.ParentId = null;
+        }
+
+        group.CreateTime = DateTime.Now;
+        group.CreatorId = await _userService.GetLoginUserId() ?? Guid.Empty;
+
+        _accountContext.Groups.Add(group);
 
         await _accountContext.SaveChangesAsync();
 
@@ -93,11 +122,11 @@ public class HzgGroupController : ControllerBase
     /// <summary>
     /// 更新分组信息，注意，如果修改分组名称，则同时需要更新用户表里面的分组名称
     /// </summary>
-    /// <param name="group"></param>
+    /// <param name="group">分组信息</param>
     /// <returns></returns>
     [HttpPost]
     [Route("update")]
-    public async Task<string> UpdateGroup([FromBody] HzgGroup group)
+    public async Task<string> Update([FromBody] HzgGroup group)
     {
         var response = new ResponseData()
         {
@@ -110,7 +139,14 @@ public class HzgGroupController : ControllerBase
             return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
         }
 
+        if (model.Id == model.ParentId)
+        {
+            model.ParentId = null;
+        }
+
         model.Name = group.Name;
+        model.UpdateTime = DateTime.Now;
+        model.UpdateUser = await _userService.GetLoginUserId() ?? Guid.Empty;
 
         _accountContext.Groups.Update(model);
 

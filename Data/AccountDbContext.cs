@@ -13,8 +13,7 @@ public class AccountDbContext : DbContext
     /// </summary>
     /// <param name="options">配置</param>
     /// <returns></returns>
-    public AccountDbContext(DbContextOptions<AccountDbContext> options) : base(options)
-    {}
+    public AccountDbContext(DbContextOptions<AccountDbContext> options) : base(options) {}
 
     /// <summary>
     /// 用户

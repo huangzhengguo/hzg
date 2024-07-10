@@ -1,11 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hzg.Models;
 
 /// <summary>
 /// 角色分组
 /// </summary>
+[Table("role_group")]
+[Comment("角色分组关联表")]
 public class HzgRoleGroup
 {
     /// <summary>

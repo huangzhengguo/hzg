@@ -1,13 +1,16 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hzg.Models;
 
 /// <summary>
-/// 导航菜单权限表
+/// 菜单权限表
 /// </summary>
-public class HzgMenuPermission : HzgBaseEntity
+[Table("menu_permission")]
+[Comment("菜单权限表")]
+public class HzgMenuPermission : BaseAccount
 {
     /// <summary>
     /// 根菜单标识

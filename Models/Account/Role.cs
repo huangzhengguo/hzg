@@ -1,11 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hzg.Models;
 
 /// <summary>
 /// 角色
 /// </summary>
+[Table("role")]
+[Comment("角色")]
 public class HzgRole : BaseAccount
 {
     /// <summary>
@@ -14,6 +17,7 @@ public class HzgRole : BaseAccount
     /// <value></value>
     [StringLength(32)]
     [Column("name")]
+    [Comment("名称")]
     public string Name { get; set; }
 
     /// <summary>
