@@ -23,7 +23,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
     <PackageReference Include="Minio" Version="6.0.2" />
     <PackageReference Include="MQTTnet" Version="4.3.3.952" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.1" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
     <PackageReference Include="StackExchange.Redis" Version="2.7.27" />
     <PackageReference Include="MailKit" Version="4.4.0" />
     <PackageReference Include="FirebaseAdmin" Version="2.4.0" />

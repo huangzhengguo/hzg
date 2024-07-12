@@ -7,6 +7,7 @@ using Hzg.Data;
 using Hzg.Models;
 using Hzg.Tool;
 using Hzg.Consts;
+using Hzg.Dto;
 
 namespace Hzg.Controllers;
 
@@ -16,7 +17,7 @@ namespace Hzg.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/account/menu/")]
-[ApiExplorerSettings(IgnoreApi = true)]
+// [ApiExplorerSettings(IgnoreApi = true)]
 public class HzgMenuController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
@@ -36,98 +37,90 @@ public class HzgMenuController : ControllerBase
     /// <summary>
     /// 创建菜单
     /// </summary>
-    /// <param name="menu"></param>
+    /// <param name="menu">菜单信息</param>
     /// <returns></returns>
     [HttpPost]
     [Route("create")]
-    public async Task<string> Create([FromBody] HzgMenu menu)
+    public async Task<ResponseData<HzgMenu>> Create([FromBody] HzgMenuInfoDto menu)
     {
-        if (menu == null)
-        {
-        }
-        var result = new ResponseData()
-        {
-            Code = ErrorCode.Success,
-            Data = null,
-            ShowMsg = true
-        };
+        var responseData = ResponseTool.FailedResponseData<HzgMenu>(showMsg: true);
+
+        responseData.Code = ErrorCode.Success;
 
         // 检测菜单是否已经存在
         // 1. 同一级的菜单标题不能相同
         // 2. 路由名称不能相同
-        var m = await _accountContext.Menus.AsNoTracking().Where(m => m.ParentMenuId == menu.ParentMenuId && m.Title == menu.Title).ToListAsync();
+        var m = await _accountContext.Menus.AsNoTracking().Where(m => m.ParentMenuId == menu.ParentMenuId &&
+                                                                 m.Title == menu.Title).ToListAsync();
         if (m != null && m.Count > 0)
         {
-            result.Code = ErrorCode.Menu_Has_Exist;
-            result.Message = "同一级的菜单标题不能相同";
+            responseData.Code = ErrorCode.Menu_Has_Exist;
+            responseData.Message = "同一级的菜单标题不能相同";
 
-            return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
+            return responseData;
         }
 
         m = await _accountContext.Menus.AsNoTracking().Where(m => m.Name == menu.Name).ToListAsync();
         if (m != null && m.Count > 0)
         {
-            result.Code = ErrorCode.Menu_Has_Exist;
-            result.Message = "已存在相同路由名称的菜单: " + m[0].Title;
+            responseData.Code = ErrorCode.Menu_Has_Exist;
+            responseData.Message = "已存在相同路由名称的菜单: " + m[0].Title;
 
-            return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
-        }
-        
-        // 根据是否有父菜单，判断是否是根菜单
-        if (menu.ParentMenuId == null)
-        {
-            menu.IsRoot = true;
-        }
-        else
-        {
-            menu.IsRoot = false;
+            return responseData;
         }
 
-        // 根据是否指定了组件路径，判断是否是叶子菜单
-        if (string.IsNullOrEmpty(menu.ComponentPath) == false)
-        {
-            menu.IsFinal = true;
-        }
-        else
-        {
-            menu.IsFinal = false;
-        }
+        var entity = new HzgMenu();
 
-        menu.CreatorId = await _userService.GetLoginUserId() ?? Guid.Empty;
-        menu.CreateTime = DateTime.Now;
+        HZG_CommonTool.CopyProperties(menu, entity);
 
-        _accountContext.Menus.Add(menu);
+        entity.Id = Guid.NewGuid();
+        entity.CreatorId = await _userService.GetLoginUserId() ?? Guid.Empty;
+        entity.CreateTime = DateTime.Now;
+
+        _accountContext.Menus.Add(entity);
         var n = await _accountContext.SaveChangesAsync();
         if (n != 1)
         {
-            result.Code = ErrorCode.Create_Failed;
+            responseData.Code = ErrorCode.Create_Failed;
         }
 
-        return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
+        responseData.Data = await _accountContext.Menus.AsNoTracking().SingleOrDefaultAsync(m => m.Id == entity.Id);
+
+        return responseData;
     }
 
     /// <summary>
-    /// 创建菜单
+    /// 更新菜单
     /// </summary>
-    /// <param name="menu"></param>
+    /// <param name="menu">菜单信息</param>
     /// <returns></returns>
     [HttpPost]
     [Route("update")]
-    public async Task<string> Update([FromBody] HzgMenu menu)
+    public async Task<ResponseData<HzgMenu>> Update([FromBody] HzgMenuInfoUpdateDto menu)
     {
-        if (menu == null)
-        {
-        }
-        var result = new ResponseData()
-        {
-            Code = ErrorCode.Success,
-            Data = null
-        };
+        var responseData = ResponseTool.FailedResponseData<HzgMenu>(showMsg: true);
+
+        responseData.Code = ErrorCode.Success;
 
         // 检测菜单是否已经存在
-        var entity = await _accountContext.Menus.AsNoTracking().SingleOrDefaultAsync(m => m.Id == menu.Id);
+        var entity = await _accountContext.Menus.SingleOrDefaultAsync(m => m.Id == menu.Id);
         if (entity != null)
         {
+            // 父菜单不能是自己及子菜单
+            if (menu.ParentMenuId == menu.Id)
+            {
+                // 不做修改
+                menu.ParentMenuId = entity.ParentMenuId;
+            }
+
+            // 获取所有子菜单列表
+            var children = await GetChildrenMenus(menu.Id);
+            if (children.Where(m => m.Id == menu.ParentMenuId).Count() > 0)
+            {
+                // 如果父菜单是子菜单，则不做修改
+                menu.ParentMenuId = entity.ParentMenuId;
+            }
+
             HZG_CommonTool.CopyProperties(menu, entity);
 
             if (entity.ParentMenuId == null)
@@ -147,29 +140,40 @@ public class HzgMenuController : ControllerBase
 
             await _accountContext.SaveChangesAsync();
 
+            responseData.Data = await _accountContext.Menus.AsNoTracking().SingleOrDefaultAsync(m => m.Id == entity.Id);
+
             // 是否更新菜单对应的权限
-            return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
+            return responseData;
         }
 
-        result.Code = ErrorCode.Failed;
+        responseData.Code = ErrorCode.Failed;
 
-        return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
+        return responseData;
     }
 
     /// <summary>
     /// 删除菜单
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">菜单标识</param>
     /// <returns></returns>
     [HttpDelete]
     [Route("delete")]
-    public async Task<string>Delete(Guid id)
+    public async Task<ResponseData<bool>>Delete(Guid id)
     {
-        var result = new ResponseData()
+        var responseData = ResponseTool.FailedResponseData<bool>(showMsg: true);
+
+        responseData.Data = false;
+
+        // 如果包含子菜单，则禁止删除
+        var childrenMenus = await _accountContext.Menus.AsNoTracking().Where(m => m.ParentMenuId == id).ToListAsync();
+        if (childrenMenus.Count > 0)
         {
-            Code = ErrorCode.Success,
-            Data = null
-        };
+            responseData.Code = ErrorCode.Delete_Failed;
+            
+            responseData.Message = "请先删除子菜单";
+
+            return responseData;
+        }
 
         var m = await _accountContext.Menus.SingleOrDefaultAsync(m => m.Id == id);
         if (m != null)
@@ -181,7 +185,7 @@ public class HzgMenuController : ControllerBase
         if (n != 1)
         {
             // 删除失败
-            result.Code = ErrorCode.Delete_Failed;
+            responseData.Code = ErrorCode.Delete_Failed;
         }
 
         // 需要删除菜单关联的权限数据
@@ -193,7 +197,10 @@ public class HzgMenuController : ControllerBase
 
         await _accountContext.SaveChangesAsync();
 
-        return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
+        responseData.Code = ErrorCode.Success;
+        responseData.Data = true;
+
+        return responseData;
     }
 
     /// <summary>
@@ -202,18 +209,17 @@ public class HzgMenuController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("get")]
-    public async Task<string> Get()
+    public async Task<ResponseData<List<MenuTreeNode>>> Get()
     {
+        var responseData = ResponseTool.FailedResponseData<List<MenuTreeNode>>(showMsg: false);
         var data = await _accountContext.Menus.AsNoTracking().ToListAsync();
 
-        var jsonData = MenuTool.GenerateTreeData(data, null, null);
-        var result = new ResponseData()
-        {
-            Code = ErrorCode.Success,
-            Data = jsonData,
-        };
+        var menuTreeNodeList = MenuTool.GenerateTreeData(data, null, null);
+       
+        responseData.Code = ErrorCode.Success;
+        responseData.Data = menuTreeNodeList;
 
-        return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
+        return responseData;
     }
 
     /// <summary>
@@ -223,8 +229,9 @@ public class HzgMenuController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("user-menu-permission")]
-    public async Task<string>GetUserMenuPermission(string userName)
+    public async Task<ResponseData<List<VueRouter>>>GetUserMenuPermission(string userName)
     {
+        var responseData = ResponseTool.FailedResponseData<List<VueRouter>>(showMsg: false);
         // 需要所有用户数据和菜单权限数据做对比，放到前端做对比
         // 这里只获取菜单权限数据
         var menuPermissions = await _accountContext.MenuPermissions.AsNoTracking().Where(m => m.UserName == userName).ToListAsync();
@@ -245,12 +252,31 @@ public class HzgMenuController : ControllerBase
 
         var routers = MenuTool.GenerateVueRouterData(menusToReturn, null, null);
 
-        var responseData = new ResponseData()
-        {
-            Code = ErrorCode.Success,
-            Data = routers
-        };
+        responseData.Code = ErrorCode.Success;
+        responseData.Data = routers;
 
-        return JsonSerializer.Serialize(responseData, JsonSerializerTool.DefaultOptions());
+        return responseData;
+    }
+
+    /// <summary>
+    /// 获取指定菜单的所有子菜单
+    /// </summary>
+    /// <param name="id">菜单标识</param>
+    /// <returns></returns>
+    async Task<List<HzgMenu>> GetChildrenMenus(Guid? id)
+    {
+        var result = new List <HzgMenu>();
+        var childrenData = await _accountContext.Menus.AsNoTracking().Where(m => m.ParentMenuId == id).ToListAsync();
+
+        result.AddRange(childrenData);
+
+        foreach (var child in childrenData)
+        {
+            var data = await _accountContext.Menus.AsNoTracking().Where(m => m.ParentMenuId == child.Id).ToListAsync();
+
+            result.AddRange(data);
+        }
+
+        return result;
     }
 }

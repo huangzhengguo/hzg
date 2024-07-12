@@ -144,7 +144,7 @@ public class MenuTool
         if (menu == null || id == null)
         {
             // 根节点
-            childrenData = data.Where(m => m.IsRoot == true).ToList();  
+            childrenData = data.Where(m => m.ParentMenuId == null).ToList();
             if (childrenData.Count == 0 || childrenData == null)
             {
                 return resultJson;
