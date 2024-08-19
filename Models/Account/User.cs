@@ -43,6 +43,15 @@ public class HzgUser : BaseAccount
     public string Nickname { get; set; }
 
     /// <summary>
+    /// 角色
+    /// </summary>
+    /// <value></value>
+    [StringLength(256)]
+    [Column("role")]
+    [Comment("角色")]
+    public string Role { get; set; }
+
+    /// <summary>
     /// 性别
     /// </summary>
     /// <value></value>

@@ -11,6 +11,7 @@ using Hzg.Models;
 using Hzg.Consts;
 using Hzg.Tool;
 using Hzg.Services;
+using Hzg.Dto;
 
 namespace Admin.Controllers;
 
@@ -20,7 +21,7 @@ namespace Admin.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/account/menu_permission/")]
-[ApiExplorerSettings(IgnoreApi = true)]
+// [ApiExplorerSettings(IgnoreApi = true)]
 public class HzgMenuPermissionController : ControllerBase
 {
     private readonly AccountDbContext _accountContext;
@@ -57,6 +58,25 @@ public class HzgMenuPermissionController : ControllerBase
         responseData.Data = permissions;
 
         return JsonSerializer.Serialize(responseData, JsonSerializerTool.DefaultOptions());
+    }
+
+    /// <summary>
+    /// 获取指定角色的菜单权限
+    /// </summary>
+    /// <param name="role">角色名称</param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("get_role_permission")]
+    public async Task<ResponseData<List<HzgMenuPermission>>> GetRoleMenuPermissionsAsync([FromQuery] string role)
+    {
+        var responseData = ResponseTool.FailedResponseData<List<HzgMenuPermission>>(showMsg: false);
+
+        var permissions = await _accountContext.MenuPermissions.AsNoTracking().Where(m => m.UserRole == role).ToListAsync();
+
+        responseData.Code = ErrorCode.Success;
+        responseData.Data = permissions;
+
+        return responseData;
     }
 
     /// <summary>
@@ -97,6 +117,59 @@ public class HzgMenuPermissionController : ControllerBase
         responseData.Code = ErrorCode.Failed;
 
         return JsonSerializer.Serialize(responseData, JsonSerializerTool.DefaultOptions());
+    }
+
+    /// <summary>
+    /// 更新分组权限，根据用户的分组和角色增加、删除菜单权限
+    /// </summary>
+    /// <param name="permissionsToUpdate">要添加的权限</param>
+    /// <returns></returns>
+    [HttpPost]
+    [Route("update_permission")]
+    public async Task<ResponseData<bool>> UpdateMenuPermission([FromBody] HzgMenuPermissionUpdateDto permissionsToUpdate)
+    {
+        var responseData = ResponseTool.FailedResponseData<bool>(showMsg: true);
+        var userId = await _userService.GetLoginUserId();
+        var permissionsToAdd = new List<HzgMenuPermission>();
+
+        // 获取对应角色的菜单权限
+        var permissions = await _accountContext.MenuPermissions.Where(m => m.UserRole == permissionsToUpdate.Role).ToListAsync();
+        var menuIds = permissions.Select(m => m.MenuId.ToString()).ToList();
+        foreach(var menuId in permissionsToUpdate.MenuIds)
+        {
+            if (menuIds.Contains(menuId) == false)
+            {
+                // 不存在则增加权限
+                var m = new HzgMenuPermission();
+
+                m.Id = Guid.NewGuid();
+                m.MenuId = new Guid(menuId);
+                m.CreateTime = DateTime.Now;
+                m.CreatorId = userId ?? Guid.Empty;
+                m.GroupId = null;
+                m.RoleId = permissionsToUpdate.RoleId;
+                m.UserRole = permissionsToUpdate.Role;
+
+                permissionsToAdd.Add(m);
+            }
+        }
+
+        _accountContext.MenuPermissions.AddRange(permissionsToAdd);
+
+        foreach(var menuId in menuIds)
+        {
+            if (permissionsToUpdate.MenuIds.Contains(menuId) == false)
+            {
+                _accountContext.MenuPermissions.RemoveRange(permissions.Where(m => m.MenuId.ToString() == menuId));
+            }
+        }
+
+        await _accountContext.SaveChangesAsync();
+
+        responseData.Code = ErrorCode.Success;
+        responseData.Data = true;
+
+        return responseData;
     }
 
     /// <summary>

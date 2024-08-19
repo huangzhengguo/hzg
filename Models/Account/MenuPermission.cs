@@ -17,14 +17,21 @@ public class HzgMenuPermission : BaseAccount
     /// </summary>
     /// <value></value>
     [Column("root_menu_id")]
-    public Guid RootMenuId { get; set; }
+    public Guid? RootMenuId { get; set; }
+
+    /// <summary>
+    /// 菜单标识，也就是要设置权限的菜单，只有末级菜单能跳转
+    /// </summary>
+    /// <value></value>
+    [Column("menu_id")]
+    public Guid? MenuId { get; set; }
 
     /// <summary>
     /// 末级菜单标识，也就是要设置权限的菜单，只有末级菜单能跳转
     /// </summary>
     /// <value></value>
     [Column("sub_menu_id")]
-    public Guid SubMenuId { get; set; }
+    public Guid? SubMenuId { get; set; }
 
     /// <summary>
     /// 用户名
@@ -50,12 +57,26 @@ public class HzgMenuPermission : BaseAccount
     public string UserGroup { get; set; }
     
     /// <summary>
+    /// 分组
+    /// </summary>
+    /// <value></value>
+    [Column("group_id")]
+    public Guid? GroupId { get; set; }
+
+    /// <summary>
     /// 角色
     /// </summary>
     /// <value></value>
-    [StringLength(32)]
+    [StringLength(256)]
     [Column("user_role")]
     public string UserRole { get; set; }
+
+    /// <summary>
+    /// 角色
+    /// </summary>
+    /// <value></value>
+    [Column("role_id")]
+    public Guid? RoleId { get; set; }
 
     /// <summary>
     /// 是否可用

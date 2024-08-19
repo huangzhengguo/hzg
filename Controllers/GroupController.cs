@@ -100,7 +100,7 @@ public class HzgGroupController : ControllerBase
         responseData.Code = ErrorCode.Group_Has_Exist;
 
         // 同一分组内分组名称不能相同
-        var g = await _accountContext.Groups.AsNoTracking().SingleOrDefaultAsync(g => g.Name == group.Name && g.ParentId == group.ParentId);
+        var g = await _accountContext.Groups.AsNoTracking().SingleOrDefaultAsync(g => g.Name == group.Name && g.ParentId != null && g.ParentId == group.ParentId);
         if (g != null)
         {
             return responseData;
@@ -192,6 +192,17 @@ public class HzgGroupController : ControllerBase
         {
             // 分组不存在
             responseData.Message = "分组不存在";
+
+            return responseData;
+        }
+
+        // 是否存在子分组
+        var childrenGroups = await _accountContext.Groups.Where(m => m.ParentId == group.Id).ToListAsync();
+        if (childrenGroups.Count > 0)
+        {
+            // 存在子分组, 无法删除
+            responseData.Message = "存在子分组，无法删除，请先删除子分组";
+            responseData.Code = ErrorCode.Failed;
 
             return responseData;
         }

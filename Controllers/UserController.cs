@@ -270,8 +270,9 @@ public class HzgUserController : ControllerBase
         // 需要所有用户数据和菜单权限数据做对比，放到前端做对比
         // 这里只获取菜单权限数据
         var id = await _userService.GetLoginUserId();
+        var user = await _accountContext.Users.SingleOrDefaultAsync(u => u.Id == id);
 
-        var menus = await MenuTool.GetUserPermissionMenus(_accountContext, id);
+        var menus = await MenuTool.GetUserRolePermissionMenus(_accountContext, user.Role);
         var responseData = new ResponseData()
         {
             Code = ErrorCode.Success,

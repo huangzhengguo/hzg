@@ -77,6 +77,36 @@ public class MenuTool
     }
 
     /// <summary>
+    /// 根据用户角色获取菜单权限数据
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="role"></param>
+    /// <returns></returns>
+    public static async Task<List<HzgMenu>> GetUserRolePermissionMenus(AccountDbContext context, string role)
+    {
+        // 获取菜单权限数据
+        // 需要所有用户数据和菜单权限数据做对比，放到前端做对比
+        // 这里只获取菜单权限数据
+        var menuPermissions = await context.MenuPermissions.AsNoTracking().Where(m => string.IsNullOrEmpty(role) == false && m.UserRole == role).ToListAsync();
+
+        // 根据权限数据获取 Menu 列表
+        var menusToReturn = new List<HzgMenu>();
+        var menus = await context.Menus.AsNoTracking().ToListAsync();
+        foreach(var p in menuPermissions)
+        {
+            foreach(var m in menus)
+            {
+                if (menusToReturn.Contains(m) == false)
+                {
+                    menusToReturn.Add(m);
+                }
+            }
+        }
+
+        return menusToReturn;
+    }
+
+    /// <summary>
     /// 生成前端目录树数据
     /// </summary>
     /// <param name="data"></param>

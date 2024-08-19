@@ -107,5 +107,11 @@ public abstract class BaseAccount : BaseAccount<Guid>
     /// 最后修改人
     /// </summary>
     [Column("update_user")]
-    public Guid? UpdateUser { get; set; }   
+    public Guid? UpdateUser { get; set; }
+
+    /// <summary>
+    /// 最后修改人用户名
+    /// </summary>
+    [Column("last_modify_user")]
+    public string LastModifyUser { get; set; }
 }
