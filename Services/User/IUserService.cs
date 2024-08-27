@@ -1,6 +1,7 @@
 using Hzg.Models;
 using Hzg.Dto;
 using Hzg.Tool;
+using Hzg.Vo;
 
 namespace Hzg.Services;
 
@@ -93,4 +94,14 @@ public interface IUserService
     /// </summary>
     /// <returns></returns>
     Task<ResponseData<string>> Logout();
+
+    /// <summary>
+    /// 获取用户列表
+    /// </summary>
+    /// <param name="brand">品牌</param>
+    /// <param name="page">当前页</param>
+    /// <param name="pageSize">页大小</param>
+    /// <param name="keywords">查询关键词</param>
+    /// <returns></returns>
+    Task<ResponseData<IEnumerable<HzgUser>>> List(string brand, int page, int pageSize, string keywords);
 }

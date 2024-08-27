@@ -260,6 +260,21 @@ public class HzgUserController : ControllerBase
     }
 
     /// <summary>
+    /// 获取用户列表
+    /// </summary>
+    /// <param name="brand">品牌</param>
+    /// <param name="page">当前页</param>
+    /// <param name="pageSize">页大小</param>
+    /// <param name="keywords">查询关键词</param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("list")] 
+    public async Task<ResponseData<IEnumerable<HzgUser>>> List([FromQuery] string brand, [FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string keywords)
+    {
+        return await _userService.List(brand, page, pageSize, keywords);
+    }
+
+    /// <summary>
     /// 获取用户权限数据
     /// </summary>
     /// <returns></returns>
@@ -272,7 +287,7 @@ public class HzgUserController : ControllerBase
         var id = await _userService.GetLoginUserId();
         var user = await _accountContext.Users.SingleOrDefaultAsync(u => u.Id == id);
 
-        var menus = await MenuTool.GetUserRolePermissionMenus(_accountContext, user.Role);
+        var menus = await MenuTool.GetRolePermissionMenus(_accountContext, user.Role);
         var responseData = new ResponseData()
         {
             Code = ErrorCode.Success,

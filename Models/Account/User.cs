@@ -52,6 +52,15 @@ public class HzgUser : BaseAccount
     public string Role { get; set; }
 
     /// <summary>
+    /// 分组
+    /// </summary>
+    /// <value></value>
+    [StringLength(256)]
+    [Column("group")]
+    [Comment("分组")]
+    public string Group { get; set; }
+
+    /// <summary>
     /// 性别
     /// </summary>
     /// <value></value>

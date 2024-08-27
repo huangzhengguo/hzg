@@ -6,6 +6,7 @@ using Hzg.Tool;
 using Hzg.Consts;
 using Hzg.Data;
 using Hzg.Dto;
+using Hzg.Vo;
 
 namespace Hzg.Services;
 
@@ -303,6 +304,25 @@ public class UserService : IUserService
         }
 
         responseData.Code = ErrorCode.Success;
+
+        return responseData;
+    }
+
+    /// <summary>
+    /// 获取用户列表
+    /// </summary>
+    /// <param name="brand">品牌</param>
+    /// <param name="page">当前页</param>
+    /// <param name="pageSize">页大小</param>
+    /// <param name="keywords">查询关键词</param>
+    /// <returns></returns>
+    public async Task<ResponseData<IEnumerable<HzgUser>>> List(string brand, int page, int pageSize, string keywords)
+    {
+        var responseData = ResponseTool.FailedResponseData<IEnumerable<HzgUser>>();
+        var data = await PagedList<HzgUser>.ListAsync(_accountDbContext.Users.AsNoTracking().Where(u => u.Brand == brand), page, pageSize);
+
+        responseData.Code = ErrorCode.Success;
+        responseData.Data = data;
 
         return responseData;
     }

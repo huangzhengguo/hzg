@@ -82,7 +82,7 @@ public class MenuTool
     /// <param name="context"></param>
     /// <param name="role"></param>
     /// <returns></returns>
-    public static async Task<List<HzgMenu>> GetUserRolePermissionMenus(AccountDbContext context, string role)
+    public static async Task<List<HzgMenu>> GetRolePermissionMenus(AccountDbContext context, string role)
     {
         // 获取菜单权限数据
         // 需要所有用户数据和菜单权限数据做对比，放到前端做对比
@@ -96,7 +96,7 @@ public class MenuTool
         {
             foreach(var m in menus)
             {
-                if (menusToReturn.Contains(m) == false)
+                if (p.MenuId == m.Id && menusToReturn.Contains(m) == false)
                 {
                     menusToReturn.Add(m);
                 }
