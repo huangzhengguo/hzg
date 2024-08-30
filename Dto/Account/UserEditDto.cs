@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Hzg.Dto;
 
 /// <summary>
@@ -10,6 +12,12 @@ public class UserEditDto
     /// </summary>
     /// <value></value>
     public string Id { get; set; }
+
+    /// <summary>
+    /// 企业标识
+    /// </summary>
+    [MaxLength(32)]
+    public string Brand { get; set; }
 
     /// <summary>
     /// 名称
@@ -33,13 +41,13 @@ public class UserEditDto
     /// 分组标识
     /// </summary>
     /// <value></value>
-    public string[] GroupIds { get; set; }
+    public string GroupId { get; set; }
 
     /// <summary>
     /// 角色标识
     /// </summary>
     /// <value></value>
-    public string[] RoleIds { get; set; }
+    public string RoleId { get; set; }
 
     /// <summary>
     /// 密码

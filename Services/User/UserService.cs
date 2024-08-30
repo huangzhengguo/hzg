@@ -319,7 +319,15 @@ public class UserService : IUserService
     public async Task<ResponseData<IEnumerable<HzgUser>>> List(string brand, int page, int pageSize, string keywords)
     {
         var responseData = ResponseTool.FailedResponseData<IEnumerable<HzgUser>>();
-        var data = await PagedList<HzgUser>.ListAsync(_accountDbContext.Users.AsNoTracking().Where(u => u.Brand == brand), page, pageSize);
+        PagedList<HzgUser> data;
+        if (string.IsNullOrWhiteSpace(keywords) == true)
+        {
+            data = await PagedList<HzgUser>.ListAsync(_accountDbContext.Users.AsNoTracking().Where(u => u.Brand == brand), page, pageSize);
+        }
+        else
+        {
+            data = await PagedList<HzgUser>.ListAsync(_accountDbContext.Users.AsNoTracking().Where(u => u.Brand == brand && u.Name.Contains(keywords)), page, pageSize);
+        }
 
         responseData.Code = ErrorCode.Success;
         responseData.Data = data;

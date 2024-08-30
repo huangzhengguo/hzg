@@ -105,58 +105,81 @@ public class HzgUserController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("create")]
-    public async Task<string> Create([FromBody] UserEditDto user)
+    public async Task<ResponseData<bool>> Create([FromBody] UserEditDto user)
     {
-        var model = new HzgUser();
-
-        model.Id = Guid.NewGuid();
-        model.Name = user.Name;
-        model.Gender = user.Gender;
-        model.Salt = RandomTool.GenerateDigitalAlphabetCode(6);
-        model.Password = MD5Tool.Encrypt(user.Password, model.Salt);
-
-        var response = new ResponseData()
+        var response = new ResponseData<bool>()
         {
-            Code = ErrorCode.User_Has_Exist
+            Code = ErrorCode.User_Has_Exist,
+            Data = false
         };
 
         var u = await _accountContext.Users.SingleOrDefaultAsync(m => m.Name == user.Name);
         if (u != null)
         {
-            return JsonSerializerTool.SerializeDefault(response);
+            return response;
+        }
+
+        var model = new HzgUser();
+
+        model.Id = Guid.NewGuid();
+        model.Brand = user.Brand;
+        model.Name = user.Name;
+        model.Gender = user.Gender;
+        model.Salt = RandomTool.GenerateDigitalAlphabetCode(6);
+        model.Password = MD5Tool.Encrypt(user.Password, model.Salt);
+
+        // 角色
+        if (string.IsNullOrWhiteSpace(user.RoleId) == false)
+        {
+            var role = await _accountContext.Roles.Where(r => r.Id.ToString() == user.RoleId).SingleOrDefaultAsync();
+            if (role != null)
+            {
+                model.Role = role.Name;
+            }
+        }
+
+        // 分组
+        if (string.IsNullOrWhiteSpace(user.GroupId) == false)
+        {
+            var group = await _accountContext.Groups.Where(r => r.Id.ToString() == user.GroupId).SingleOrDefaultAsync();
+            if (group != null)
+            {
+                model.Group = group.Name;
+            }
         }
 
         _accountContext.Users.Add(model);
 
-        // 添加分组关联
-        foreach(var gId in user.GroupIds)
-        {
-            var userGroup = new HzgUserGroup()
-            {
-                UserId = model.Id,
-                GroupId = new Guid(gId)
-            };
+        // // 添加分组关联
+        // foreach(var gId in user.GroupIds)
+        // {
+        //     var userGroup = new HzgUserGroup()
+        //     {
+        //         UserId = model.Id,
+        //         GroupId = new Guid(gId)
+        //     };
 
-            _accountContext.UserGroups.Add(userGroup);
-        }
+        //     _accountContext.UserGroups.Add(userGroup);
+        // }
 
-        // 添加角色关联
-        foreach(var rId in user.RoleIds)
-        {
-            var userRole = new HzgUserRole()
-            {
-                UserId = model.Id,
-                RoleId = new Guid(rId)
-            };
+        // // 添加角色关联
+        // foreach(var rId in user.RoleIds)
+        // {
+        //     var userRole = new HzgUserRole()
+        //     {
+        //         UserId = model.Id,
+        //         RoleId = new Guid(rId)
+        //     };
 
-            _accountContext.UserRoles.Add(userRole);
-        }
+        //     _accountContext.UserRoles.Add(userRole);
+        // }
 
         await _accountContext.SaveChangesAsync();
 
         response.Code = ErrorCode.Success;
+        response.Data = true;
 
-        return JsonSerializerTool.SerializeDefault(response);
+        return response;
     }
 
     /// <summary>
@@ -170,7 +193,9 @@ public class HzgUserController : ControllerBase
     {
         var response = new ResponseData()
         {
-            Code = ErrorCode.User_Not_Exist
+            Code = ErrorCode.User_Not_Exist,
+            ShowMsg = true,
+            Data = false
         };
 
         var model = await _accountContext.Users.SingleOrDefaultAsync(u => u.Id.ToString() == user.Id);
@@ -189,42 +214,42 @@ public class HzgUserController : ControllerBase
         // 关联分组
         var userGroups = await _accountContext.UserGroups.Where(ug => ug.UserId == model.Id).ToArrayAsync();
         var userGroupIds = userGroups.Where(ug => ug.UserId == model.Id).Select(ug => ug.GroupId.ToString());
-        var ids = GetIdsToAddAndRemove(user.GroupIds, userGroupIds, id =>
-        {                
-            return new HzgUserGroup
-            {
-                UserId = model.Id,
-                GroupId = new Guid(id)
-            };
-        });
+        // var ids = GetIdsToAddAndRemove(user.GroupIds, userGroupIds, id =>
+        // {                
+        //     return new HzgUserGroup
+        //     {
+        //         UserId = model.Id,
+        //         GroupId = new Guid(id)
+        //     };
+        // });
 
-        _accountContext.UserGroups.AddRange(ids.toAdd);
+        // _accountContext.UserGroups.AddRange(ids.toAdd);
 
-        var guToDelete = userGroups.Where(ug => ids.idsToRmove.Contains(ug.GroupId.ToString()));
+        // var guToDelete = userGroups.Where(ug => ids.idsToRmove.Contains(ug.GroupId.ToString()));
 
-        _accountContext.UserGroups.RemoveRange(guToDelete);
+        // _accountContext.UserGroups.RemoveRange(guToDelete);
 
         // 关联角色
         var userRoles = await _accountContext.UserRoles.AsNoTracking().Where(ug => ug.UserId == model.Id).ToArrayAsync();
         var userRoleIds = userRoles.Where(ug => ug.UserId == model.Id).Select(ug => ug.RoleId.ToString());
-        var roleIds = GetIdsToAddAndRemove(user.RoleIds, userRoleIds, id =>
-        {                
-            return new HzgUserRole
-            {
-                UserId = model.Id,
-                RoleId = new Guid(id)
-            };
-        });
+        // var roleIds = GetIdsToAddAndRemove(user.RoleIds, userRoleIds, id =>
+        // {                
+        //     return new HzgUserRole
+        //     {
+        //         UserId = model.Id,
+        //         RoleId = new Guid(id)
+        //     };
+        // });
 
-        _accountContext.UserRoles.AddRange(roleIds.toAdd);
+        // _accountContext.UserRoles.AddRange(roleIds.toAdd);
 
-        var urToDelete = userRoles.Where(ur => roleIds.idsToRmove.Contains(ur.RoleId.ToString()));
+        // var urToDelete = userRoles.Where(ur => roleIds.idsToRmove.Contains(ur.RoleId.ToString()));
 
-        _accountContext.UserRoles.RemoveRange(urToDelete);
+        // _accountContext.UserRoles.RemoveRange(urToDelete);
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.Update_Success;
+        response.Code = ErrorCode.Success;
 
         return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
     }
@@ -232,31 +257,34 @@ public class HzgUserController : ControllerBase
     /// <summary>
     /// 删除用户
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">用户标识</param>
     /// <returns></returns>
     [HttpDelete]
     [Route("delete")]
-    public async Task<string> delete(Guid? id)
+    public async Task<ResponseData<bool>> Delete([FromQuery] string id)
     {
-        var response = new ResponseData()
+        var response = new ResponseData<bool>()
         {
-            Code = ErrorCode.User_Not_Exist
+            Code = ErrorCode.User_Not_Exist,
+            Data = false,
+            ShowMsg = true
         };
 
-        var user = await _accountContext.Users.SingleOrDefaultAsync(u => u.Id == id);
+        var user = await _accountContext.Users.SingleOrDefaultAsync(u => u.Id.ToString() == id);
         if (user == null)
         {
             // 用户不存在
-            return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
+            return response;
         }
 
         _accountContext.Remove(user);
 
         await _accountContext.SaveChangesAsync();
 
-        response.Code = ErrorCode.Delete_Success;
+        response.Code = ErrorCode.Success;
+        response.Data = true;
 
-        return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
+        return response;
     }
 
     /// <summary>

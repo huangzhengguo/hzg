@@ -188,7 +188,7 @@ public class HzgAccountController : ControllerBase
 
             var jwtToken = _jwtService.GetnerateJWTToken(userDto);
 
-            var menusToReturn = await MenuTool.GetUserPermissionMenus(_accountContext, user.Id);
+            var menusToReturn = await MenuTool.GetRolePermissionMenus(_accountContext, user.Role);
 
             result.Data = new
             {
