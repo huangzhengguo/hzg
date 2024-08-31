@@ -9,6 +9,7 @@ using Hzg.Models;
 using Hzg.Services;
 using Hzg.Tool;
 using Hzg.Dto;
+using Hzg.Vo;
 
 namespace Hzg.Controllers;
 
@@ -124,7 +125,6 @@ public class HzgUserController : ControllerBase
         model.Id = Guid.NewGuid();
         model.Brand = user.Brand;
         model.Name = user.Name;
-        model.Gender = user.Gender;
         model.Salt = RandomTool.GenerateDigitalAlphabetCode(6);
         model.Password = MD5Tool.Encrypt(user.Password, model.Salt);
 
@@ -134,6 +134,7 @@ public class HzgUserController : ControllerBase
             var role = await _accountContext.Roles.Where(r => r.Id.ToString() == user.RoleId).SingleOrDefaultAsync();
             if (role != null)
             {
+                model.RoleId = role.Id;
                 model.Role = role.Name;
             }
         }
@@ -144,6 +145,7 @@ public class HzgUserController : ControllerBase
             var group = await _accountContext.Groups.Where(r => r.Id.ToString() == user.GroupId).SingleOrDefaultAsync();
             if (group != null)
             {
+                model.GroupId = group.Id;
                 model.Group = group.Name;
             }
         }
@@ -189,9 +191,9 @@ public class HzgUserController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("update")]
-    public async Task<string> update([FromBody] UserEditDto user)
+    public async Task<ResponseData<bool>> Update([FromBody] UserEditDto user)
     {
-        var response = new ResponseData()
+        var response = new ResponseData<bool>()
         {
             Code = ErrorCode.User_Not_Exist,
             ShowMsg = true,
@@ -202,12 +204,33 @@ public class HzgUserController : ControllerBase
         if (model == null)
         {
             // 用户不存在
-            return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
+            return response;
         }
 
         // 用户信息
         model.Name = user.Name;
-        model.Gender = user.Gender;
+
+        // 角色
+        if (string.IsNullOrWhiteSpace(user.RoleId) == false)
+        {
+            var role = await _accountContext.Roles.Where(r => r.Id.ToString() == user.RoleId).SingleOrDefaultAsync();
+            if (role != null)
+            {
+                model.RoleId = role.Id;
+                model.Role = role.Name;
+            }
+        }
+
+        // 分组
+        if (string.IsNullOrWhiteSpace(user.GroupId) == false)
+        {
+            var group = await _accountContext.Groups.Where(r => r.Id.ToString() == user.GroupId).SingleOrDefaultAsync();
+            if (group != null)
+            {
+                model.GroupId = group.Id;
+                model.Group = group.Name;
+            }
+        }
 
         _accountContext.Users.Update(model);
 
@@ -250,8 +273,44 @@ public class HzgUserController : ControllerBase
         await _accountContext.SaveChangesAsync();
 
         response.Code = ErrorCode.Success;
+        response.Data = true;
 
-        return JsonSerializer.Serialize(response, JsonSerializerTool.DefaultOptions());
+        return response;
+    }
+
+    /// <summary>
+    /// 更新用户密码
+    /// </summary>
+    /// <param name="user">密码</param>
+    /// <returns></returns>
+    [HttpPut]
+    [Route("reset_password")]
+    public async Task<ResponseData<bool>> ResetPassword([FromBody] ResetUserPasswordDto user)
+    {
+        var response = new ResponseData<bool>()
+        {
+            Code = ErrorCode.User_Has_Exist,
+            Data = false,
+            ShowMsg = true
+        };
+
+        var entity = await _accountContext.Users.SingleOrDefaultAsync(u => u.Brand == user.Brand && u.Id.ToString() == user.Id);
+        if (entity == null)
+        {
+            return response;
+        }
+
+        entity.Salt = RandomTool.GenerateDigitalAlphabetCode(6);
+        entity.Password = MD5Tool.Encrypt(user.Password, entity.Salt);
+
+        _accountContext.Update(entity);
+
+        await _accountContext.SaveChangesAsync();
+
+        response.Code = ErrorCode.Success;
+        response.Data = true;
+
+        return response;
     }
 
     /// <summary>
@@ -297,7 +356,7 @@ public class HzgUserController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("list")] 
-    public async Task<ResponseData<IEnumerable<HzgUser>>> List([FromQuery] string brand, [FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string keywords)
+    public async Task<ResponseData<IEnumerable<HzgUserVo>>> List([FromQuery] string brand, [FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string keywords)
     {
         return await _userService.List(brand, page, pageSize, keywords);
     }

@@ -5,33 +5,26 @@ namespace Hzg.Dto;
 /// <summary>
 /// 重置密码信息
 /// </summary>
-public class ResetDto
+public class ResetUserPasswordDto
 {
     /// <summary>
     /// 企业ID
     /// </summary>
     /// <value></value>
     [Required]
-    public String Brand { get; set; }
+    public string Brand { get; set; }
 
     /// <summary>
-    /// 邮箱
+    /// 用户 ID
     /// </summary>
     /// <value></value>
     [Required]
-    public String Email { get; set; }
-
-    /// <summary>
-    /// 验证码
-    /// </summary>
-    /// <value></value>
-    [Required]
-    public String VerifyCode { get; set; }
+    public string Id { get; set; }
 
     /// <summary>
     /// 新密码
     /// </summary>
     /// <value></value>
     [Required]
-    public String NewPassword { get; set; }
+    public string Password { get; set; }
 }

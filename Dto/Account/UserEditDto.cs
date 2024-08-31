@@ -26,18 +26,6 @@ public class UserEditDto
     public string Name { get; set; }
 
     /// <summary>
-    /// 性别
-    /// </summary>
-    /// <value></value>
-    public string Gender { get; set; }
-
-    /// <summary>
-    /// 邮箱
-    /// </summary>
-    /// <value></value>
-    public string Email { get; set; }
-
-    /// <summary>
     /// 分组标识
     /// </summary>
     /// <value></value>
@@ -54,10 +42,4 @@ public class UserEditDto
     /// </summary>
     /// <value></value>
     public string Password { get; set; }
-
-    /// <summary>
-    /// 昵称
-    /// </summary>
-    /// <value></value>
-    public string Nickname { get; set; }
 }

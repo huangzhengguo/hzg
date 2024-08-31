@@ -23,6 +23,30 @@ public class HzgUserVo
     public string Name { get; set; }
 
     /// <summary>
+    /// 角色
+    /// </summary>
+    /// <value></value>
+    public string Role { get; set; }
+
+    /// <summary>
+    /// 分组标识
+    /// </summary>
+    /// <value></value>
+    public string GroupId { get; set; }
+
+    /// <summary>
+    /// 角色标识
+    /// </summary>
+    /// <value></value>
+    public string RoleId { get; set; }
+
+    /// <summary>
+    /// 分组
+    /// </summary>
+    /// <value></value>
+    public string Group { get; set; }
+
+    /// <summary>
     /// 昵称
     /// </summary>
     /// <value></value>
@@ -57,18 +81,6 @@ public class HzgUserVo
     /// </summary>
     /// <value></value>
     public DateTime? LastLoginTime { get; set; }
-
-    /// <summary>
-    /// 谷歌-FCM
-    /// </summary>
-    /// <value></value>
-    public string FcmToken { get; set; }
-
-    /// <summary>
-    /// 苹果-IOS
-    /// </summary>
-    /// <value></value>
-    public string IosToken { get; set; }
 
     /// <summary>
     /// 在线状态(offline/online)

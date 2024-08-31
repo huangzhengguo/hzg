@@ -43,6 +43,22 @@ public class HzgUser : BaseAccount
     public string Nickname { get; set; }
 
     /// <summary>
+    /// 分组标识
+    /// </summary>
+    /// <value></value>
+    [Column("group_id")]
+    [Comment("分组标识")] 
+    public Guid? GroupId { get; set; }
+
+    /// <summary>
+    /// 角色标识
+    /// </summary>
+    /// <value></value>
+    [Column("role_id")]
+    [Comment("角色标识")]  
+    public Guid? RoleId { get; set; }
+
+    /// <summary>
     /// 角色
     /// </summary>
     /// <value></value>

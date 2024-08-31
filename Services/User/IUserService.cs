@@ -103,5 +103,5 @@ public interface IUserService
     /// <param name="pageSize">页大小</param>
     /// <param name="keywords">查询关键词</param>
     /// <returns></returns>
-    Task<ResponseData<IEnumerable<HzgUser>>> List(string brand, int page, int pageSize, string keywords);
+    Task<ResponseData<IEnumerable<HzgUserVo>>> List(string brand, int page, int pageSize, string keywords);
 }

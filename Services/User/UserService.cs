@@ -316,9 +316,9 @@ public class UserService : IUserService
     /// <param name="pageSize">页大小</param>
     /// <param name="keywords">查询关键词</param>
     /// <returns></returns>
-    public async Task<ResponseData<IEnumerable<HzgUser>>> List(string brand, int page, int pageSize, string keywords)
+    public async Task<ResponseData<IEnumerable<HzgUserVo>>> List(string brand, int page, int pageSize, string keywords)
     {
-        var responseData = ResponseTool.FailedResponseData<IEnumerable<HzgUser>>();
+        var responseData = ResponseTool.FailedResponseData<IEnumerable<HzgUserVo>>();
         PagedList<HzgUser> data;
         if (string.IsNullOrWhiteSpace(keywords) == true)
         {
@@ -330,7 +330,16 @@ public class UserService : IUserService
         }
 
         responseData.Code = ErrorCode.Success;
-        responseData.Data = data;
+        responseData.Data = data.Select(u => new HzgUserVo
+        {
+            Id = u.Id,
+            Brand = u.Brand,
+            Name = u.Name,
+            RoleId = u.RoleId.ToString(),
+            Role = u.Role,
+            GroupId = u.GroupId.ToString(),
+            Group = u.Group
+        });
 
         return responseData;
     }
