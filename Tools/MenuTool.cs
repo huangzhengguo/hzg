@@ -162,16 +162,15 @@ public class MenuTool
     /// <summary>
     /// 生成前端目录树数据
     /// </summary>
-    /// <param name="data"></param>
-    /// <param name="menu"></param>
-    /// <param name="id"></param>
+    /// <param name="data">要处理的数据</param>
+    /// <param name="menu">单条菜单数据</param>
     /// <returns></returns>
-    public static List<MenuTreeNode> GenerateTreeData(List<HzgMenu> data, HzgMenu menu, Guid? id)
+    public static List<MenuTreeNode<T, ParentKeyT>> GenerateTreeData<T, ParentKeyT>(List<MenuTreeNode<T, ParentKeyT>> data, MenuTreeNode<T, ParentKeyT> menu)
     {
-        var resultJson = new List<MenuTreeNode>();
+        var resultJson = new List<MenuTreeNode<T, ParentKeyT>>();
 
-        var childrenData = data.Where(m => m.ParentMenuId == id).ToList();
-        if (menu == null || id == null)
+        List<MenuTreeNode<T, ParentKeyT>> childrenData;
+        if (menu == null || menu.Id == null)
         {
             // 根节点
             childrenData = data.Where(m => m.ParentMenuId == null).ToList();
@@ -180,17 +179,19 @@ public class MenuTool
                 return resultJson;
             }
 
-            var rootList = new List<MenuTreeNode>();
+            var rootList = new List<MenuTreeNode<T, ParentKeyT>>();
             foreach(var item in childrenData)
             {
-                rootList.AddRange(GenerateTreeData(data, item, item.Id));
+                rootList.AddRange(GenerateTreeData<T, ParentKeyT>(data, item));
             }
 
             return rootList;
         }
 
+        childrenData = data.Where(m => m.ParentMenuId.Equals(menu.Id)).ToList();
+
         // 非根节点
-        var rootJson = new MenuTreeNode
+        var rootJson = new MenuTreeNode<T, ParentKeyT>
         {
             Id = menu.Id,
             ParentMenuId = menu.ParentMenuId,
@@ -202,10 +203,71 @@ public class MenuTool
             Meta = menu.Meta
         };
 
-        var childrenList = new List<MenuTreeNode>();
+        var childrenList = new List<MenuTreeNode<T, ParentKeyT>>();
         foreach(var item in childrenData)
         {
-            childrenList.AddRange(GenerateTreeData(data, item, item.Id));
+            childrenList.AddRange(GenerateTreeData(data, item));
+        }
+
+        if (childrenList.Count == 0)
+        {
+            rootJson.IsLeaf = true;
+        }
+        
+        rootJson.Children = childrenList.ToArray();
+
+        resultJson.Add(rootJson);
+
+        return resultJson;
+    }
+
+    /// <summary>
+    /// 生成前端目录树数据
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="menu"></param>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public static List<MenuTreeNode<Guid, Guid?>> GenerateMenuTree(List<HzgMenu> data, HzgMenu menu, Guid? id)
+    {
+        var resultJson = new List<MenuTreeNode<Guid, Guid?>>();
+
+        var childrenData = data.Where(m => m.ParentMenuId == id).ToList();
+        if (menu == null || id == null)
+        {
+            // 根节点
+            childrenData = data.Where(m => m.ParentMenuId == null).ToList();
+            if (childrenData.Count == 0 || childrenData == null)
+            {
+                return resultJson;
+            }
+
+            var rootList = new List<MenuTreeNode<Guid, Guid?>>();
+            foreach(var item in childrenData)
+            {
+                rootList.AddRange(GenerateMenuTree(data, item, item.Id));
+            }
+
+            return rootList;
+        }
+
+        // 非根节点
+        var rootJson = new MenuTreeNode<Guid, Guid?>
+        {
+            Id = menu.Id,
+            ParentMenuId = menu.ParentMenuId,
+            Label = menu.Title,
+            Url = menu.Url,
+            Name = menu.Name,
+            Path = menu.Path,
+            ComponentPath = menu.ComponentPath,
+            Meta = menu.Meta
+        };
+
+        var childrenList = new List<MenuTreeNode<Guid, Guid?>>();
+        foreach(var item in childrenData)
+        {
+            childrenList.AddRange(GenerateMenuTree(data, item, item.Id));
         }
 
         if (childrenList.Count == 0)

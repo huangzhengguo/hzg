@@ -58,16 +58,16 @@ public class UserService : IUserService
         var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var brand = user.FindFirst("brand")?.Value;
 
-        // var loginUser = await _accountDbContext.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id.ToString() == userId);
-        // if (loginUser != null)
-        // {
-        //     var userInfo = new LoginUserInfo();
+        var loginUser = await _accountDbContext.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id.ToString() == userId);
+        if (loginUser != null)
+        {
+            var userInfo1 = new LoginUserInfo();
 
-        //     userInfo.UserId = loginUser.Id;
-        //     userInfo.Brand = loginUser.Brand;
+            userInfo1.UserId = loginUser.Id;
+            userInfo1.Brand = loginUser.Brand;
 
-        //     return userInfo;
-        // }
+            return userInfo1;
+        }
 
         var userInfo = new LoginUserInfo();
 
@@ -330,6 +330,7 @@ public class UserService : IUserService
         }
 
         responseData.Code = ErrorCode.Success;
+        responseData.AllDataCount = await _accountDbContext.Users.AsNoTracking().CountAsync();
         responseData.Data = data.Select(u => new HzgUserVo
         {
             Id = u.Id,

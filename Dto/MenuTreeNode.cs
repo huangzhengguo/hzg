@@ -3,19 +3,31 @@ namespace Hzg.Dto;
 /// <summary>
 /// 菜单目录节点
 /// </summary>
-public class MenuTreeNode
+public class MenuTreeNode<KeyT, ParentKeyT>
 {
     /// <summary>
     /// 标识
     /// </summary>
     /// <value></value>
-    public Guid? Id { get; set; }
+    public KeyT Id { get; set; }
+
+    /// <summary>
+    /// 值
+    /// </summary>
+    /// <value></value>
+    public KeyT Value
+    { 
+        get
+        {
+            return this.Id;
+        }
+    }
 
     /// <summary>
     /// 父节点标识
     /// </summary>
     /// <value></value>
-    public Guid? ParentMenuId { get; set; }
+    public ParentKeyT ParentMenuId { get; set; }
 
     /// <summary>
     /// 节点文本
@@ -33,7 +45,7 @@ public class MenuTreeNode
     /// 子节点
     /// </summary>
     /// <value></value>
-    public MenuTreeNode[] Children { get; set; }
+    public MenuTreeNode<KeyT, ParentKeyT>[] Children { get; set; }
 
     /// <summary>
     /// URL
@@ -46,6 +58,12 @@ public class MenuTreeNode
     /// </summary>
     /// <value></value>
     public string Name { get; set; }
+
+    /// <summary>
+    /// 菜单标题
+    /// </summary>
+    /// <value></value>
+    public string Title { get; set; }
 
     /// <summary>
     /// 路径

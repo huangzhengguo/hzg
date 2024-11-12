@@ -77,6 +77,16 @@ public class HzgMenuController : ControllerBase
         entity.CreatorId = await _userService.GetLoginUserId() ?? Guid.Empty;
         entity.CreateTime = DateTime.Now;
 
+        if (entity.ParentMenuId == null)
+        {
+            entity.IsRoot = true;
+            entity.ComponentPath = null;
+        }
+        else
+        {
+            entity.IsRoot = false;
+        }
+
         _accountContext.Menus.Add(entity);
         var n = await _accountContext.SaveChangesAsync();
         if (n != 1)
@@ -209,12 +219,12 @@ public class HzgMenuController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("get")]
-    public async Task<ResponseData<List<MenuTreeNode>>> Get()
+    public async Task<ResponseData<List<MenuTreeNode<Guid, Guid?>>>> Get()
     {
-        var responseData = ResponseTool.FailedResponseData<List<MenuTreeNode>>(showMsg: false);
+        var responseData = ResponseTool.FailedResponseData<List<MenuTreeNode<Guid, Guid?>>>(showMsg: false);
         var data = await _accountContext.Menus.AsNoTracking().ToListAsync();
 
-        var menuTreeNodeList = MenuTool.GenerateTreeData(data, null, null);
+        var menuTreeNodeList = MenuTool.GenerateMenuTree(data, null, null);
        
         responseData.Code = ErrorCode.Success;
         responseData.Data = menuTreeNodeList;
