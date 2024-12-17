@@ -65,6 +65,7 @@ public class UserService : IUserService
 
             userInfo1.UserId = loginUser.Id;
             userInfo1.Brand = loginUser.Brand;
+            userInfo1.UserName = loginUser.Name;
 
             return userInfo1;
         }

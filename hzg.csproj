@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- <Nullable>enable</Nullable> -->
     <PackageId>Hzg.Tools</PackageId>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Authors>ZhengGuo Huang</Authors>
     <Company>HZG</Company>
     <RepositoryUrl>https://github.com/huangzhengguo/hzg</RepositoryUrl>
@@ -13,6 +13,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.2.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
+    <PackageReference Include="Minio" Version="6.0.3" />
+    <PackageReference Include="MQTTnet" Version="4.3.3.952" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="9.0.0-preview" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
+    <PackageReference Include="MailKit" Version="4.8.0" />
+    <PackageReference Include="FirebaseAdmin" Version="3.1.0" /> -->
+
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

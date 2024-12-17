@@ -81,7 +81,7 @@ public class HzgAccountController : ControllerBase
         if (user != null)
         {
             result.Code = ErrorCode.User_Has_Exist;
-            return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());;
+            return JsonSerializer.Serialize(result, JsonSerializerTool.DefaultOptions());
         }
 
         // 1. 生成验证码

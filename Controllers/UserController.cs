@@ -43,9 +43,9 @@ public class HzgUserController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("get")]
-    public async Task<string> get(string name)
+    public async Task<string> Get(string name)
     {
-        var users = await _accountContext.Users.AsNoTracking().Where(m => m.Name == name).OrderBy(m => m.Name).ToListAsync();
+        var users = await _accountContext.Users.AsNoTracking().Where(m => m.Group == name).OrderBy(m => m.Name).ToListAsync();
         if (string.IsNullOrWhiteSpace(name)) {
             users = await _accountContext.Users.AsNoTracking().OrderBy(m => m.Name).ToListAsync();
         }
